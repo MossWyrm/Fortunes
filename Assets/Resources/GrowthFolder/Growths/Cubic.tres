@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SuperlinearGrowth" load_steps=2 format=3 uid="uid://dah2gpbtvv7mw"]
+
+[ext_resource type="Script" uid="uid://0p755x00tr7r" path="res://Assets/Resources/GrowthFolder/SuperlinearGrowth.gd" id="1_bivsi"]
+
+[resource]
+script = ExtResource("1_bivsi")
+exponent = 3.0
+growth_description = "x^3
+1, 8, 27, 64..."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ExponentialGrowth" load_steps=2 format=3 uid="uid://catncf2ok8chf"]
+
+[ext_resource type="Script" uid="uid://bb5q15p3o0eu8" path="res://Assets/Resources/GrowthFolder/ExponentialGrowth.gd" id="1_iuaif"]
+
+[resource]
+script = ExtResource("1_iuaif")
+growth_description = "2 ^ x
+2,4,8,16,32,64,128,256...
+
+BASE MUST BE > 1"

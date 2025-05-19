@@ -1,0 +1,147 @@
+[gd_scene load_steps=12 format=3 uid="uid://f0qhuujorct"]
+
+[ext_resource type="Script" uid="uid://croc4rc3eq1e5" path="res://Assets/Scripts/CardSelectDisplayBox.gd" id="1_gos2n"]
+[ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="2_b50pj"]
+[ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="5_totdf"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="6_a8mpr"]
+
+[sub_resource type="Gradient" id="Gradient_gj3a4"]
+colors = PackedColorArray(0, 0, 0, 0.313726, 0, 0, 0, 0.313726)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yiw61"]
+gradient = SubResource("Gradient_gj3a4")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsk3w"]
+atlas = ExtResource("5_totdf")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxebp"]
+atlas = ExtResource("5_totdf")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dol1"]
+atlas = ExtResource("5_totdf")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2y4p"]
+atlas = ExtResource("5_totdf")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyb3a"]
+atlas = ExtResource("5_totdf")
+region = Rect2(256, 64, 64, 64)
+
+[node name="DeckCreatorDisplay2" type="Control" node_paths=PackedStringArray("card_image", "card_title", "card_cost", "current_count_display", "add_card_button", "remove_card_button", "buy_card_button", "deck_mod_buttons")]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -348.0
+offset_bottom = -952.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 1
+script = ExtResource("1_gos2n")
+card_image = NodePath("ResizerMargins/PanelObjects/CardImage")
+card_title = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/CardName")
+card_cost = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/OwnedVal")
+current_count_display = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/CurrentCardCount")
+add_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/AddToDeck")
+remove_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/RemoveFromDeck")
+buy_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/Purchase Button")
+deck_mod_buttons = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_yiw61")
+expand_mode = 1
+
+[node name="ResizerMargins" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(240, 0)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="PanelObjects" type="HBoxContainer" parent="ResizerMargins"]
+layout_mode = 2
+alignment = 1
+
+[node name="CardImage" type="TextureRect" parent="ResizerMargins/PanelObjects"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("2_b50pj")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="ButtonsAndText" type="VBoxContainer" parent="ResizerMargins/PanelObjects"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CardName" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "CARDNAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Purchase Button" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+layout_mode = 2
+size_flags_vertical = 3
+texture_normal = SubResource("AtlasTexture_lsk3w")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="OwnedVal" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "OWNED:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeckModButtons" type="HBoxContainer" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RemoveFromDeck" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_oxebp")
+texture_disabled = SubResource("AtlasTexture_3dol1")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="CurrentCardCount" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_a8mpr")
+theme_override_font_sizes/font_size = 30
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AddToDeck" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_o2y4p")
+texture_disabled = SubResource("AtlasTexture_xyb3a")
+ignore_texture_size = true
+stretch_mode = 5

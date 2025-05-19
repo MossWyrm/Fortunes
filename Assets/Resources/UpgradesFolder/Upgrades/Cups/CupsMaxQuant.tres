@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseUpgrade" load_steps=3 format=3 uid="uid://dt3bdeqpbnoh2"]
+
+[ext_resource type="Script" uid="uid://xxn6yq53ix7x" path="res://Assets/Resources/UpgradesFolder/BaseUpgrade.gd" id="1_d3lvq"]
+[ext_resource type="Resource" uid="uid://catncf2ok8chf" path="res://Assets/Resources/GrowthFolder/Growths/Exponential.tres" id="1_ilikc"]
+
+[resource]
+script = ExtResource("1_d3lvq")
+title = "Increase Cup Quantity"
+description = "Add another cup to the cups suit system, allowing for more clearvoiyance to be reserved."
+times_purchased = 1
+initial_cost = 1000.0
+growth_type = ExtResource("1_ilikc")
+suit_to_upgrade = "Cups"
+stat_name = "cup_max_quant"
+effect_type = "+"
+effect_value = 1.0

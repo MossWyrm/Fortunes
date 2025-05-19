@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SuperlinearGrowth" load_steps=2 format=3 uid="uid://c6v2kam213rdn"]
+
+[ext_resource type="Script" uid="uid://0p755x00tr7r" path="res://Assets/Resources/GrowthFolder/SuperlinearGrowth.gd" id="1_3sqdb"]
+
+[resource]
+script = ExtResource("1_3sqdb")
+exponent = 2.0
+growth_description = "SuperLinear Increase:
+x^y
+1, 4, 9, 16, 25..."

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseUpgrade" load_steps=3 format=3 uid="uid://dtcw53u8eoyiu"]
+
+[ext_resource type="Resource" uid="uid://c0so850ev8bvu" path="res://Assets/Resources/GrowthFolder/Growths/Linear.tres" id="1_lwc8a"]
+[ext_resource type="Script" uid="uid://xxn6yq53ix7x" path="res://Assets/Resources/UpgradesFolder/BaseUpgrade.gd" id="2_wfgy2"]
+
+[resource]
+script = ExtResource("2_wfgy2")
+title = "Major Arcana Quantity"
+description = "Increase the amount of total Major Arcana cards you can add to your deck."
+times_purchased = 1
+initial_cost = 100000.0
+growth_type = ExtResource("1_lwc8a")
+suit_to_upgrade = "Major"
+stat_name = "major_quant"
+effect_type = "+"
+effect_value = 1.0

@@ -1,0 +1,42 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2nx2icg0isfq"]
+
+[ext_resource type="Script" uid="uid://canmx2us4s3d1" path="res://Assets/Scripts/TarotManagers/Cups/cup_tracker.gd" id="1_8y7ml"]
+[ext_resource type="Script" uid="uid://cmnkecdn23rjj" path="res://Assets/Scripts/TarotManagers/CardValueCalc.gd" id="1_fwl8v"]
+[ext_resource type="Script" uid="uid://d2ft1xr8egxml" path="res://Assets/Scripts/TarotManagers/Cups/cups_calc.gd" id="2_l2qfv"]
+[ext_resource type="Script" uid="uid://c31k2donb4kl4" path="res://Assets/Scripts/TarotManagers/Wands/wands_calc.gd" id="4_hf85w"]
+[ext_resource type="Script" uid="uid://yora7mgrkiff" path="res://Assets/Scripts/TarotManagers/Wands/wand_tracker.gd" id="5_bmd0y"]
+[ext_resource type="Script" uid="uid://coneoouywof0c" path="res://Assets/Scripts/TarotManagers/Pentacles/pentacles_calc.gd" id="6_p216k"]
+[ext_resource type="Script" uid="uid://detrorjr4fy8d" path="res://Assets/Scripts/TarotManagers/Pentacles/pentacles_tracker.gd" id="7_jkm7g"]
+[ext_resource type="Script" uid="uid://bh3y2fsyobyil" path="res://Assets/Scripts/TarotManagers/Swords/swords_calc.gd" id="8_mnryt"]
+[ext_resource type="Script" uid="uid://8cofuusdt03h" path="res://Assets/Scripts/TarotManagers/Swords/swords_tracker.gd" id="9_557pm"]
+
+[node name="Clairvoiance Calc" type="Node" node_paths=PackedStringArray("cups_node", "wands_node", "pentacles_node", "swords_node")]
+script = ExtResource("1_fwl8v")
+cups_node = NodePath("Cups Calc")
+wands_node = NodePath("Wands Calc")
+pentacles_node = NodePath("Pentacles Calc")
+swords_node = NodePath("Swords Calc")
+
+[node name="Cups Calc" type="Node" parent="."]
+script = ExtResource("2_l2qfv")
+
+[node name="cup_tracker" type="Node" parent="Cups Calc"]
+script = ExtResource("1_8y7ml")
+
+[node name="Wands Calc" type="Node" parent="."]
+script = ExtResource("4_hf85w")
+
+[node name="wand_tracker" type="Node" parent="Wands Calc"]
+script = ExtResource("5_bmd0y")
+
+[node name="Pentacles Calc" type="Node" parent="."]
+script = ExtResource("6_p216k")
+
+[node name="pentacles_tracker" type="Node" parent="Pentacles Calc"]
+script = ExtResource("7_jkm7g")
+
+[node name="Swords Calc" type="Node" parent="."]
+script = ExtResource("8_mnryt")
+
+[node name="swords_tracker" type="Node" parent="Swords Calc"]
+script = ExtResource("9_557pm")

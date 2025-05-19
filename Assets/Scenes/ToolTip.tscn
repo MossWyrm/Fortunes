@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddhsvictoauk1"]
+
+[ext_resource type="Script" uid="uid://b76fcnwhog36d" path="res://Assets/Scripts/ToolTipCustom.gd" id="1_v8rfs"]
+
+[node name="ToolTip" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "hi taa"
+fit_content = true
+shortcut_keys_enabled = false
+script = ExtResource("1_v8rfs")

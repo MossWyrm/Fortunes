@@ -1,0 +1,532 @@
+[gd_scene load_steps=18 format=3 uid="uid://dbjco1af7olio"]
+
+[ext_resource type="Script" uid="uid://bgswcqfnvs0am" path="res://Assets/Scripts/TarotManagers/Deck.gd" id="1_qawuu"]
+[ext_resource type="PackedScene" uid="uid://bamfkwko1q8l4" path="res://Assets/Scenes/Card.tscn" id="2_ax3xy"]
+[ext_resource type="Texture2D" uid="uid://ch68sff6rejp6" path="res://Assets/Sprites/SwordTarotCards/OneOfSwords.tres" id="3_pkgge"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rkbb5"]
+load_path = "res://.godot/imported/TarotSwords.png-a4b305a70acbdef6ebfdbee46f27fd85.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mldr"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(140, 0, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evp85"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(280, 0, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u011v"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(420, 0, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5olop"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(0, 240, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbhmy"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(140, 240, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojwp0"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(280, 240, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2igkc"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(420, 240, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yy4b"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(0, 480, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wlq2"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(140, 480, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2r2l"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(280, 480, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thpja"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(420, 480, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbt4m"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(0, 720, 140, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aplpy"]
+atlas = SubResource("CompressedTexture2D_rkbb5")
+region = Rect2(140, 720, 140, 240)
+
+[node name="Deck" type="Node"]
+script = ExtResource("1_qawuu")
+
+[node name="One of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "One of Cups"
+card_default_value = 1
+card_id_num = 101
+
+[node name="Two of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Two of Cups"
+card_default_value = 2
+card_id_num = 102
+
+[node name="Three of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Three of Cups"
+card_default_value = 3
+card_id_num = 103
+
+[node name="Four of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Four of Cups"
+card_default_value = 4
+card_id_num = 104
+
+[node name="Five of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Five of Cups"
+card_default_value = 5
+card_id_num = 105
+
+[node name="Six of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Six of Cups"
+card_default_value = 6
+card_id_num = 106
+
+[node name="Seven of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Seven of Cups"
+card_default_value = 7
+card_id_num = 107
+
+[node name="Eight of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Eight of Cups"
+card_default_value = 8
+card_id_num = 108
+
+[node name="Nine of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Nine of Cups"
+card_default_value = 9
+card_id_num = 109
+
+[node name="Ten of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Ten of Cups"
+card_default_value = 10
+card_id_num = 110
+
+[node name="Page of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Page of Cups"
+card_default_value = 11
+card_id_num = 111
+
+[node name="Knight of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Knight of Cups"
+card_default_value = 12
+card_id_num = 112
+
+[node name="Queen of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "Queen of Cups"
+card_default_value = 13
+card_id_num = 113
+
+[node name="King of Cups" parent="." instance=ExtResource("2_ax3xy")]
+card_title = "King of Cups"
+card_default_value = 14
+card_id_num = 114
+
+[node name="One of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "One of Wands"
+card_default_value = 1
+card_id_num = 201
+
+[node name="Two of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Two of Wands"
+card_default_value = 2
+card_id_num = 202
+
+[node name="Three of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Three of Wands"
+card_default_value = 3
+card_id_num = 203
+
+[node name="Four of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Four of Wands"
+card_default_value = 4
+card_id_num = 204
+
+[node name="Five of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Five of Wands"
+card_default_value = 5
+card_id_num = 205
+
+[node name="Six of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Six of Wands"
+card_default_value = 6
+card_id_num = 206
+
+[node name="Seven of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Seven of Wands"
+card_default_value = 7
+card_id_num = 207
+
+[node name="Eight of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Eight of Wands"
+card_default_value = 8
+card_id_num = 208
+
+[node name="Nine of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Nine of Wands"
+card_default_value = 9
+card_id_num = 209
+
+[node name="Ten of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Ten of Wands"
+card_default_value = 10
+card_id_num = 210
+
+[node name="Page of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Page of Wands"
+card_default_value = 11
+card_id_num = 211
+
+[node name="Knight of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Knight of Wands"
+card_default_value = 12
+card_id_num = 212
+
+[node name="Queen of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "Queen of Wands"
+card_default_value = 13
+card_id_num = 213
+
+[node name="King of Wands" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 1
+card_title = "King of Wands"
+card_default_value = 14
+card_id_num = 214
+
+[node name="One of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "One of Pentacles"
+card_default_value = 1
+card_id_num = 301
+
+[node name="Two of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Two of Pentacles"
+card_default_value = 2
+card_id_num = 302
+
+[node name="Three of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Three of Pentacles"
+card_default_value = 3
+card_id_num = 303
+
+[node name="Four of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Four of Pentacles"
+card_default_value = 4
+card_id_num = 304
+
+[node name="Five of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Five of Pentacles"
+card_default_value = 5
+card_id_num = 305
+
+[node name="Six of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Six of Pentacles"
+card_default_value = 6
+card_id_num = 306
+
+[node name="Seven of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Seven of Pentacles"
+card_default_value = 7
+card_id_num = 307
+
+[node name="Eight of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Eight of Pentacles"
+card_default_value = 8
+card_id_num = 308
+
+[node name="Nine of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Nine of Pentacles"
+card_default_value = 9
+card_id_num = 309
+
+[node name="Ten of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Ten of Pentacles"
+card_default_value = 10
+card_id_num = 310
+
+[node name="Page of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Page of Pentacles"
+card_default_value = 11
+card_id_num = 311
+
+[node name="Knight of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Knight of Pentacles"
+card_default_value = 12
+card_id_num = 312
+
+[node name="Queen of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "Queen of Pentacles"
+card_default_value = 13
+card_id_num = 313
+
+[node name="King of Pentacles" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 2
+card_title = "King of Pentacles"
+card_default_value = 14
+card_id_num = 314
+
+[node name="One of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "One of Swords"
+card_default_value = 1
+card_id_num = 401
+card_image = ExtResource("3_pkgge")
+
+[node name="Two of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Two of Swords"
+card_default_value = 2
+card_id_num = 402
+card_image = SubResource("AtlasTexture_7mldr")
+
+[node name="Three of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Three of Swords"
+card_default_value = 3
+card_id_num = 403
+card_image = SubResource("AtlasTexture_evp85")
+
+[node name="Four of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Four of Swords"
+card_default_value = 4
+card_id_num = 404
+card_image = SubResource("AtlasTexture_u011v")
+
+[node name="Five of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Five of Swords"
+card_default_value = 5
+card_id_num = 405
+card_image = SubResource("AtlasTexture_5olop")
+
+[node name="Six of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Six of Swords"
+card_default_value = 6
+card_id_num = 406
+card_image = SubResource("AtlasTexture_mbhmy")
+
+[node name="Seven of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Seven of Swords"
+card_default_value = 7
+card_id_num = 407
+card_image = SubResource("AtlasTexture_ojwp0")
+
+[node name="Eight of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Eight of Swords"
+card_default_value = 8
+card_id_num = 408
+card_image = SubResource("AtlasTexture_2igkc")
+
+[node name="Nine of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Nine of Swords"
+card_default_value = 9
+card_id_num = 409
+card_image = SubResource("AtlasTexture_7yy4b")
+
+[node name="Ten of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Ten of Swords"
+card_default_value = 10
+card_id_num = 410
+card_image = SubResource("AtlasTexture_5wlq2")
+
+[node name="Page of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Page of Swords"
+card_default_value = 11
+card_id_num = 411
+card_image = SubResource("AtlasTexture_i2r2l")
+
+[node name="Knight of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Ama no Murakumo no Tsurugi (Knight of Swords)"
+card_default_value = 12
+card_id_num = 412
+card_image = SubResource("AtlasTexture_thpja")
+
+[node name="Queen of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "Queen of Swords"
+card_default_value = 13
+card_id_num = 413
+card_image = SubResource("AtlasTexture_sbt4m")
+
+[node name="King of Swords" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 3
+card_title = "King of Swords"
+card_default_value = 14
+card_id_num = 414
+card_image = SubResource("AtlasTexture_aplpy")
+
+[node name="The Fool" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Fool"
+card_id_num = 501
+unlocked = false
+unlock_cost = 1500
+
+[node name="The Magician" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Magician"
+card_id_num = 502
+unlocked = false
+
+[node name="The High Priestess" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The High Priestess"
+card_id_num = 503
+unlocked = false
+
+[node name="The Empress" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Empress"
+card_id_num = 504
+unlocked = false
+
+[node name="The Emperor" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Emperor"
+card_id_num = 505
+unlocked = false
+
+[node name="The Hierophant" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Hierophant"
+card_id_num = 506
+unlocked = false
+
+[node name="The Lovers" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Lovers"
+card_id_num = 507
+unlocked = false
+
+[node name="The Chariot" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Chariot"
+card_id_num = 508
+unlocked = false
+
+[node name="Strength" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "Strength"
+card_id_num = 509
+unlocked = false
+
+[node name="The Hermit" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Hermit"
+card_id_num = 510
+unlocked = false
+
+[node name="The Wheel of Fortune" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Wheel of Fortune"
+card_id_num = 511
+unlocked = false
+
+[node name="Justice" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "Justice"
+card_id_num = 512
+unlocked = false
+
+[node name="The Hanged Man" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Hanged Man"
+card_id_num = 513
+unlocked = false
+
+[node name="Death" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "Death"
+card_id_num = 514
+unlocked = false
+
+[node name="Temperance" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "Temperance"
+card_id_num = 515
+unlocked = false
+
+[node name="The Devil" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Devil"
+card_id_num = 516
+unlocked = false
+
+[node name="The Tower" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Tower"
+card_id_num = 517
+unlocked = false
+
+[node name="The Star" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Star"
+card_id_num = 518
+unlocked = false
+
+[node name="The Moon" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Moon"
+card_id_num = 519
+unlocked = false
+
+[node name="The Sun" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The Sun"
+card_id_num = 520
+unlocked = false
+
+[node name="Judgement" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "Judgement"
+card_id_num = 521
+unlocked = false
+
+[node name="The World" parent="." instance=ExtResource("2_ax3xy")]
+card_suit = 4
+card_title = "The World"
+card_id_num = 522
+unlocked = false

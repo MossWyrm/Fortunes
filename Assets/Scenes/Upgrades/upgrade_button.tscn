@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct6d58kf4xqwl"]
+
+[ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="1_72dwu"]
+[ext_resource type="Script" uid="uid://dn2newch17lnj" path="res://Assets/Scripts/UpgradeButton.gd" id="2_3dngh"]
+
+[node name="UpgradeButton" type="Button" node_paths=PackedStringArray("cost_text", "title_desc")]
+custom_minimum_size = Vector2(0, 100)
+size_flags_horizontal = 3
+icon = ExtResource("1_72dwu")
+icon_alignment = 2
+expand_icon = true
+script = ExtResource("2_3dngh")
+cost_text = NodePath("Cost")
+title_desc = NodePath("MarginContainer/Title_Desc")
+
+[node name="Cost" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "test text"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title_Desc" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "test text"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1

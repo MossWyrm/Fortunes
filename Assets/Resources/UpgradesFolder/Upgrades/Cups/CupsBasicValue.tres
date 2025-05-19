@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseUpgrade" load_steps=3 format=3 uid="uid://ctmik5akqqqy4"]
+
+[ext_resource type="Resource" uid="uid://c0so850ev8bvu" path="res://Assets/Resources/GrowthFolder/Growths/Linear.tres" id="1_jrtyk"]
+[ext_resource type="Script" uid="uid://xxn6yq53ix7x" path="res://Assets/Resources/UpgradesFolder/BaseUpgrade.gd" id="2_8fqcp"]
+
+[resource]
+script = ExtResource("2_8fqcp")
+title = "Cup Card Value"
+description = "Increase the value of numbered cup cards"
+times_purchased = 1
+initial_cost = 10.0
+growth_type = ExtResource("1_jrtyk")
+suit_to_upgrade = "Cups"
+stat_name = "cup_basic_value"
+effect_type = "+"
+effect_value = 1.0

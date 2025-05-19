@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LinearGrowth" load_steps=2 format=3 uid="uid://c0so850ev8bvu"]
+
+[ext_resource type="Script" uid="uid://dedfvhdc0rs2j" path="res://Assets/Resources/GrowthFolder/LinearGrowth.gd" id="1_wo1wd"]
+
+[resource]
+script = ExtResource("1_wo1wd")
+growth_description = "Linear increase:
+x
+1, 2, 3, 4, 5, 6"

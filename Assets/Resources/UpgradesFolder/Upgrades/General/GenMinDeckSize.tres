@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseUpgrade" load_steps=3 format=3 uid="uid://bd7wrtgc7e7s5"]
+
+[ext_resource type="Resource" uid="uid://catncf2ok8chf" path="res://Assets/Resources/GrowthFolder/Growths/Exponential.tres" id="1_wb0md"]
+[ext_resource type="Script" uid="uid://xxn6yq53ix7x" path="res://Assets/Resources/UpgradesFolder/BaseUpgrade.gd" id="2_ohisr"]
+
+[resource]
+script = ExtResource("2_ohisr")
+title = "Min Deck Size"
+description = "Reduce the minimum cards required in your deck by 1."
+times_purchased = 1
+initial_cost = 2.0
+growth_type = ExtResource("1_wb0md")
+suit_to_upgrade = "General"
+stat_name = "gen_min_deck_size"
+effect_type = "-"
+effect_value = 1.0

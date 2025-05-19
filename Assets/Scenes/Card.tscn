@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bamfkwko1q8l4"]
+
+[ext_resource type="Script" uid="uid://dydpjnkvaelmh" path="res://Assets/Scripts/TarotManagers/Card.gd" id="1_11bou"]
+
+[node name="Card" type="Node"]
+script = ExtResource("1_11bou")

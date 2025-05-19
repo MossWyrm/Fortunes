@@ -1,0 +1,43 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dk4unpb68tkcx"]
+
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="1_lm8ba"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e120s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_juxlo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj0m2"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.270588, 0.25098, 0.309804, 0.815686)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.803922, 0.67451, 0.305882, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[resource]
+/colors/empty_col = Color(0, 0, 0, 0)
+Panel/colors/empty_col = Color(0, 0, 0, 0)
+Panel/styles/panel = SubResource("StyleBoxFlat_e120s")
+Panel/styles/panel_2 = SubResource("StyleBoxFlat_juxlo")
+TooltipLabel/colors/font_color = Color(0.803922, 0.67451, 0.305882, 1)
+TooltipLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+TooltipLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
+TooltipLabel/constants/outline_size = 0
+TooltipLabel/constants/shadow_offset_x = 0
+TooltipLabel/constants/shadow_offset_y = 0
+TooltipLabel/font_sizes/font_size = 16
+TooltipLabel/fonts/font = ExtResource("1_lm8ba")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_rj0m2")

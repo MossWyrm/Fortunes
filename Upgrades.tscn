@@ -1,0 +1,324 @@
+[gd_scene load_steps=19 format=3 uid="uid://cmd65qh0ndrgw"]
+
+[ext_resource type="Script" uid="uid://c61ilfuu65xuh" path="res://Assets/Scripts/UpgradesController.gd" id="1_rtjnf"]
+[ext_resource type="Script" uid="uid://bl41esb2hjrw6" path="res://Assets/Scripts/UpgradePanelDisplay.gd" id="2_ed3n6"]
+[ext_resource type="PackedScene" uid="uid://ct6d58kf4xqwl" path="res://Assets/Scenes/Upgrades/upgrade_button.tscn" id="3_1sf28"]
+[ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="3_cuxng"]
+[ext_resource type="PackedScene" uid="uid://cikdk2qed5oh4" path="res://Assets/Scenes/Upgrades/upgrade_options.tscn" id="4_a7fmw"]
+[ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://upgrades_select_button.gd" id="4_scdj4"]
+[ext_resource type="Script" uid="uid://o2vp0ciryrfo" path="res://Assets/Scripts/UpgradeMenuButton.gd" id="5_thtj2"]
+
+[sub_resource type="Gradient" id="Gradient_tmjsp"]
+colors = PackedColorArray(0.483946, 0.180875, 0.511667, 1, 0.297025, 0.0385209, 0.452848, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fi3sy"]
+gradient = SubResource("Gradient_tmjsp")
+
+[sub_resource type="Animation" id="Animation_qxwfb"]
+resource_name = "UpgradePanelAnimationHide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 648.0]
+}
+
+[sub_resource type="Animation" id="Animation_qj685"]
+resource_name = "UpgradePanelAnimationShow"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [648.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1duux"]
+_data = {
+&"UpgradePanelAnimationHide": SubResource("Animation_qxwfb"),
+&"UpgradePanelAnimationShow": SubResource("Animation_qj685")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1eoh"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fgcb"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4cgl"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djwv5"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2s6h5"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ytwg"]
+atlas = ExtResource("3_cuxng")
+region = Rect2(64, 64, 64, 64)
+
+[node name="Upgrades" type="Control" node_paths=PackedStringArray("upgrade_options", "button_container")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rtjnf")
+upgrade_options = NodePath("UpgradeOptions")
+button_container = NodePath("UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer")
+
+[node name="UpgradePanel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_fi3sy")
+script = ExtResource("2_ed3n6")
+
+[node name="UpgradeAnimator" type="AnimationPlayer" parent="UpgradePanel"]
+libraries = {
+"": SubResource("AnimationLibrary_1duux")
+}
+
+[node name="Control" type="Control" parent="UpgradePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UpgradePanel/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePanel/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UpgradePanel/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 151)
+layout_mode = 2
+
+[node name="GeneralButton" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_e1eoh")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+suit_number = 5
+
+[node name="CupButton2" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_8fgcb")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+
+[node name="WandButton" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_k4cgl")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+suit_number = 1
+
+[node name="PentacleButton" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_djwv5")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+suit_number = 2
+
+[node name="SwordButton" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_2s6h5")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+suit_number = 3
+
+[node name="MajorButton" type="TextureButton" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("upgrade_controller")]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = SubResource("AtlasTexture_5ytwg")
+stretch_mode = 5
+script = ExtResource("4_scdj4")
+upgrade_controller = NodePath("../../../../../..")
+suit_number = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UpgradePanel/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+
+[node name="UpgradeButton1" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton2" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton3" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton4" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton5" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton6" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton7" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+
+[node name="UpgradeButton8" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton9" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton10" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton11" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton12" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton13" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton14" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton15" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton16" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton17" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="UpgradeButton18" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/GridContainer" node_paths=PackedStringArray("main_parent", "cost_text", "title_desc") instance=ExtResource("3_1sf28")]
+layout_mode = 2
+main_parent = NodePath("../../../../../../../..")
+cost_text = NodePath("../UpgradeButton7/Cost")
+title_desc = NodePath("../UpgradeButton7/MarginContainer/Title_Desc")
+
+[node name="DeckDetails" type="Control" parent="UpgradePanel/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(648, 158)
+layout_mode = 2
+
+[node name="upgradePanelButton" type="Button" parent="UpgradePanel/Control/MarginContainer/VBoxContainer/DeckDetails"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -191.0
+offset_top = -50.0
+offset_right = -41.0
+offset_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "UPGRADES
+BUTTON"
+script = ExtResource("5_thtj2")
+
+[node name="UpgradeOptions" parent="." instance=ExtResource("4_a7fmw")]

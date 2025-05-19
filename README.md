@@ -1,0 +1,2 @@
+# Fortunes
+Idle Fortune Game

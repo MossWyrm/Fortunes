@@ -1,0 +1,4 @@
+[gd_resource type="Theme" format=3 uid="uid://58fy7m2ukyq2"]
+
+[resource]
+Button/colors/icon_disabled_color = Color(0.94902, 0.239216, 0.239216, 0.87451)
