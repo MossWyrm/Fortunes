@@ -7,13 +7,14 @@ var active_deck = []
 ## the current deck "return to default"
 var selected_deck_list = []
 
-var children = []
+var children: Dictionary[int,Card] = {}
 
 func _ready():
+	GM.deck_manager = self
 	Events.draw_card.connect(_draw_card)
 	Events.unlock_card.connect(unlock_card)
 	for child in self.get_children():
-		children.append(child)
+		children[child.card_id_num] = child
 	if selected_deck_list.size() <=0:
 		_create_deck()
 	_shuffle()
@@ -24,8 +25,7 @@ func _draw_card():
 		print("--- Shuffling ---")
 		_shuffle()
 	var random = randi() % active_deck.size()
-	var output = active_deck[random]
-	active_deck.remove_at(random)
+	var output = active_deck.pop_at(random)
 	var is_flipped = flip_check()
 	Events.emit_selected_card(output, is_flipped)
 
@@ -40,9 +40,9 @@ func _create_deck():
 
 func get_default_deck():
 	var output_deck = []
-	for i in children:
-		if i.card_id_num >= 100 && i.card_id_num < 500:
-			output_deck.append(i)
+	for key in children.keys():
+		if key >= 100 && key < 500:
+			output_deck.append(children[key])
 	return output_deck
 
 func _shuffle():
@@ -61,17 +61,14 @@ func _select_deck(deck_list):
 
 func _add_card(card_id):
 	var card: Node
-	for N in self.get_children():
-		if N.card_id_num == card_id:
-			card = N
-			break
+	card = children[card_id]
 	if card == null:
 		print("Card not found to add to deck: %s", card_id)
 		return
 	active_deck.append(card)
 
 func unlock_card(card: Card):
-	children[children.find(card)].unlocked = true
+	children[card.card_id_num].unlocked = true
 
 
 func _remove_card(card_suit = 0, card_id = 0):
@@ -113,8 +110,5 @@ func flip_check():
 		return true
 	return false
 
-func get_all_cards():
-	var all_cards = []
-	for N in children:
-		all_cards.append(N)
-	return all_cards
+func get_all_cards() -> Array[Card]:
+	return children.values()

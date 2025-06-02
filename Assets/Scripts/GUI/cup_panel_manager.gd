@@ -7,7 +7,7 @@ var cv_man: Node = null
 
 func _update_cup_display():
 	if(cv_man == null):
-		cv_man = main.cv_manager
+		cv_man = GM.cv_manager
 	var cup_dict = cv_man._get_cups()
 	if cup_dict.size() < self.get_child_count():
 		var x = self.get_child_count()

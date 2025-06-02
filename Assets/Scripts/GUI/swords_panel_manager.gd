@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends Control
 
 @export var main: Node
 
@@ -14,7 +14,7 @@ func _ready():
 
 func _update_swords_display():
 	if(cv_man == null):
-		cv_man = main.cv_manager
+		cv_man = GM.cv_manager
 	var sword_dict = cv_man._get_swords()
 	var sword_value = sword_dict["combo"]
 	var sword_power = sword_dict["combo_value"]

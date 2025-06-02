@@ -1,6 +1,5 @@
 extends Node
 
-
-@export var pentacles_current_value: float = 0
-@export var pentacles_uses: int = 0
-@export var pentacles_queen_protect = 0
+var pentacles_current_value: float = 0
+var pentacles_uses: int = 1
+var pentacles_queen_protect: int = 0

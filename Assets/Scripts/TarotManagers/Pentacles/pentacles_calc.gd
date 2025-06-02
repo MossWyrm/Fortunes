@@ -1,95 +1,79 @@
-extends Node
+extends card_calc
+class_name pentacles_calc
 
-var child: Node
+@onready var tracker: pentacles_tracker = get_child(0)
 
-func _ready():
-	child = get_child(0)
-
-func _drawn_pentacle(card, flipped = false):
+func draw(card, flipped = false):
 	if (card.card_default_value >= 0 && card.card_default_value <= 10):
-		return _basic_pent(card.card_default_value, flipped)
+		return _basic(card.card_default_value, flipped)
 	elif card.card_default_value == 11:
-		return _page_pent(flipped)
+		return _page(flipped)
 	elif card.card_default_value == 12:
-		return _knight_pent(flipped)
+		return _knight(flipped)
 	elif card.card_default_value == 13:
-		return _queen_pent(flipped)
+		return _queen(flipped)
 	elif card.card_default_value == 14:
-		return _king_pent(flipped)
+		return _king(flipped)
 	else:
-		print("Error finding cup card number")
+		print("Error finding pentacles card number")
 
 func _value_modifier(value, flipped = false):
-	var updated_value: int = 0
-	if flipped:
-		updated_value = -value
-	else:
-		updated_value = value
-	return updated_value
+	return -value if flipped else value
 
-func _basic_pent(value, flipped = false):
+func _basic(value, flipped = false):
 	var val = _value_modifier(value, flipped)
-	child._update_pentacle(val, false)
-	return _get_pentacles()+val
+	tracker.update(val, false)
+	return tracker.current_pentacles+val
 
-func _page_pent(flipped = false):
-	var pent_val : float = _get_pentacles()
+func _page(flipped = false):
 	var val = _value_modifier(11, flipped)
-	child._update_pentacle(val, false)
+	tracker.update(val, false)
 	if flipped:
-		pent_val *= 0.9
+		tracker.current_pentacles = roundi(tracker.current_pentacles * 0.9)
 	else:
-		pent_val *= 1.1
-	child._replace_pentacles(pent_val)
-	return _get_pentacles() + val
-
-
-func _knight_pent(flipped = false):
+		tracker.current_pentacles = roundi(tracker.current_pentacles * 1.1)
+	return tracker.current_pentacles + val
+	
+func _knight(flipped = false):
 	var val = _value_modifier(12, flipped)
-	child._update_pentacle(val, false)
+	tracker.update(val, false)
 	if flipped:
-		child._update_pentacle(-1,true)
+		tracker.adjust_charges(-Stats.pent_knight_uses)
 	else:
-		child._update_pentacle(1,true)
-	return _get_pentacles() + val
+		tracker.adjust_charges(Stats.pent_knight_uses)
+	return tracker.current_pentacles + val
 
-func _queen_pent(flipped = false):
-	if flipped:
-		child._update_queen_pentacles(-1)
-	else:
-		child._update_queen_pentacles(1)
+func _queen(flipped = false):
+	tracker.update_queen_pentacles(flipped)
 	
 	var val = _value_modifier(13, flipped)
-	child._update_pentacle(val, false)
+	tracker.update(val, false)
 	
-	return _get_pentacles() + val
+	return tracker.current_pentacles + val
 
-func _king_pent(flipped = false):
+func _king(flipped = false):
 	var val = _value_modifier(14, flipped)
-	child._update_pentacle(val, false)
-
-	print("pent king not implemented")
+	tracker.update(val, false)
+	if flipped:
+		tracker.adjust_charges(0)
+		tracker.update(0,false,true)
+		tracker.blocked = true
+	else:
+		tracker.adjust_charges(Stats.pent_king_uses)
+		tracker.update(Stats.pent_king_value, false, true)
 		
-	return _get_pentacles() + val
+	return tracker.current_pentacles + val
 
-func _shuffle(safely):
-	child._shuffle(safely)
+func shuffle(safely):
+	tracker.shuffle(safely)
 
-func _get_pentacles():
-	if child == null:
-		child = get_child(0)
-	return child._get_pentacles()
+func use_pentacles(value):
+	return tracker.use_pentacles(value)
 
-func _use_pentacles(value):
-	return child._use_pentacles(value)
+func get_pentacles_display():
+	if tracker == null:
+		tracker = get_child(0)
+	return tracker.get_pentacles_display()
 
-func _get_pentacles_display():
-	if child == null:
-		child = get_child(0)
-	return child._get_pentacles_display()
-
-func _check_queen_pent(flipped):
-	return child._check_queen_pentacles(flipped)
-
-func _use_queen_pent():
-	child._use_queen_pentacles()
+func check_queen_pent(flipped) -> bool:
+	return tracker.use_queen_pentacles(flipped)

@@ -1,6 +1,6 @@
-extends Node
+extends card_calc
 
-var child: Node
+
 var wand_page_active = false
 var wand_page_positive = false
 var wand_knight_active = false
@@ -8,10 +8,9 @@ var wand_knight_positive = false
 var queen_effect_active = false
 var queen_effect_positive = false
 
-func _ready():
-	child = get_child(0)
+@onready var tracker: wand_tracker = get_child(0)
 
-func _drawn_wand(card, flipped = false):
+func draw(card, flipped = false):
 	if _page_check() && !wand_page_positive:
 		print("Page has caused 0 increase in moneys!")
 		return 0
@@ -53,16 +52,16 @@ func _basic_wand(value, flipped = false):
 		multi = 2
 	else:
 		multi = 1
-	child._update_wand((val / 100.0)* multi)
+	tracker.update((val / 100.0)* multi, flipped)
 
-	return (val * child._wand_bonus())*multi
+	return (val * tracker._wand_bonus())*multi
 
 func _page_wand(flipped = false):
 	var val = _value_modifier(11, flipped)
 	if flipped:
 		wand_page_active = true
 		wand_page_positive = false
-	return (val) * child._wand_bonus()
+	return (val) * tracker._wand_bonus()
 
 func _page_check():
 	if wand_page_active:
@@ -78,7 +77,7 @@ func _knight_wand(flipped = false):
 		wand_knight_positive = false
 	else:
 		wand_knight_positive = true
-	return (val) * child._wand_bonus()
+	return (val) * tracker._wand_bonus()
 
 func _queen_wand(flipped = false):
 	var val = _value_modifier(13, flipped)
@@ -89,20 +88,20 @@ func _queen_wand(flipped = false):
 	else:
 		queen_effect_positive = true
 	
-	return (val) * child._wand_bonus()
+	return (val) * tracker._wand_bonus()
 
 func _king_wand(flipped = false):
 	var val = _value_modifier(14, flipped)
-	child._king_wand_mod(flipped)
-	return (val) * child._wand_bonus()
+	tracker._king_wand_mod(flipped)
+	return (val) * tracker._wand_bonus()
 
 func _shuffle(safely):
-	child._shuffle(safely)
+	tracker._shuffle(safely)
 
 func _wand_bonus():
-	if child == null:
-		child = get_child(0)
-	return child._wand_bonus()
+	if tracker == null:
+		tracker = get_child(0)
+	return tracker._wand_bonus()
 
 func _wand_knight_check():
 	if wand_knight_active:
@@ -113,6 +112,6 @@ func _wand_knight_check():
 
 func _wand_knight_multi():
 	if wand_knight_positive:
-		return child._wand_bonus()
+		return tracker._wand_bonus()
 	else:
-		return 1/child._wand_bonus()
+		return 1/tracker._wand_bonus()

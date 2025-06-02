@@ -1,0 +1,32 @@
+[gd_scene load_steps=13 format=3 uid="uid://bbg44mhker768"]
+
+[ext_resource type="Script" uid="uid://1oxv074uvk33" path="res://Assets/Scripts/Autoload/PreloadedResources.gd" id="1_s7yiu"]
+[ext_resource type="Texture2D" uid="uid://cdjuyvq4cujco" path="res://Assets/Sprites/LargeTarot/FrontCup.png" id="2_r5fok"]
+[ext_resource type="Texture2D" uid="uid://dq4l2yo4ppvpc" path="res://Assets/Sprites/LargeTarot/FrontWand.png" id="3_oo734"]
+[ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="4_f7me7"]
+[ext_resource type="Texture2D" uid="uid://d2xq6ebinsklk" path="res://Assets/Sprites/LargeTarot/FrontSword.png" id="5_n1da1"]
+[ext_resource type="Texture2D" uid="uid://tj1kcj0cga3l" path="res://Assets/Sprites/LargeTarot/FrontMajor.png" id="6_l10yo"]
+[ext_resource type="Texture2D" uid="uid://cm6644lmemhkd" path="res://Assets/Sprites/LargeTarot/Cups.png" id="7_ae48t"]
+[ext_resource type="Texture2D" uid="uid://diuher65eios8" path="res://Assets/Sprites/LargeTarot/Wands.png" id="8_httl4"]
+[ext_resource type="Texture2D" uid="uid://bkdc5l7xv6x34" path="res://Assets/Sprites/LargeTarot/Pentacles.png" id="9_klvph"]
+[ext_resource type="Texture2D" uid="uid://8o40i8l6yn3j" path="res://Assets/Sprites/LargeTarot/Swords.png" id="10_trrgv"]
+[ext_resource type="Texture2D" uid="uid://cvatqfymxrh7g" path="res://Assets/Sprites/LargeTarot/Major.png" id="11_k425e"]
+[ext_resource type="Texture2D" uid="uid://brkuwl2n2tvl0" path="res://Assets/Sprites/Numerals.png" id="12_oo734"]
+
+[node name="Preload" type="Node"]
+script = ExtResource("1_s7yiu")
+suit_backgrounds = Dictionary[int, Texture2D]({
+0: ExtResource("2_r5fok"),
+1: ExtResource("3_oo734"),
+2: ExtResource("4_f7me7"),
+3: ExtResource("5_n1da1"),
+4: ExtResource("6_l10yo")
+})
+overlays_by_suit = Dictionary[int, Texture2D]({
+0: ExtResource("7_ae48t"),
+1: ExtResource("8_httl4"),
+2: ExtResource("9_klvph"),
+3: ExtResource("10_trrgv"),
+4: ExtResource("11_k425e")
+})
+numerals = ExtResource("12_oo734")

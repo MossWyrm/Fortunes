@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2nx2icg0isfq"]
+[gd_scene load_steps=12 format=3 uid="uid://c2nx2icg0isfq"]
 
 [ext_resource type="Script" uid="uid://canmx2us4s3d1" path="res://Assets/Scripts/TarotManagers/Cups/cup_tracker.gd" id="1_8y7ml"]
 [ext_resource type="Script" uid="uid://cmnkecdn23rjj" path="res://Assets/Scripts/TarotManagers/CardValueCalc.gd" id="1_fwl8v"]
@@ -9,13 +9,16 @@
 [ext_resource type="Script" uid="uid://detrorjr4fy8d" path="res://Assets/Scripts/TarotManagers/Pentacles/pentacles_tracker.gd" id="7_jkm7g"]
 [ext_resource type="Script" uid="uid://bh3y2fsyobyil" path="res://Assets/Scripts/TarotManagers/Swords/swords_calc.gd" id="8_mnryt"]
 [ext_resource type="Script" uid="uid://8cofuusdt03h" path="res://Assets/Scripts/TarotManagers/Swords/swords_tracker.gd" id="9_557pm"]
+[ext_resource type="Script" uid="uid://b0g0wnvt63r1r" path="res://Assets/Scripts/TarotManagers/Majors/majors_calc.gd" id="10_vg07o"]
+[ext_resource type="Script" uid="uid://pefrsyvidku6" path="res://Assets/Scripts/TarotManagers/Majors/majors_tracker.gd" id="11_ynr8e"]
 
-[node name="Clairvoiance Calc" type="Node" node_paths=PackedStringArray("cups_node", "wands_node", "pentacles_node", "swords_node")]
+[node name="Clairvoiance Calc" type="Node" node_paths=PackedStringArray("cups_node", "wands_node", "pentacles_node", "swords_node", "majors_node")]
 script = ExtResource("1_fwl8v")
 cups_node = NodePath("Cups Calc")
 wands_node = NodePath("Wands Calc")
 pentacles_node = NodePath("Pentacles Calc")
 swords_node = NodePath("Swords Calc")
+majors_node = NodePath("Majors Calc")
 
 [node name="Cups Calc" type="Node" parent="."]
 script = ExtResource("2_l2qfv")
@@ -40,3 +43,9 @@ script = ExtResource("8_mnryt")
 
 [node name="swords_tracker" type="Node" parent="Swords Calc"]
 script = ExtResource("9_557pm")
+
+[node name="Majors Calc" type="Node" parent="."]
+script = ExtResource("10_vg07o")
+
+[node name="majors_tracker" type="Node" parent="Majors Calc"]
+script = ExtResource("11_ynr8e")

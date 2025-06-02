@@ -1,10 +1,11 @@
-extends Node
+extends suit_tracker
+class_name wand_tracker
 
 func _init():
 	if self.get_child_count() < 1:
 		_create_wand_tracker()
 
-func _update_wand(value):
+func update(value, _flipped = false):
 	var child = self.get_child(0)
 	# if value < 0:
 	# 	child.wand_current_value /= (0-value)

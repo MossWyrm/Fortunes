@@ -1,4 +1,4 @@
-extends "res://Assets/Scenes/Upgrades/upgrade.gd"
+extends Upgrade
 
 #Upgrades Max Deck Size
 

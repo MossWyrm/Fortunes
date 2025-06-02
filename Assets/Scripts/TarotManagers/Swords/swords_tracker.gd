@@ -1,4 +1,5 @@
-extends Node
+extends suit_tracker
+class_name swords_tracker
 
 var sword_count: int
 var upright: bool
@@ -9,7 +10,7 @@ var king_active: bool
 var king_protection: int = 0
 var king_destruction: int = 0
 
-func _update_swords(flipped):
+func update(_value, flipped = false):
 	if upright == !flipped:
 		if king_active && king_destruction > 0:
 			king_destruction -= 1
@@ -24,41 +25,41 @@ func _update_swords(flipped):
 	if king_destruction == 0 && king_protection == 0:
 		king_active = false
 
-func _get_swords():
+func get_swords():
 	return sword_count
 
-func _shuffle(safely):
+func shuffle(safely):
 	if safely == true:
 		return
 	else:
 		sword_count = 1
 		sword_value = 1
 
-func _page_triggered(flipped):
+func page_triggered(flipped):
 	page_active = true
 	page_positive = !flipped
 
-func _use_page():
+func use_page():
 	page_active = false
 
-func _get_page_status():
+func get_page_status() -> bool:
 	return page_active
 
-func _page_type_upright():
+func page_type_upright():
 	return page_positive
 
-func _queen_triggered(flipped):
+func queen_triggered(flipped):
 	sword_value -= 1 if flipped else -1
 
-func _king_triggered(flipped):
+func king_triggered(flipped):
 	king_active = true
 	if flipped:
 		king_destruction = sword_count
 	else:
 		king_protection = sword_count
 
-func _get_sword_display():
-	var sword_dict = {}
+func get_sword_display():
+	var sword_dict: Dictionary = {}
 	sword_dict["combo"] = sword_count
 	sword_dict["combo_value"] = sword_value
 	sword_dict["page"] = page_active

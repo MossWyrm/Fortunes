@@ -1,15 +1,15 @@
 extends Button
 
-@export var main_parent: Node
-@export var cost_text: Node
-@export var title_desc: Node
+var main_parent: Node
+@onready var cost_text: Node 	= $Cost
+@onready var title_desc: Node 	= $MarginContainer/Title_Desc
+@onready var cvc: CVC 			= GM.cv_manager
 
 
-var passed_time: float = 0
+var passed_time: float   = 0
 var required_time: float = 1
-var upgrade_value = 0
+var upgrade_value: int   = 0
 var upgrade: BaseUpgrade
-
 
 
 func _ready():
@@ -32,7 +32,7 @@ func _update_button():
 
 func _purchase():
 	if Stats.current_currency >= upgrade._cost():
-		main_parent.cvc._remove_currency(upgrade._cost())	
+		cvc._remove_currency(upgrade._cost())	
 		upgrade.times_purchased +=1
 		upgrade._trigger()
 		_update_button()

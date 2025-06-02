@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends Control
 
 @export var main: Node
 
@@ -13,7 +13,7 @@ func _ready():
 
 func _update_pentacles_display():
 	if(cv_man == null):
-		cv_man = main.cv_manager
+		cv_man = GM.cv_manager
 	var pent_dict = cv_man._get_pentacles()
 	var pentacles_value = pent_dict["value"]
 	var pentacles_uses = pent_dict["uses"]

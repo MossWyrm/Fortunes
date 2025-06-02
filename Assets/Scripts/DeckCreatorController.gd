@@ -1,6 +1,5 @@
 extends Node
 
-@export var main : Main
 @export var cups_panels_display : CardSelectBoxList
 @export var wands_panels_display : CardSelectBoxList
 @export var pentacles_panels_display : CardSelectBoxList
@@ -13,7 +12,7 @@ extends Node
 		pentacles_panels_display, 
 		swords_panels_display, 
 		majors_panels_display]
-@onready var deck_manager: Deck_Manager = main.deck_manager
+@onready var deck_manager: Deck_Manager = GM.deck_manager
 @onready var parent: Node = get_parent()
 @onready var card_display_box = preload("res://Assets/Scenes/DeckCreatorDisplay.tscn")
 var current_deck = []
@@ -29,7 +28,6 @@ var max_deck_size:
 		return Stats.gen_max_deck_size
 
 ## Resizing information & startup
-
 func _ready():
 	get_viewport().size_changed.connect(move_position)
 	move_position();
@@ -93,22 +91,21 @@ func display_suit(suit : int):
 		var card_count = current_deck.count(n)
 		var cards_of_suit_in_deck = 0
 
-		if n.card_suit == Card.Suits.major:
+		if n.card_suit == ID.Suits.MAJOR:
 			for card in current_deck:
-				if card.card_suit == Card.Suits.major:
+				if card.card_suit == ID.Suits.MAJOR:
 					cards_of_suit_in_deck +=1
 
 		"""
 		This bit needs some work; i need it to recognise when a specific card is addble or removable via the Stats menu, 
 		it needs to iterate every card I think...
 		"""
-		if (((n.card_suit == Card.Suits.major && cards_of_suit_in_deck < Stats.Card_max_quant(n))
-			||
-			(card_count < Stats.Card_max_quant(n)))
-			&& current_deck.size() < max_deck_size):
-			addable = true
-		else:
+		if card_count >= Stats.card_max_quant(n) || current_deck.size() >= max_deck_size:
 			addable = false
+		elif n.card_suit == ID.Suits.MAJOR && cards_of_suit_in_deck >= Stats.card_max_quant(n):
+			addable = false
+		else:
+			addable = true
 
 
 		if card_count > 0 && current_deck.size() > min_deck_size:
@@ -136,7 +133,7 @@ func add_to_deck(card: Card):
 	update_deck_stats()
 
 func remove_from_deck(card: Card):
-	var index = current_deck.find(card)
+	var index: int = current_deck.find(card)
 	if index >= 0:
 		current_deck.remove_at(index)
 	else:

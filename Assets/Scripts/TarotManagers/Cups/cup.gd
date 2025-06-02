@@ -1,5 +1,4 @@
 extends Node
 
-
-@export var cup_number: int
-@export var cup_current_value: int = 0
+var cup_number: int
+var cup_current_value: int = 0
