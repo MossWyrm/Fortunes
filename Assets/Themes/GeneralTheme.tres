@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bwtug031xs2ny"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://bwtug031xs2ny"]
 
 [ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="1_0d85q"]
 
@@ -73,7 +73,16 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvku0"]
+bg_color = Color(0.067145, 2.12136e-05, 0.0935432, 1)
+border_color = Color(0.862745, 0.662745, 0.0862745, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [resource]
+Button/fonts/font = ExtResource("1_0d85q")
 Button/styles/disabled = SubResource("StyleBoxFlat_0d85q")
 Button/styles/hover = SubResource("StyleBoxFlat_hq61r")
 Button/styles/normal = SubResource("StyleBoxFlat_i5456")
@@ -82,6 +91,7 @@ HSlider/styles/slider = SubResource("StyleBoxFlat_aq5yw")
 Label/font_sizes/font_size = 28
 Label/fonts/font = ExtResource("1_0d85q")
 Panel/styles/panel = SubResource("StyleBoxFlat_qia4q")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_lvku0")
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)
 RichTextLabel/constants/outline_size = 0
 RichTextLabel/font_sizes/normal_font_size = 48

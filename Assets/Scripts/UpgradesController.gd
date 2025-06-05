@@ -11,11 +11,10 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(change_size)
 	parent = get_parent()
 	change_size();
-	Events.upgrade_menu_toggle.connect(set_upgrades)
 	set_upgrades()
 
 func change_size() -> void:
-	self.position.x = parent.size.x
+	self.position.x = 0
 
 func set_upgrades(type: ID.UpgradeType = ID.UpgradeType.GENERAL) -> void:
 	if button_container.get_child_count() < upgrade_options.upgrades_list(type).size():
@@ -24,13 +23,15 @@ func set_upgrades(type: ID.UpgradeType = ID.UpgradeType.GENERAL) -> void:
 		
 	var buttons: Array[Node]         = button_container.get_children()
 	var upgrades: Array[BaseUpgrade] = upgrade_options.upgrades_list(type)
-	for n in upgrades.size()-1:
+	for n in upgrades.size():
 		buttons[n]._set_button(upgrades[n])
 		buttons[n].visible = true
 	for index in range(upgrades.size(),buttons.size()):
 		buttons[index].visible = false
 
-
+func on_toggle_visible() -> void:
+	if self.visible:
+		set_upgrades()
 
 
 """

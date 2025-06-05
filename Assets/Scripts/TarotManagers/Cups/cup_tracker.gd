@@ -1,66 +1,55 @@
 extends suit_tracker
 class_name cup_tracker
 
-var cup_scene = preload("res://Assets/Scripts/TarotManagers/Cups/cup.gd")
+var _max_size:int:
+	get:
+		return Stats.cup_max_size + Stats.cup_max_size_modifier
+var _cups: Dictionary[int,int] = {}
 
-func _init():
-	if self.get_child_count() < 1:
+func _init() -> void:
+	if _cups.size() < 1:
 		add_cup()
 
-func update(value, _flipped = false):
-	for N in self.get_children():
-		N.cup_current_value += value
-		if N.cup_current_value > Stats.cup_max_size + Stats.cup_max_size_modifier:
-			N.cup_current_value = Stats.cup_max_size + Stats.cup_max_size_modifier
-		if N.cup_current_value < 0:
-			N.cup_current_value = 0
-		
+func update(value, _flipped = false) -> void:
+	for cup in _cups.keys():
+		_cups[cup] += value
+		if _cups[cup] > _max_size:
+			_cups[cup] = _max_size
+		if _cups[cup] < 0:
+			_cups[cup] = 0
 
-func add_cup():
-	if get_child_count() >= Stats.cup_max_quant:
+func add_cup() -> void:
+	if _cups.size() >= Stats.cup_max_quant:
 		pass
-	var child = cup_scene.new()
-	var child_num = self.get_child_count()
-	var child_name = "cup_" + str(child_num + 1)
-	child.name = child_name
-	if child.get_parent():
-		child.get_parent().remove_child(child)
-	child.cup_number = child_num+1
-	add_child(child)
+	_cups[_cups.size() + 1] = 0
 
 func remove_cup() -> void:
-	if(self.get_child_count() <= 1):
-		self.get_child(0).cup_current_value = 0
+	if(_cups.size() <= 1):
+		_cups[0] = 0
 	else:
-		var index = self.get_child_count()-1
-		var child = self.get_child(index)
-		child.queue_free()
-
+		_cups.erase(_cups.size()-1)
+		
 func shuffle(safely) -> void:
 	if safely == true:
 		return
 	else:
 		Stats.cup_max_size_modifier = 0
-		for N in self.get_children():
+		for N in _cups.size():
 			remove_cup()
 
 func bonus() -> int:
 	var totalValue: int = 0
-	for cup in self.get_children():
-		totalValue += cup.cup_current_value
+	for cup in _cups.keys():
+		totalValue += _cups[cup]
 	return totalValue
 
-func get_cups() -> Dictionary:
-	var cup_dict: Dictionary = {}
-	for N in self.get_children():
-		var cup_dict_name = "cup_"+ str(N.cup_number)
-		cup_dict[cup_dict_name] = N.cup_current_value
-	return cup_dict
+func get_display() -> Dictionary:
+	return _cups
 
-func empty_cups():
-	for N in self.get_children():
-		N.cup_current_value = 0
+func empty_cups() -> void:
+	for cup in _cups.keys():
+		_cups[cup] = 0
 
-func fill_cups():
-	for N in self.get_children():
-		N.cup_current_value = Stats.cup_max_size + Stats.cup_max_size_modifier
+func fill_cups() -> void:
+	for cup in _cups.keys():
+		_cups[cup] = _max_size

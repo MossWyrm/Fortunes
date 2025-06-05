@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0f1dc1333qu6"]
+
+[ext_resource type="Texture2D" uid="uid://brkuwl2n2tvl0" path="res://Assets/Sprites/Numerals.png" id="1_7hra4"]
+[ext_resource type="Script" uid="uid://bw7xfncpfdvvw" path="res://Assets/Scripts/GUI/buff_displays/major_display_box.gd" id="2_1db15"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pg5xu"]
+atlas = ExtResource("1_7hra4")
+region = Rect2(0, 0, 64, 64)
+
+[node name="major_display_panel" type="TextureRect"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
+texture = SubResource("AtlasTexture_pg5xu")
+expand_mode = 5
+stretch_mode = 5
+script = ExtResource("2_1db15")
+
+[node name="Charges" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mask" type="Panel" parent="."]
+show_behind_parent = true
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Mask"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.589073, 0, 0.0080361, 1)

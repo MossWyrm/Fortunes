@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://48yhm7rt4c5e"]
+[gd_scene load_steps=20 format=3 uid="uid://48yhm7rt4c5e"]
 
 [ext_resource type="Script" uid="uid://b4xmcphinbaxj" path="res://Assets/Scripts/DeckCreatorController.gd" id="1_fmist"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="2_as34j"]
-[ext_resource type="Script" uid="uid://33xwyqr1pvc6" path="res://Assets/Scripts/CreatorPanelDisplay.gd" id="2_ifv41"]
 [ext_resource type="Script" uid="uid://dlkeytqo0bdd5" path="res://Assets/Scripts/DeckCreationSuitSelect.gd" id="3_aags5"]
 [ext_resource type="Script" uid="uid://smni6hf7c7yq" path="res://Assets/Scripts/CardSelectBoxList.gd" id="4_c5n7w"]
 [ext_resource type="Texture2D" uid="uid://cdjuyvq4cujco" path="res://Assets/Sprites/LargeTarot/FrontCup.png" id="4_kwvr2"]
@@ -12,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="7_sw4qh"]
 [ext_resource type="Script" uid="uid://c6u75gyfv2xt8" path="res://Assets/Scripts/DeckStats.gd" id="8_3vd47"]
 [ext_resource type="Texture2D" uid="uid://d2xq6ebinsklk" path="res://Assets/Sprites/LargeTarot/FrontSword.png" id="8_owp6j"]
-[ext_resource type="Script" uid="uid://ddjm1wujr71ds" path="res://Assets/Scripts/CreatorMenuButton.gd" id="9_7gose"]
 [ext_resource type="Texture2D" uid="uid://tj1kcj0cga3l" path="res://Assets/Sprites/LargeTarot/FrontMajor.png" id="9_y3xjc"]
 [ext_resource type="LabelSettings" uid="uid://pblainpmvicg" path="res://Assets/Themes/carddisplayboxbutton/DeckSizeLabel1.tres" id="10_32v8y"]
 [ext_resource type="LabelSettings" uid="uid://rx8lcpfywhlh" path="res://Assets/Themes/carddisplayboxbutton/DeckSizeLabel2.tres" id="11_iud42"]
@@ -56,43 +54,78 @@ _data = {
 &"CreatorPanelAnimationShow": SubResource("Animation_et663")
 }
 
+[sub_resource type="GDScript" id="GDScript_0r4gi"]
+script/source = "extends Button
+
+var is_menu_shown = false
+var defaultText = \"Modify Deck \\n <\"
+
+#func _ready():
+##	pressed.connect(toggle_creator)
+##	Events.upgrade_menu_toggle.connect(reset_text)
+##	Events.creator_menu_toggle.connect(update_button_text)
+##	text = defaultText
+#
+#func toggle_creator():
+#	if(is_menu_shown):
+#		text = defaultText
+#		is_menu_shown = false
+#	else:
+#		text = \"X\"
+#		is_menu_shown = true
+#	Events.emit_creator_menu_toggle(is_menu_shown)
+#	Events.emit_upgrade_menu_toggle(false)
+#
+#func update_button_text(shown: bool):
+#	if !is_menu_shown && shown:
+#		text = \"X\"
+#		is_menu_shown = true
+#	if is_menu_shown && !shown:
+#		text = defaultText
+#		is_menu_shown = false
+#
+#func reset_text(state : bool):
+#	if state:
+#		text = defaultText
+#		is_menu_shown = false"
+
 [node name="DeckCreator" type="Control" node_paths=PackedStringArray("cups_panels_display", "wands_panels_display", "pentacles_panels_display", "swords_panels_display", "majors_panels_display", "deck_stats_display")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -648.0
-offset_right = -648.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fmist")
-cups_panels_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox")
-wands_panels_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox")
-pentacles_panels_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox")
-swords_panels_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox")
-majors_panels_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox")
-deck_stats_display = NodePath("DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails")
+cups_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox")
+wands_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox")
+pentacles_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox")
+swords_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox")
+majors_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox")
+deck_stats_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails")
 
-[node name="DeckCreationPanel" type="Panel" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 29.0
-offset_top = 52.0
-offset_right = -29.0
-offset_bottom = -51.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_as34j")
-script = ExtResource("2_ifv41")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="DeckCreatorPanelAnimator" type="AnimationPlayer" parent="DeckCreationPanel"]
+[node name="DeckCreationPanel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_as34j")
+
+[node name="DeckCreatorPanelAnimator" type="AnimationPlayer" parent="MarginContainer/DeckCreationPanel"]
 libraries = {
 &"": SubResource("AnimationLibrary_etf6k")
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,25 +137,621 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DeckCreationPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="DeckCreationNavigation" type="PanelContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer"]
+[node name="SuitDisplays" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("cups_panel", "wands_panel", "pentacles_panel", "swords_panel", "majors_panel")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.2
+mouse_filter = 1
+theme = ExtResource("2_as34j")
+script = ExtResource("3_aags5")
+cups_panel = NodePath("CupsScrollBox")
+wands_panel = NodePath("WandsScrollBox")
+pentacles_panel = NodePath("PentaclesScrollBox")
+swords_panel = NodePath("SwordsScrollBox")
+majors_panel = NodePath("MajorsScrollBox")
+
+[node name="CupsScrollBox" type="ScrollContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_c5n7w")
+displays_list = [NodePath("MarginContainer/GridContainer/Box1"), NodePath("MarginContainer/GridContainer/Box2"), NodePath("MarginContainer/GridContainer/Box3"), NodePath("MarginContainer/GridContainer/Box4"), NodePath("MarginContainer/GridContainer/Box5"), NodePath("MarginContainer/GridContainer/Box6"), NodePath("MarginContainer/GridContainer/Box7"), NodePath("MarginContainer/GridContainer/Box8"), NodePath("MarginContainer/GridContainer/Box9"), NodePath("MarginContainer/GridContainer/Box10"), NodePath("MarginContainer/GridContainer/Box11"), NodePath("MarginContainer/GridContainer/Box12"), NodePath("MarginContainer/GridContainer/Box13"), NodePath("MarginContainer/GridContainer/Box14")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="Box1" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Box2" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box3" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box4" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box5" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box6" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box7" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box8" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box9" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box10" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box11" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box12" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box13" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Box14" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandsScrollBox" type="ScrollContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_c5n7w")
+displays_list = [NodePath("MarginContainer/GridContainer/WandBox1"), NodePath("MarginContainer/GridContainer/WandBox2"), NodePath("MarginContainer/GridContainer/WandBox3"), NodePath("MarginContainer/GridContainer/WandBox4"), NodePath("MarginContainer/GridContainer/WandBox5"), NodePath("MarginContainer/GridContainer/WandBox6"), NodePath("MarginContainer/GridContainer/WandBox7"), NodePath("MarginContainer/GridContainer/WandBox8"), NodePath("MarginContainer/GridContainer/WandBox9"), NodePath("MarginContainer/GridContainer/WandBox10"), NodePath("MarginContainer/GridContainer/WandBox11"), NodePath("MarginContainer/GridContainer/WandBox12"), NodePath("MarginContainer/GridContainer/WandBox13"), NodePath("MarginContainer/GridContainer/WandBox14")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="WandBox1" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="WandBox2" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox3" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox4" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox5" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox6" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox7" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox8" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox9" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox10" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox11" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox12" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox13" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WandBox14" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentaclesScrollBox" type="ScrollContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_c5n7w")
+displays_list = [NodePath("MarginContainer/GridContainer/PentBox1"), NodePath("MarginContainer/GridContainer/PentBox2"), NodePath("MarginContainer/GridContainer/PentBox3"), NodePath("MarginContainer/GridContainer/PentBox4"), NodePath("MarginContainer/GridContainer/PentBox5"), NodePath("MarginContainer/GridContainer/PentBox6"), NodePath("MarginContainer/GridContainer/PentBox7"), NodePath("MarginContainer/GridContainer/PentBox8"), NodePath("MarginContainer/GridContainer/PentBox9"), NodePath("MarginContainer/GridContainer/PentBox10"), NodePath("MarginContainer/GridContainer/PentBox11"), NodePath("MarginContainer/GridContainer/PentBox12"), NodePath("MarginContainer/GridContainer/PentBox13"), NodePath("MarginContainer/GridContainer/PentBox14")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="PentBox1" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="PentBox2" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox3" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox4" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox5" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox6" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox7" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox8" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox9" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox10" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox11" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox12" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox13" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PentBox14" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordsScrollBox" type="ScrollContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_c5n7w")
+displays_list = [NodePath("MarginContainer/GridContainer/SwordBox1"), NodePath("MarginContainer/GridContainer/SwordBox2"), NodePath("MarginContainer/GridContainer/SwordBox3"), NodePath("MarginContainer/GridContainer/SwordBox4"), NodePath("MarginContainer/GridContainer/SwordBox5"), NodePath("MarginContainer/GridContainer/SwordBox6"), NodePath("MarginContainer/GridContainer/SwordBox7"), NodePath("MarginContainer/GridContainer/SwordBox8"), NodePath("MarginContainer/GridContainer/SwordBox9"), NodePath("MarginContainer/GridContainer/SwordBox10"), NodePath("MarginContainer/GridContainer/SwordBox11"), NodePath("MarginContainer/GridContainer/SwordBox12"), NodePath("MarginContainer/GridContainer/SwordBox13"), NodePath("MarginContainer/GridContainer/SwordBox14")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="SwordBox1" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="SwordBox2" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox3" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox4" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox5" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox6" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox7" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox8" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox9" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox10" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox11" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox12" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox13" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SwordBox14" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorsScrollBox" type="ScrollContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_c5n7w")
+displays_list = [NodePath("MarginContainer/GridContainer/MajorBox1"), NodePath("MarginContainer/GridContainer/MajorBox2"), NodePath("MarginContainer/GridContainer/MajorBox3"), NodePath("MarginContainer/GridContainer/MajorBox4"), NodePath("MarginContainer/GridContainer/MajorBox5"), NodePath("MarginContainer/GridContainer/MajorBox6"), NodePath("MarginContainer/GridContainer/MajorBox7"), NodePath("MarginContainer/GridContainer/MajorBox8"), NodePath("MarginContainer/GridContainer/MajorBox9"), NodePath("MarginContainer/GridContainer/MajorBox10"), NodePath("MarginContainer/GridContainer/MajorBox11"), NodePath("MarginContainer/GridContainer/MajorBox12"), NodePath("MarginContainer/GridContainer/MajorBox13"), NodePath("MarginContainer/GridContainer/MajorBox14"), NodePath("MarginContainer/GridContainer/MajorBox15"), NodePath("MarginContainer/GridContainer/MajorBox16"), NodePath("MarginContainer/GridContainer/MajorBox17"), NodePath("MarginContainer/GridContainer/MajorBox18"), NodePath("MarginContainer/GridContainer/MajorBox19"), NodePath("MarginContainer/GridContainer/MajorBox20"), NodePath("MarginContainer/GridContainer/MajorBox21"), NodePath("MarginContainer/GridContainer/MajorBox22")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="MajorBox1" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="MajorBox2" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox3" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox4" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox5" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox6" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox7" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox8" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox9" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox10" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox11" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox12" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox13" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox14" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox15" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox16" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox17" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox18" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox19" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox20" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox21" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MajorBox22" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DeckCreationNavigation" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 105.95)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Cups" type="Panel" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
+[node name="Cups" type="Panel" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CupButton" type="TextureButton" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Cups" node_paths=PackedStringArray("deck_creator")]
+[node name="CupButton" type="TextureButton" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Cups" node_paths=PackedStringArray("deck_creator")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -136,7 +765,7 @@ stretch_mode = 3
 script = ExtResource("7_6abn4")
 deck_creator = NodePath("../../../../SuitDisplays")
 
-[node name="Label" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Cups"]
+[node name="Label" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Cups"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -155,12 +784,12 @@ theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 28
 text = "CUPS"
 
-[node name="Wands" type="Panel" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
+[node name="Wands" type="Panel" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="WandButton" type="TextureButton" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Wands" node_paths=PackedStringArray("deck_creator")]
+[node name="WandButton" type="TextureButton" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Wands" node_paths=PackedStringArray("deck_creator")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -175,7 +804,7 @@ script = ExtResource("7_6abn4")
 deck_creator = NodePath("../../../../SuitDisplays")
 suit_number = 1
 
-[node name="Label" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Wands"]
+[node name="Label" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Wands"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -194,12 +823,12 @@ theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 28
 text = "Wands"
 
-[node name="Pentacles" type="Panel" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
+[node name="Pentacles" type="Panel" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PentacleButton" type="TextureButton" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Pentacles" node_paths=PackedStringArray("deck_creator")]
+[node name="PentacleButton" type="TextureButton" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Pentacles" node_paths=PackedStringArray("deck_creator")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -214,7 +843,7 @@ script = ExtResource("7_6abn4")
 deck_creator = NodePath("../../../../SuitDisplays")
 suit_number = 2
 
-[node name="Label" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Pentacles"]
+[node name="Label" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Pentacles"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -233,12 +862,12 @@ theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 28
 text = "Pentacles"
 
-[node name="Swords" type="Panel" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
+[node name="Swords" type="Panel" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SwordButton" type="TextureButton" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Swords" node_paths=PackedStringArray("deck_creator")]
+[node name="SwordButton" type="TextureButton" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Swords" node_paths=PackedStringArray("deck_creator")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -253,7 +882,7 @@ script = ExtResource("7_6abn4")
 deck_creator = NodePath("../../../../SuitDisplays")
 suit_number = 3
 
-[node name="Label" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Swords"]
+[node name="Label" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Swords"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -272,12 +901,12 @@ theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 28
 text = "Swords"
 
-[node name="Majors" type="Panel" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
+[node name="Majors" type="Panel" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer"]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MajorButton" type="TextureButton" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Majors" node_paths=PackedStringArray("deck_creator")]
+[node name="MajorButton" type="TextureButton" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Majors" node_paths=PackedStringArray("deck_creator")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -292,7 +921,7 @@ script = ExtResource("7_6abn4")
 deck_creator = NodePath("../../../../SuitDisplays")
 suit_number = 4
 
-[node name="Label" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Majors"]
+[node name="Label" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckCreationNavigation/HBoxContainer/Majors"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -311,636 +940,50 @@ theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 28
 text = "Majors"
 
-[node name="SuitDisplays" type="PanelContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("cups_panel", "wands_panel", "pentacles_panel", "swords_panel", "majors_panel")]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 5.2
-mouse_filter = 1
-script = ExtResource("3_aags5")
-cups_panel = NodePath("CupsScrollBox")
-wands_panel = NodePath("WandsScrollBox")
-pentacles_panel = NodePath("PentaclesScrollBox")
-swords_panel = NodePath("SwordsScrollBox")
-majors_panel = NodePath("MajorsScrollBox")
-
-[node name="CupsScrollBox" type="ScrollContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
-layout_mode = 2
-horizontal_scroll_mode = 0
-script = ExtResource("4_c5n7w")
-displays_list = [NodePath("MarginContainer/GridContainer/Box1"), NodePath("MarginContainer/GridContainer/Box2"), NodePath("MarginContainer/GridContainer/Box3"), NodePath("MarginContainer/GridContainer/Box4"), NodePath("MarginContainer/GridContainer/Box5"), NodePath("MarginContainer/GridContainer/Box6"), NodePath("MarginContainer/GridContainer/Box7"), NodePath("MarginContainer/GridContainer/Box8"), NodePath("MarginContainer/GridContainer/Box9"), NodePath("MarginContainer/GridContainer/Box10"), NodePath("MarginContainer/GridContainer/Box11"), NodePath("MarginContainer/GridContainer/Box12"), NodePath("MarginContainer/GridContainer/Box13"), NodePath("MarginContainer/GridContainer/Box14")]
-
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="GridContainer" type="GridContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="Box1" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="Box2" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box3" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box4" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box5" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box6" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box7" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box8" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box9" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box10" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box11" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box12" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box13" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Box14" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/CupsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandsScrollBox" type="ScrollContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-script = ExtResource("4_c5n7w")
-displays_list = [NodePath("MarginContainer/GridContainer/WandBox1"), NodePath("MarginContainer/GridContainer/WandBox2"), NodePath("MarginContainer/GridContainer/WandBox3"), NodePath("MarginContainer/GridContainer/WandBox4"), NodePath("MarginContainer/GridContainer/WandBox5"), NodePath("MarginContainer/GridContainer/WandBox6"), NodePath("MarginContainer/GridContainer/WandBox7"), NodePath("MarginContainer/GridContainer/WandBox8"), NodePath("MarginContainer/GridContainer/WandBox9"), NodePath("MarginContainer/GridContainer/WandBox10"), NodePath("MarginContainer/GridContainer/WandBox11"), NodePath("MarginContainer/GridContainer/WandBox12"), NodePath("MarginContainer/GridContainer/WandBox13"), NodePath("MarginContainer/GridContainer/WandBox14")]
-
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="GridContainer" type="GridContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="WandBox1" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="WandBox2" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox3" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox4" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox5" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox6" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox7" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox8" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox9" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox10" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox11" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox12" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox13" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WandBox14" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/WandsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentaclesScrollBox" type="ScrollContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-script = ExtResource("4_c5n7w")
-displays_list = [NodePath("MarginContainer/GridContainer/PentBox1"), NodePath("MarginContainer/GridContainer/PentBox2"), NodePath("MarginContainer/GridContainer/PentBox3"), NodePath("MarginContainer/GridContainer/PentBox4"), NodePath("MarginContainer/GridContainer/PentBox5"), NodePath("MarginContainer/GridContainer/PentBox6"), NodePath("MarginContainer/GridContainer/PentBox7"), NodePath("MarginContainer/GridContainer/PentBox8"), NodePath("MarginContainer/GridContainer/PentBox9"), NodePath("MarginContainer/GridContainer/PentBox10"), NodePath("MarginContainer/GridContainer/PentBox11"), NodePath("MarginContainer/GridContainer/PentBox12"), NodePath("MarginContainer/GridContainer/PentBox13"), NodePath("MarginContainer/GridContainer/PentBox14")]
-
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="GridContainer" type="GridContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="PentBox1" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="PentBox2" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox3" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox4" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox5" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox6" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox7" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox8" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox9" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox10" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox11" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox12" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox13" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PentBox14" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordsScrollBox" type="ScrollContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-script = ExtResource("4_c5n7w")
-displays_list = [NodePath("MarginContainer/GridContainer/SwordBox1"), NodePath("MarginContainer/GridContainer/SwordBox2"), NodePath("MarginContainer/GridContainer/SwordBox3"), NodePath("MarginContainer/GridContainer/SwordBox4"), NodePath("MarginContainer/GridContainer/SwordBox5"), NodePath("MarginContainer/GridContainer/SwordBox6"), NodePath("MarginContainer/GridContainer/SwordBox7"), NodePath("MarginContainer/GridContainer/SwordBox8"), NodePath("MarginContainer/GridContainer/SwordBox9"), NodePath("MarginContainer/GridContainer/SwordBox10"), NodePath("MarginContainer/GridContainer/SwordBox11"), NodePath("MarginContainer/GridContainer/SwordBox12"), NodePath("MarginContainer/GridContainer/SwordBox13"), NodePath("MarginContainer/GridContainer/SwordBox14")]
-
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="GridContainer" type="GridContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="SwordBox1" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="SwordBox2" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox3" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox4" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox5" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox6" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox7" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox8" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox9" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox10" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox11" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox12" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox13" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SwordBox14" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorsScrollBox" type="ScrollContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays" node_paths=PackedStringArray("displays_list")]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-script = ExtResource("4_c5n7w")
-displays_list = [NodePath("MarginContainer/GridContainer/MajorBox1"), NodePath("MarginContainer/GridContainer/MajorBox2"), NodePath("MarginContainer/GridContainer/MajorBox3"), NodePath("MarginContainer/GridContainer/MajorBox4"), NodePath("MarginContainer/GridContainer/MajorBox5"), NodePath("MarginContainer/GridContainer/MajorBox6"), NodePath("MarginContainer/GridContainer/MajorBox7"), NodePath("MarginContainer/GridContainer/MajorBox8"), NodePath("MarginContainer/GridContainer/MajorBox9"), NodePath("MarginContainer/GridContainer/MajorBox10"), NodePath("MarginContainer/GridContainer/MajorBox11"), NodePath("MarginContainer/GridContainer/MajorBox12"), NodePath("MarginContainer/GridContainer/MajorBox13"), NodePath("MarginContainer/GridContainer/MajorBox14"), NodePath("MarginContainer/GridContainer/MajorBox15"), NodePath("MarginContainer/GridContainer/MajorBox16"), NodePath("MarginContainer/GridContainer/MajorBox17"), NodePath("MarginContainer/GridContainer/MajorBox18"), NodePath("MarginContainer/GridContainer/MajorBox19"), NodePath("MarginContainer/GridContainer/MajorBox20"), NodePath("MarginContainer/GridContainer/MajorBox21"), NodePath("MarginContainer/GridContainer/MajorBox22")]
-
-[node name="MarginContainer" type="MarginContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="GridContainer" type="GridContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="MajorBox1" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="MajorBox2" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox3" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox4" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox5" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox6" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox7" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox8" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox9" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox10" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox11" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox12" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox13" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox14" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox15" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox16" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox17" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox18" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox19" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox20" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox21" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MajorBox22" parent="DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox/MarginContainer/GridContainer" instance=ExtResource("5_aab3x")]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="DeckDetails" type="PanelContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("current_deck_size", "minimum_deck_size", "maximum_deck_size")]
+[node name="DeckDetails" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("current_deck_size", "minimum_deck_size", "maximum_deck_size")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("8_3vd47")
-current_deck_size = NodePath("DeckStats/Current")
-minimum_deck_size = NodePath("DeckStats/Minimum")
-maximum_deck_size = NodePath("DeckStats/Maximum")
+current_deck_size = NodePath("HBoxContainer/DeckStats/Current")
+minimum_deck_size = NodePath("HBoxContainer/DeckStats/Minimum")
+maximum_deck_size = NodePath("HBoxContainer/DeckStats/Maximum")
 
-[node name="creatorPanelButton" type="Button" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails"]
-custom_minimum_size = Vector2(150, 100)
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails"]
 layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 4
-text = "DECK CREATION
-BUTTON"
-script = ExtResource("9_7gose")
 
-[node name="DeckStats" type="VBoxContainer" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails"]
+[node name="DeckStats" type="VBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 1
 
-[node name="Current" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/DeckStats"]
+[node name="Current" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
 layout_mode = 2
 text = "Current:"
 label_settings = ExtResource("10_32v8y")
 vertical_alignment = 1
 
-[node name="Minimum" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/DeckStats"]
+[node name="Minimum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
 layout_mode = 2
 text = "Minimum:"
 label_settings = ExtResource("11_iud42")
 vertical_alignment = 1
 
-[node name="Maximum" type="Label" parent="DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/DeckStats"]
+[node name="Maximum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
 layout_mode = 2
 text = "Maximum:"
 label_settings = ExtResource("12_n03km")
 vertical_alignment = 1
+
+[node name="creatorPanelButton" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 40
+text = "X"
+script = SubResource("GDScript_0r4gi")
+
+[connection signal="visibility_changed" from="." to="." method="open_creator_menus"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/creatorPanelButton" to="." method="hide"]

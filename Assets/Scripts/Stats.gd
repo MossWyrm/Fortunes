@@ -47,6 +47,7 @@ Wands:
 var wand_basic_value: int = 0
 var wand_basic_quant: int = 1 
 var wand_page_mod: int = 1
+var wand_knight_mod: int = 1
 var wand_queen_mod: int = 1
 var wand_king_mod: int = 2
 
@@ -61,12 +62,12 @@ Pentacles:
 
 var pent_basic_value: int = 0
 var pent_basic_quant: int = 1
+var pent_page_positive: float = 1.1
+var pent_page_negative: float = 0.9
 var pent_knight_uses: int = 1
 var pent_queen_uses: int = 1
 var pent_king_uses: int = 3
 var pent_king_value: int = 100
-var pent_page_positive: float = 1.1
-var pent_page_negative: float = 0.9
 
 """
 Swords:
@@ -77,9 +78,10 @@ Swords:
 
 var sword_basic_value: int = 0
 var sword_basic_quant: int = 1
-var sword_knight_mod: int = 1
+var sword_knight_mod: int = 10
+var sword_knight_super: bool = false
 var sword_queen_mod: int = 1
-var sword_king_mod
+var sword_king_mod: int = 3
 
 """
 Major:

@@ -21,3 +21,5 @@ func display(card: Card) -> void:
 	
 func set_slider_percent(percent: float) -> void:
 	slider.scale.x = percent
+
+	

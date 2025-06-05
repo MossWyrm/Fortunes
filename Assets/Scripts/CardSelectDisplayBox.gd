@@ -54,6 +54,7 @@ func add_card_to_deck() -> void:
 
 func buy_card() -> void:
 	Events.emit_unlock_card(stored_card)
+	Events.emit_update_currency_display(-stored_card.unlock_cost)
 	holding = false
 	hold_timer = 0
 
@@ -67,11 +68,11 @@ func _check_for_purchase(delta: float) -> void:
 			var percent = hold_timer / hold_delay
 			locked.set_slider_percent(percent if percent < 1.0 else 1.0)
 
-func _on_card_face_gui_input(event:InputEvent):
+func _on_card_face_gui_input(_event:InputEvent) -> void:
 	if Input.is_action_just_released("ui_click"):
 		Events.emit_card_tooltip(stored_card)
 
-func _on_button_gui_input(event:InputEvent):
+func _on_button_gui_input(_event:InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_click"):
 		holding = true
 	if Input.is_action_just_released("ui_click"):

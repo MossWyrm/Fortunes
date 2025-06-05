@@ -1,21 +1,19 @@
 extends Node
 
-@export var cup_display : Node
-@export var wand_display : Node
-@export var pentacles_display : Node
-@export var swords_display : Node
+@export var cup_display : BuffManager
+@export var wand_display : BuffManager
+@export var pentacles_display : BuffManager
+@export var swords_display : BuffManager
 
 
-func _ready():
+func _ready() -> void:
 	Events.update_suit_displays.connect(update_suit_displays)
 	update_suit_displays()
 
 
-func update_suit_displays():
-	cup_display._update_cup_display()
-	wand_display._update_wand_display()
-	pentacles_display._update_pentacles_display()
-	swords_display._update_swords_display()
-
-
-
+func update_suit_displays() -> void:
+	cup_display.update_display(GM.cv_manager.get_display(ID.Suits.CUPS))
+	wand_display.update_display(GM.cv_manager.get_display(ID.Suits.WANDS))
+	pentacles_display.update_display(GM.cv_manager.get_display(ID.Suits.PENTACLES))
+	swords_display.update_display(GM.cv_manager.get_display(ID.Suits.SWORDS))
+	

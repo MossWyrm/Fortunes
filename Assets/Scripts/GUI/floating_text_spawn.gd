@@ -1,23 +1,17 @@
 extends Control
+class_name FloatingTextSpawn
 
 @export var colPos: Color
 @export var colNeg: Color
 
-const SceneToLoad = preload("res://Assets/Scenes/FloatingText.tscn")
+const SceneToLoad: PackedScene = preload("res://Assets/Scenes/FloatingText.tscn")
 
-func _ready():
-	Events.floating_text.connect(_display_text)
+func _ready() -> void:
+	Events.floating_text.connect(display_text)
 
-func _display_text(value):
-	var scenetoload = SceneToLoad
-	var floating_text = scenetoload.instantiate()
-	var color
-	if value > 0:
-		color = colPos
-	else:
-		color = colNeg
-	floating_text._update_text(value, color)
+func display_text(value) -> void:
+	var floating_text: Node      = SceneToLoad.instantiate()
+	var color: Color = colPos if value > 0 else colNeg
+	floating_text.update_text(value, color)
 	floating_text.position.y = self.get_child_count()*(floating_text.size.y/2)
-	if(floating_text.get_parent()):
-		floating_text.get_parent().remove_child(floating_text)
 	add_child(floating_text)

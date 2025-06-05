@@ -1,28 +1,87 @@
-[gd_scene load_steps=3 format=3 uid="uid://ct6d58kf4xqwl"]
+[gd_scene load_steps=4 format=3 uid="uid://ct6d58kf4xqwl"]
 
-[ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="1_72dwu"]
+[ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="1_5t7si"]
 [ext_resource type="Script" uid="uid://dn2newch17lnj" path="res://Assets/Scripts/UpgradeButton.gd" id="2_3dngh"]
+[ext_resource type="Texture2D" uid="uid://dq4l2yo4ppvpc" path="res://Assets/Sprites/LargeTarot/FrontWand.png" id="3_5t7si"]
 
-[node name="UpgradeButton" type="Button"]
-custom_minimum_size = Vector2(0, 100)
+[node name="UpgradeButton" type="PanelContainer"]
+clip_children = 2
+offset_right = 212.0
+offset_bottom = 168.0
 size_flags_horizontal = 3
-icon = ExtResource("1_72dwu")
-icon_alignment = 2
-expand_icon = true
+theme = ExtResource("1_5t7si")
 script = ExtResource("2_3dngh")
 
-[node name="Cost" type="Label" parent="."]
+[node name="MASK" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MASK"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
 grow_horizontal = 2
-grow_vertical = 0
-text = "test text"
+grow_vertical = 2
+scale = Vector2(1e-05, 1)
+color = Color(0.86, 0.662773, 0.1204, 0.403922)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.18
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Title_Desc" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 3.0
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 32
+text = "test text
+moer test
+ more test
+ more test"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+color = Color(0.862745, 0.662745, 0.117647, 1)
+
+[node name="Cost" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+clip_children = 2
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 32
+text = "test text"
+
+[node name="CardFace" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 150)
+layout_mode = 2
+texture = ExtResource("3_5t7si")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardOverlay" type="TextureRect" parent="MarginContainer/HBoxContainer/CardFace"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,9 +89,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title_Desc" type="Label" parent="MarginContainer"]
-layout_mode = 2
-text = "test text"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
+[connection signal="gui_input" from="." to="." method="on_gui_interract"]

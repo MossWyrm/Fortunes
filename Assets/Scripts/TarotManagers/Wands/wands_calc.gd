@@ -1,117 +1,55 @@
 extends card_calc
-
-
-var wand_page_active = false
-var wand_page_positive = false
-var wand_knight_active = false
-var wand_knight_positive = false
-var queen_effect_active = false
-var queen_effect_positive = false
+class_name wands_calc
 
 @onready var tracker: wand_tracker = get_child(0)
 
-func draw(card, flipped = false):
-	if _page_check() && !wand_page_positive:
-		print("Page has caused 0 increase in moneys!")
+func draw(card: Card, flipped = false) -> int:
+	if tracker.page_skip():
 		return 0
-	elif (card.card_default_value >= 0 && card.card_default_value <= 10):
-		return _basic_wand(card.card_default_value, flipped)
-	elif card.card_default_value == 11:
-		return _page_wand(flipped)
-	elif card.card_default_value == 12:
-		return _knight_wand(flipped)
-	elif card.card_default_value == 13:
-		return _queen_wand(flipped)
-	elif card.card_default_value == 14:
-		return _king_wand(flipped)
-	else:
-		print("Error finding wand card number")
-
-func _value_modifier(value, flipped = false):
-	var updated_value: int = 0
-	var queen_mod = 0
-	if queen_effect_active:
-		if queen_effect_positive:
-			queen_mod = 1
-		else:
-			queen_mod = -1
-		queen_effect_active = false
-	else:
-		queen_mod = 0
-
-	if flipped:
-		updated_value = -value
-	else:
-		updated_value = value
-	return updated_value + queen_mod
-
-func _basic_wand(value, flipped = false):
-	var val = _value_modifier(value + Stats.wand_basic_value, flipped)
-	var multi = 1
-	if _page_check():
-		multi = 2
-	else:
-		multi = 1
-	tracker.update((val / 100.0)* multi, flipped)
-
-	return (val * tracker._wand_bonus())*multi
-
-func _page_wand(flipped = false):
-	var val = _value_modifier(11, flipped)
-	if flipped:
-		wand_page_active = true
-		wand_page_positive = false
-	return (val) * tracker._wand_bonus()
-
-func _page_check():
-	if wand_page_active:
-		wand_page_active = false
-		return true
-	else:
-		return false
-
-func _knight_wand(flipped = false):
-	var val = _value_modifier(12, flipped)
-	wand_knight_active = true
-	if flipped:
-		wand_knight_positive = false
-	else:
-		wand_knight_positive = true
-	return (val) * tracker._wand_bonus()
-
-func _queen_wand(flipped = false):
-	var val = _value_modifier(13, flipped)
-	queen_effect_active = true		
-
-	if flipped:
-		queen_effect_positive = false
-	else:
-		queen_effect_positive = true
+	var total: int = 0
+	for use in tracker.page_multiply():
+		total += super.draw(card,flipped)
+	return total
 	
-	return (val) * tracker._wand_bonus()
+			
+func _value_modifier(value, flipped = false) -> int:
+	var updated_value: int = 0
+	updated_value = -value if flipped else value
+	updated_value += tracker.value_mod
+	updated_value = roundi(float(updated_value)*tracker.bonus())
+	return updated_value
 
-func _king_wand(flipped = false):
-	var val = _value_modifier(14, flipped)
-	tracker._king_wand_mod(flipped)
-	return (val) * tracker._wand_bonus()
+func _basic(value, flipped = false) -> int:
+	var val : int = _value_modifier(value, flipped)
+	tracker.update(val / 100.0, flipped)
 
-func _shuffle(safely):
-	tracker._shuffle(safely)
+	return val
 
-func _wand_bonus():
-	if tracker == null:
-		tracker = get_child(0)
-	return tracker._wand_bonus()
+func _page(flipped = false) -> int:
+	var val : int = _value_modifier(11, flipped)
+	tracker.page_drawn(flipped)
+	return val
 
-func _wand_knight_check():
-	if wand_knight_active:
-		wand_knight_active = false
-		return true
-	else:
-		return false
+func _knight(flipped = false) -> int:
+	var val : int = _value_modifier(12, flipped)
+	tracker.knight_drawn(flipped)
+	return val
 
-func _wand_knight_multi():
-	if wand_knight_positive:
-		return tracker._wand_bonus()
-	else:
-		return 1/tracker._wand_bonus()
+func _queen(flipped = false) -> int:
+	var val : int = _value_modifier(13, flipped)
+	tracker.queen_drawn(flipped)
+	return val
+
+func _king(flipped = false) -> int:
+	var val : int = _value_modifier(14, flipped)
+	tracker.king_drawn(flipped)
+	return val
+		
+func get_display() -> Dictionary:
+	return tracker.get_display()
+
+func wand_knight_check() -> bool:
+	return tracker.knight_active
+
+func wand_knight_multi() -> float:
+	return tracker.knight_trigger() 

@@ -1,70 +1,88 @@
 extends suit_tracker
 class_name swords_tracker
 
-var sword_count: int
-var upright: bool
-var page_active: bool
-var page_positive: bool
-var sword_value: int = 1
-var king_active: bool
+var combo: int
+var combo_dir_flipped: bool
+var combo_value: int = 1
+
+var page_active: bool:
+	get:
+		return (page_pos_charges > 0 || page_neg_charges > 0)
+
+var page_pos_charges: int
+var page_neg_charges: int
+
+var king_active: bool:
+	get:
+		return king_protection > 0 || king_destruction > 0
 var king_protection: int = 0
 var king_destruction: int = 0
 
 func update(_value, flipped = false):
-	if upright == !flipped:
-		if king_active && king_destruction > 0:
+	if combo_dir_flipped == flipped:
+		if king_destruction > 0:
 			king_destruction -= 1
-		else:
-			sword_count +=1
+		else:	
+			combo += combo_value
 	else:
-		if king_active && king_protection > 0:
+		if king_protection > 0:
 			king_protection -= 1
 		else:
-			sword_count = 1
-			upright = !flipped
-	if king_destruction == 0 && king_protection == 0:
-		king_active = false
+			combo = 1
+			combo_dir_flipped = flipped
 
-func get_swords():
-	return sword_count
+func get_swords() -> int:
+	return combo
 
-func shuffle(safely):
+func page_drawn(flipped):
+	if flipped:
+		page_neg_charges += Stats.wand_page_mod
+	else:
+		page_pos_charges += Stats.wand_page_mod
+
+func queen_drawn(flipped):
+	combo_value -= Stats.sword_queen_mod if flipped else -Stats.sword_queen_mod
+	if combo_value < 0:
+		combo_value = 0
+
+func king_drawn(flipped):
+	king_active = true
+	if flipped:
+		king_destruction = Stats.sword_king_mod
+	else:
+		king_protection = Stats.sword_king_mod
+
+func shuffle(safely) -> void:
 	if safely == true:
 		return
 	else:
-		sword_count = 1
-		sword_value = 1
+		combo = 1
+		combo_value = 1
+		page_pos_charges = 0
+		page_neg_charges = 0
+		king_protection = 0
+		king_destruction = 0
 
-func page_triggered(flipped):
-	page_active = true
-	page_positive = !flipped
-
-func use_page():
-	page_active = false
-
+	
 func get_page_status() -> bool:
 	return page_active
 
-func page_type_upright():
-	return page_positive
-
-func queen_triggered(flipped):
-	sword_value -= 1 if flipped else -1
-
-func king_triggered(flipped):
-	king_active = true
-	if flipped:
-		king_destruction = sword_count
+func use_page(value: int) -> int:
+	if page_pos_charges > 0:
+		return value ^ combo
+	elif page_neg_charges > 0:
+		return (value ^ combo)*-1
 	else:
-		king_protection = sword_count
+		return value
+		
 
-func get_sword_display():
-	var sword_dict: Dictionary = {}
-	sword_dict["combo"] = sword_count
-	sword_dict["combo_value"] = sword_value
-	sword_dict["page"] = page_active
-	sword_dict["page_positive"] = page_positive
-	sword_dict["king"] = king_active
-	sword_dict["king_protection"] = king_protection
-	sword_dict["king_destruction"] = king_destruction
+func get_display():
+	var sword_dict: Dictionary = {
+		"combo" = combo,
+		"combo_value" = combo_value,
+		"page_positive_charges" = page_pos_charges,
+		"page_negative_charges" = page_neg_charges,
+		"king_protection" = king_protection,
+		"king_destruction" = king_destruction
+		 }
 	return sword_dict

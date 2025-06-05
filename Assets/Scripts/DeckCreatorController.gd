@@ -31,13 +31,12 @@ var max_deck_size:
 func _ready():
 	get_viewport().size_changed.connect(move_position)
 	move_position();
-	Events.creator_menu_toggle.connect(open_creator_menus)
 	Events.add_card_to_deck.connect(add_to_deck)
 	Events.remove_card_from_deck.connect(remove_from_deck)
 	Events.unlock_card.connect(card_unlocked)
 
 func move_position():
-	self.position.x = -parent.size.x
+	self.position.x = 0
 ## ---
 
 ## Deck Creation Management
@@ -47,9 +46,9 @@ func get_all_cards():
 func get_default_deck():
 	return deck_manager.get_default_deck()
 
-func open_creator_menus(is_displayed: bool):
-	if !is_displayed:
-		pass
+func open_creator_menus():
+	if !self.visible:
+		return
 	if all_cards.size() <= 0:
 		all_cards = get_all_cards()
 	refresh_deck()

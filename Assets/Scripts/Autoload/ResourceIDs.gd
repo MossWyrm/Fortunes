@@ -11,5 +11,10 @@ var SuitColor: Dictionary = {
 	SWORDS = Color(0.8862745, 0.7372549, 0.0627451),
 	MAJOR = Color(0.65882355, 0.3882353, 0.85490197),
 	GOOD = Color(0.90588236, 0.76862746, 0.35686275),
-	BAD = Color(0.8901961, 0.3019608, 0.3019608)
+	BAD = Color(0.7176471, 0.0, 0.011764706)
 }
+
+var PanelColor: Dictionary = {
+	GOOD = Color(0.0627451, 0.32156864, 0.0),
+	BAD = Color(0.5882353, 0.0, 0.007843138)
+							 }

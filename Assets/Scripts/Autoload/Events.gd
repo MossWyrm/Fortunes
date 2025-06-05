@@ -7,8 +7,6 @@ signal shuffle(safely: bool)
 signal update_suit_displays
 signal update_currency_display(value)
 signal card_value(value : float)
-signal upgrade_menu_toggle(menu_shown : bool)
-signal creator_menu_toggle(menu_shown : bool)
 signal card_draw_animation_finish
 signal clear_card
 signal add_card_to_deck(card: Card)
@@ -38,12 +36,6 @@ func emit_update_currency_display(value) -> void:
 
 func emit_card_value(value : float) -> void:
 	card_value.emit(value)
-
-func emit_upgrade_menu_toggle(menu_shown : bool) -> void:
-	upgrade_menu_toggle.emit(menu_shown)
-
-func emit_creator_menu_toggle(menu_shown : bool) -> void:
-	creator_menu_toggle.emit(menu_shown)
 
 func emit_card_draw_animation_finish() -> void:
 	card_draw_animation_finish.emit()

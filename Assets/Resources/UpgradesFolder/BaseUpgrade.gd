@@ -19,7 +19,7 @@ func _cost():
 
 func _trigger() -> void:
 	
-	if !Stats.get_property_list().has(stat_name):
+	if stat_name not in Stats:
 		print("Stat not found")
 		return
 		
