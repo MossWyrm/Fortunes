@@ -1,8 +1,9 @@
 extends Node
 class_name ResourceIDs
 
-enum Suits {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4}
+enum Suits {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4, NONE = 5}
 enum UpgradeType {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4, GENERAL = 5}
+enum BuffType {GENERAL = 0, PAGE = 1, KNIGHT = 2, QUEEN = 3, KING = 4}
 	
 var SuitColor: Dictionary = {
 	CUPS = Color(0.06666667, 0.4117647, 0.74509805),

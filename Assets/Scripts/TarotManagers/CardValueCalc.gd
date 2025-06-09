@@ -27,7 +27,7 @@ func _calculate_card_value(card: Card, flipped = false) -> void:
 		ID.Suits.SWORDS:
 			card_val = swords_node.draw(card, flipped)
 		ID.Suits.MAJOR:
-			card_val = majors_node.draw(card, flipped)
+			card_val = await majors_node.draw(card, flipped)
 	
 	card_val = roundi(float(card_val) * wand_knight_value())
 		

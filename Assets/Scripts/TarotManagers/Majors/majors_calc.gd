@@ -1,119 +1,130 @@
 extends card_calc
 class_name majors_calc
 
-func draw(card: Card, flipped = false) -> int:
+func draw(card: Card, _flipped = false) -> int:
 	match card.card_id_num % 100:
 		1:
-			return _fool(flipped)
+			return _fool(_flipped)
 		2:
-			return _magician(flipped)
+			return await _magician(_flipped)
 		3:
-			return _high_priestess(flipped)
+			return _high_priestess(_flipped)
 		4:
-			return _empress(flipped)
+			return _empress(_flipped)
 		5:
-			return _emperor(flipped)
+			return _emperor(_flipped)
 		6:
-			return _heirophant(flipped)
+			return _heirophant(_flipped)
 		7:
-			return _lovers(flipped)
+			return _lovers(_flipped)
 		8:
-			return _chariot(flipped)
+			return _chariot(_flipped)
 		9:
-			return _strength(flipped)
+			return _strength(_flipped)
 		10:
-			return _hermit(flipped)
+			return _hermit(_flipped)
 		11:
-			return _wheel_of_fortune(flipped)
+			return _wheel_of_fortune(_flipped)
 		12:
-			return _justice(flipped)
+			return _justice(_flipped)
 		13:
-			return _hanged_man(flipped)
+			return _hanged_man(_flipped)
 		14:
-			return _death(flipped)
+			return _death(_flipped)
 		15:
-			return _temperance(flipped)
+			return _temperance(_flipped)
 		16:
-			return _devil(flipped)
+			return _devil(_flipped)
 		17:
-			return _tower(flipped)
+			return _tower(_flipped)
 		18:
-			return _star(flipped)
+			return _star(_flipped)
 		19:
-			return _moon(flipped)
+			return _moon(_flipped)
 		20:
-			return _sun(flipped)
+			return _sun(_flipped)
 		21:
-			return _judgement(flipped)
+			return _judgement(_flipped)
 		22:
-			return _world(flipped)
+			return _world(_flipped)
 		_:
 			print("failed to find card")
 			return 0
 	
 func _fool(flipped: bool) -> int:
 	Events.emit_shuffle(!flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _magician(flipped: bool) -> int:
+	Events.emit_choose_suit()
+	print("choose suit please")
+	var suit = await Events.chosen_suit
+	Events.emit_card_animation_major(flipped)
+	print("suit chosen as %s"%[suit])
+	for x in Stats.major_magician:
+		if flipped:
+			GM.deck_manager.remove_card(suit)
+		else:
+			GM.deck_manager.add_card_by_suit(suit)
 	return 0
 	
-func _high_priestess(flipped: bool) -> int:
+func _high_priestess(_flipped: bool) -> int:
 	return 0
 	
-func _empress(flipped: bool) -> int:
+func _empress(_flipped: bool) -> int:
 	return 0
 	
-func _emperor(flipped: bool) -> int:
+func _emperor(_flipped: bool) -> int:
 	return 0
 	
-func _heirophant(flipped: bool) -> int:
+func _heirophant(_flipped: bool) -> int:
 	return 0
 	
-func _lovers(flipped: bool) -> int:
+func _lovers(_flipped: bool) -> int:
 	return 0
 	
-func _chariot(flipped: bool) -> int:
+func _chariot(_flipped: bool) -> int:
 	return 0
 	
-func _strength(flipped: bool) -> int:
+func _strength(_flipped: bool) -> int:
 	return 0
 	
-func _hermit(flipped: bool) -> int:
+func _hermit(_flipped: bool) -> int:
 	return 0
 	
-func _wheel_of_fortune(flipped: bool) -> int:
+func _wheel_of_fortune(_flipped: bool) -> int:
 	return 0
 	
-func _justice(flipped: bool) -> int:
+func _justice(_flipped: bool) -> int:
 	return 0
 	
-func _hanged_man(flipped: bool) -> int:
+func _hanged_man(_flipped: bool) -> int:
 	return 0
 	
-func _death(flipped: bool) -> int:
+func _death(_flipped: bool) -> int:
 	return 0
 	
-func _temperance(flipped: bool) -> int:
+func _temperance(_flipped: bool) -> int:
 	return 0
 	
-func _devil(flipped: bool) -> int:
+func _devil(_flipped: bool) -> int:
 	return 0
 	
-func _tower(flipped: bool) -> int:
+func _tower(_flipped: bool) -> int:
 	return 0
 	
-func _star(flipped: bool) -> int:
+func _star(_flipped: bool) -> int:
 	return 0
 	
-func _moon(flipped: bool) -> int:
+func _moon(_flipped: bool) -> int:
 	return 0
 	
-func _sun(flipped: bool) -> int:
+func _sun(_flipped: bool) -> int:
 	return 0
 	
-func _judgement(flipped: bool) -> int:
+func _judgement(_flipped: bool) -> int:
 	return 0
 	
-func _world(flipped: bool) -> int:
+func _world(_flipped: bool) -> int:
 	return 0

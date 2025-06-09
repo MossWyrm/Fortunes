@@ -5,4 +5,4 @@ func _ready():
 	pressed.connect(give_money)
 
 func give_money():
-	GM.cv_manager._update_currency(1000)
+	Events.emit_update_currency_display(1000)

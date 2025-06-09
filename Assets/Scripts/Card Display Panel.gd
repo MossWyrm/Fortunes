@@ -7,7 +7,7 @@ extends Node
 @onready var card_display_overlay: TextureRect = $CardFront/FaceImage
 
 var animator : AnimationPlayer
-var draw_anim_finished = false
+var draw_anim_finished: bool = false
 var current_card: Card
 var holding: bool
 var hold_timer: float
@@ -24,13 +24,17 @@ func _process(delta: float) -> void:
 func _ready():
 	Events.selected_card.connect(update_card_display)
 	Events.clear_card.connect(clear_card)
+	Events.card_animation_major.connect(clear_major)
 	card_display_title.text = "~"
 	animator = $CardFlipAnimations
 
 func update_card_display(card: Card, flipped: bool):
-	card_display_title.text = card._get_title()
+	card_display_title.text = card.get_title()
 	set_card_image(card)
-	play_flip_animation(flipped)
+	if card.card_id_num >= 500:
+		play_major_anim()
+	else:
+		play_flip_animation(flipped)
 	current_card = card
 
 func play_flip_animation(flipped) -> void:
@@ -44,11 +48,27 @@ func play_flip_animation(flipped) -> void:
 		card_display_title.rotation = 0
 		animator.play("CardDrawGood")
 		card_display_title.label_settings.font_color = Color(0.0,0.0,0.0)
+
+func play_major_anim() -> void:
+	card_display_background.rotation = 0
+	card_display_title.rotation = 0
+	animator.play("MajorDraw")
+	card_display_title.label_settings.font_color = ID.SuitColor["GOOD"]
 	
 func finish_draw_anim():
 	draw_anim_finished = true
+	
+func clear_major(flipped: bool) -> void:
+	draw_anim_finished = false
+	if flipped:
+		animator.play("MajorBad")
+	else:
+		animator.play("MajorGood")
+		
 
-func clear_card():
+func clear_card() -> void:
+	if current_card.card_id_num >= 500:
+		return
 	if draw_anim_finished:
 		animator.play("ReturnCard")
 		draw_anim_finished = false
@@ -66,11 +86,11 @@ func set_card_image(card: Card) -> void:
 	card_display_background.texture = background if not null else null
 	card_display_overlay.texture = overlay if not null else null
 	
-func press_and_hold(event: InputEvent):
+func press_and_hold(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_click"):
 		holding = true
 	if Input.is_action_just_released("ui_click"):
-		if hold_timer < hold_duration:
+		if hold_timer < hold_duration && !Stats.pause_drawing:
 			clear_card()
 		holding = false
 		hold_timer = 0

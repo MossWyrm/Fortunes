@@ -3,8 +3,9 @@ extends Button
 var input_made = false
 
 func _ready():
-	self.pressed.connect(self._button_pressed)
+	pressed.connect(_button_pressed)
 	Events.card_draw_animation_finish.connect(_release_button_lock)
+	Events.pause_drawing.connect(disable_button)
 
 func _button_pressed():
 	if !input_made:
@@ -16,3 +17,5 @@ func _button_pressed():
 func _release_button_lock():
 	input_made = false
 
+func disable_button(pause: bool) -> void:
+	disabled = pause

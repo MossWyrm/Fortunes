@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Deck" load_steps=3 format=3 uid="uid://cxg4amrknh13k"]
-
-[ext_resource type="Script" uid="uid://dydpjnkvaelmh" path="res://Assets/Scripts/TarotManagers/Card.gd" id="1_fadvi"]
-[ext_resource type="Script" uid="uid://b6olx11yxe2ms" path="res://Assets/Scripts/deck_res.gd" id="2_438f0"]
-
-[resource]
-script = ExtResource("2_438f0")
-cards = Array[ExtResource("1_fadvi")]([])

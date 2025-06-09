@@ -16,13 +16,12 @@ func _value_modifier(value, flipped = false) -> int:
 	var updated_value: int = 0
 	updated_value = -value if flipped else value
 	updated_value += tracker.value_mod
+	tracker.update(updated_value / 100.0, flipped)
 	updated_value = roundi(float(updated_value)*tracker.bonus())
 	return updated_value
 
 func _basic(value, flipped = false) -> int:
 	var val : int = _value_modifier(value, flipped)
-	tracker.update(val / 100.0, flipped)
-
 	return val
 
 func _page(flipped = false) -> int:

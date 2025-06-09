@@ -21,7 +21,7 @@ func update(value, _flipped = false) -> void:
 func add_cup() -> void:
 	if _cups.size() >= Stats.cup_max_quant:
 		pass
-	_cups[_cups.size() + 1] = 0
+	_cups[_cups.size()] = 0
 
 func remove_cup() -> void:
 	if(_cups.size() <= 1):

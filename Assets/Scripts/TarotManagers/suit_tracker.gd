@@ -7,6 +7,6 @@ func _ready() -> void:
 func update(_value, _flipped = false):
 	return
 	
-func shuffle(safely: bool) -> void:
+func shuffle(_safely: bool) -> void:
 	print("shuffle not implemented")
 	pass

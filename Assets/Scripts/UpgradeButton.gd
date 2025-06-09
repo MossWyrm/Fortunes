@@ -44,7 +44,7 @@ func _update_button():
 	title_desc.text = text_to_display % [upgrade.title, upgrade.description]
 
 func _purchase():
-	cvc._remove_currency(upgrade._cost())	
+	Events.emit_update_currency_display(-upgrade._cost())
 	upgrade.times_purchased +=1
 	upgrade._trigger()
 	_update_button()
@@ -53,7 +53,7 @@ func set_slider_percent(percent: float) -> void:
 	slider.scale.x = percent
 
 
-func on_gui_interract(event:InputEvent) -> void:
+func on_gui_interract(_event:InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_click"):
 		holding = true
 	if Input.is_action_just_released("ui_click"):

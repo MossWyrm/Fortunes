@@ -7,6 +7,7 @@ signal shuffle(safely: bool)
 signal update_suit_displays
 signal update_currency_display(value)
 signal card_value(value : float)
+signal card_animation_major(flipped: bool)
 signal card_draw_animation_finish
 signal clear_card
 signal add_card_to_deck(card: Card)
@@ -14,6 +15,10 @@ signal remove_card_from_deck(card: Card)
 signal unlock_card(card: Card)
 signal tooltip(base_tooltip: BaseTooltip)
 signal card_tooltip(card: Card)
+signal buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType)
+signal choose_suit(include_majors: bool)
+signal chosen_suit(suit: ID.Suits)
+signal pause_drawing(pause:bool)
 
 
 func emit_draw_card() -> void:
@@ -57,3 +62,18 @@ func emit_tooltip(base_tooltip: BaseTooltip) -> void:
 	
 func emit_card_tooltip(card: Card) -> void:
 	card_tooltip.emit(card)
+	
+func emit_buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType) -> void:
+	buff_tooltip.emit(suit,buff_type)
+	
+func emit_choose_suit(include_majors: bool = false) -> void:
+	choose_suit.emit(include_majors)
+	
+func emit_chosen_suit(suit: ID.Suits) -> void:
+	chosen_suit.emit(suit)
+	
+func emit_pause_drawing(pause: bool) -> void:
+	pause_drawing.emit(pause)
+	
+func emit_card_animation_major(flipped: bool) -> void:
+	card_animation_major.emit(flipped)

@@ -340,6 +340,7 @@ card_suit = 4
 card_title = "The Magician"
 card_id_num = 502
 unlocked = false
+unlock_cost = 3000
 
 [node name="The High Priestess" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4

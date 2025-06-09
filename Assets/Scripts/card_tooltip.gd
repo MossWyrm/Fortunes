@@ -10,6 +10,7 @@ class_name CardTooltip
 
 func _ready() -> void:
 	Events.card_tooltip.connect(display)
+	Events.buff_tooltip.connect(display_for_buff)
 	
 func display(card:Card) -> void:
 	var texture = ResourceAutoload.get_card_texture(card)
@@ -26,3 +27,7 @@ func display(card:Card) -> void:
 	card_title.add_theme_color_override("default_color",ID.SuitColor[str(ResourceIDs.Suits.keys()[card.card_suit])])
 	card_desc.text = Descriptions.get_description(card,true)
 	show()
+	
+func display_for_buff(suit: ID.Suits, type: ID.BuffType) -> void:
+	var card_id_num: int = ((suit+1)*100)+10+type
+	display(GM.deck_manager.get_card(card_id_num))

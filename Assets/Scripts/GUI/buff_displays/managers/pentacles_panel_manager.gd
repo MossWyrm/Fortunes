@@ -1,15 +1,14 @@
 extends BuffManager
 
-@export var main: Node
-
-var timepassed: int = 0
-var cv_man: Node    = null
-var basic_box: Node
-var queen_box: Node
-
 func _ready():
-	basic_box = self.get_child(0)
-	queen_box = self.get_child(1)
+	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
+	displays["basic"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
+	displays["uses"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
+	displays["uses"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
+	displays["queen"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.QUEEN))
+	displays["queen"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.QUEEN)
+	displays["blocked"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.KING))
+	displays["blocked"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.KING)
 
 func update_display(dictionary: Dictionary):
 	"""
@@ -20,22 +19,23 @@ func update_display(dictionary: Dictionary):
 	"queen_inverted" = queen_inverted
 	"blocked" = blocked
 	"""
-	var pent_dict : Dictionary = dictionary
-	var pentacles_value = pent_dict["value"]
-	var pentacles_uses = pent_dict["uses"]
-	var pentacles_queen = pent_dict["queen"]
 
-	if pentacles_value != int(basic_box.pentacles_value_display.text) || pentacles_uses != int(basic_box.pentacles_uses_display.text):
-		basic_box.animator.play("icon_updating")
-
-	basic_box.pentacles_value_display.text = str(pentacles_value)
-	basic_box.pentacles_uses_display.text = str(pentacles_uses)
-
-	if pentacles_queen != 0:
-		queen_box.show()
-		if pentacles_queen != int(queen_box.pentacles_queen_display.text):
-			queen_box.animator.play("icon_updating")
-		queen_box.pentacles_queen_display.text = str(pentacles_queen)
-	else:
-		queen_box.hide()
+	set_display(displays["basic"],
+				dictionary["value"] > 0,
+				dictionary["value"]
+			)
+	set_display(displays["uses"],
+				dictionary["uses"] > 0,
+				dictionary["uses"],
+	)
+	set_display(displays["queen"],
+				dictionary["queen_uses"] > 0,
+				dictionary["queen_uses"],
+				get_panel_color(!dictionary["queen_inverted"])
+	)
+	set_display(displays["blocked"],
+				dictionary["blocked"],
+				0,
+				get_panel_color(false)
+	)
 

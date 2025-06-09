@@ -9,5 +9,5 @@ class_name Card
 @export var unlocked: bool = true
 @export var unlock_cost: int = 0
 
-func _get_title():
+func get_title() -> String:
     return card_title

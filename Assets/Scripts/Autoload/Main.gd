@@ -1,7 +1,7 @@
 extends Node
 
 
-var deck_manager: Node:
+var deck_manager: Deck_Manager:
 	set(value):
 		deck_manager = value
 	get:
@@ -9,7 +9,7 @@ var deck_manager: Node:
 			await get_tree().process_frame
 		return deck_manager
 
-var cv_manager: Node:
+var cv_manager: CVC:
 	set(value):
 		cv_manager = value
 	get:

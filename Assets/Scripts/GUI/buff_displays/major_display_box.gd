@@ -1,7 +1,7 @@
 extends TextureRect
 
-@onready var charges: Label = $Label
-@onready var color_rect: ColorRect = $MASK/ColorRect
+@onready var charges: Label = $Charges
+@onready var color_rect: ColorRect = $Mask/ColorRect
 
 var remaining_charges: int
 

@@ -1,7 +1,7 @@
 extends suit_tracker
 class_name wand_tracker
 
-var current_value: float 	= 0
+var current_value: float 	= 1
 var page_active: bool:
 	get:
 		return page_charges > 0
@@ -18,6 +18,7 @@ var value_mod: int        	= 0
 
 
 func update(value, _flipped = false) -> void:
+	print(value)
 	current_value += value
 	if current_value < 0.01:
 		current_value = 0.01

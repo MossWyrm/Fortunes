@@ -55,14 +55,16 @@ func use_queen_pentacles(flipped) -> bool:
 		
 func use_pentacles(value) -> int:
 	var output_value: int = value
-	if charges >=1:
+	if 0 - value > current_pentacles:
+		output_value = value + current_pentacles
+	else:
+		output_value = 0
+	if charges >= 1:
 		charges -=1
-		if 0 - value > current_pentacles:
-			output_value = value + current_pentacles
-		else:
-			output_value = 0
-		if charges <= 0:
-			_reset(false)
+		return output_value
+	current_pentacles += value
+	if current_pentacles <= 0:
+		current_pentacles = 0
 	return output_value
 
 func _reset(queenincluded) -> void:
