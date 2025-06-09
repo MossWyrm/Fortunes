@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="UpgradeOptions" load_steps=17 format=3 uid="uid://5tmj6q5dgdd8"]
+
+[ext_resource type="Script" uid="uid://xxn6yq53ix7x" path="res://Assets/Resources/UpgradesFolder/BaseUpgrade.gd" id="1_vraxu"]
+[ext_resource type="Resource" uid="uid://do5iv0l1k5eoa" path="res://Assets/Resources/UpgradesFolder/Upgrades/Cups/CupsBasicQuant.tres" id="2_bph0j"]
+[ext_resource type="Resource" uid="uid://ctmik5akqqqy4" path="res://Assets/Resources/UpgradesFolder/Upgrades/Cups/CupsBasicValue.tres" id="3_t18bv"]
+[ext_resource type="Resource" uid="uid://tli7smgalxpy" path="res://Assets/Resources/UpgradesFolder/Upgrades/Cups/CupsMaxSize.tres" id="4_qaopp"]
+[ext_resource type="Resource" uid="uid://dt3bdeqpbnoh2" path="res://Assets/Resources/UpgradesFolder/Upgrades/Cups/CupsMaxQuant.tres" id="5_bdlck"]
+[ext_resource type="Resource" uid="uid://cw454p14ei3x3" path="res://Assets/Resources/UpgradesFolder/Upgrades/General/GenInversionChance.tres" id="6_kfr8j"]
+[ext_resource type="Resource" uid="uid://crooe88hr3uok" path="res://Assets/Resources/UpgradesFolder/Upgrades/General/GenMaxDeckSize.tres" id="7_awv7g"]
+[ext_resource type="Resource" uid="uid://bd7wrtgc7e7s5" path="res://Assets/Resources/UpgradesFolder/Upgrades/General/GenMinDeckSize.tres" id="8_fgmks"]
+[ext_resource type="Resource" uid="uid://dtcw53u8eoyiu" path="res://Assets/Resources/UpgradesFolder/Upgrades/Major/MajorQuant.tres" id="9_88mnb"]
+[ext_resource type="Resource" uid="uid://cyvdbl2s3r4gs" path="res://Assets/Resources/UpgradesFolder/Upgrades/Pentacles/PentBasicQuant.tres" id="10_hp0m5"]
+[ext_resource type="Resource" uid="uid://b0t0ot4cwawt2" path="res://Assets/Resources/UpgradesFolder/Upgrades/Pentacles/PentBasicValue.tres" id="11_1wfsv"]
+[ext_resource type="Script" uid="uid://do3ine2iob1n4" path="res://Assets/Resources/UpgradesFolder/upgrade_options.gd" id="12_4u7h3"]
+[ext_resource type="Resource" uid="uid://dgr7y40wdnh04" path="res://Assets/Resources/UpgradesFolder/Upgrades/Swords/SwordBasicQuant.tres" id="13_bob78"]
+[ext_resource type="Resource" uid="uid://bbytid4u18ady" path="res://Assets/Resources/UpgradesFolder/Upgrades/Swords/SwordBasicValue.tres" id="14_62nmo"]
+[ext_resource type="Resource" uid="uid://sahrlj63qixd" path="res://Assets/Resources/UpgradesFolder/Upgrades/Wands/WandBasicQuant.tres" id="15_qlkus"]
+[ext_resource type="Resource" uid="uid://dk7gwxsah787f" path="res://Assets/Resources/UpgradesFolder/Upgrades/Wands/WandBasicValue.tres" id="16_xlpv2"]
+
+[resource]
+script = ExtResource("12_4u7h3")
+cup_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("2_bph0j"), ExtResource("3_t18bv"), ExtResource("4_qaopp"), ExtResource("5_bdlck")])
+wand_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("15_qlkus"), ExtResource("16_xlpv2")])
+pent_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("10_hp0m5"), ExtResource("11_1wfsv")])
+sword_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("13_bob78"), ExtResource("14_62nmo")])
+major_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("9_88mnb")])
+general_upgrades = Array[ExtResource("1_vraxu")]([ExtResource("6_kfr8j"), ExtResource("7_awv7g"), ExtResource("8_fgmks")])
+metadata/_custom_type_script = "uid://do3ine2iob1n4"

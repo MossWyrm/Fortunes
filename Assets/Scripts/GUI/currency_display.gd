@@ -1,9 +1,7 @@
 extends Label
-
-func _ready():
-	Events.update_currency_display.connect(_update_text)
+class_name CurrencyDisplay
 	
-func _update_text(value):
+func update_text(value):
 	if value >= 100 || value == 0:
 		self.text = str("%d" % value)
 	elif value < 100 && value > 10:

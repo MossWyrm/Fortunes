@@ -1,15 +1,22 @@
-[gd_scene load_steps=12 format=3 uid="uid://f0qhuujorct"]
+[gd_scene load_steps=19 format=3 uid="uid://f0qhuujorct"]
 
 [ext_resource type="Script" uid="uid://croc4rc3eq1e5" path="res://Assets/Scripts/CardSelectDisplayBox.gd" id="1_gos2n"]
 [ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="2_b50pj"]
+[ext_resource type="Script" uid="uid://d18exp8d3lrsx" path="res://Assets/Scripts/CardSelectDisplayBoxUnlocked.gd" id="2_evyqq"]
+[ext_resource type="Texture2D" uid="uid://cee6axeacw7kl" path="res://Assets/Sprites/CardFront.png" id="5_qu4i5"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="5_totdf"]
+[ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="6_54vya"]
 [ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="6_a8mpr"]
+[ext_resource type="Script" uid="uid://d0kjyoyuch7bj" path="res://Assets/Scripts/CardSelectDisplayBoxLocked.gd" id="6_xxlw6"]
+[ext_resource type="Texture2D" uid="uid://cm6644lmemhkd" path="res://Assets/Sprites/LargeTarot/Cups.png" id="8_xxlw6"]
 
 [sub_resource type="Gradient" id="Gradient_gj3a4"]
 colors = PackedColorArray(0, 0, 0, 0.313726, 0, 0, 0, 0.313726)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_yiw61"]
 gradient = SubResource("Gradient_gj3a4")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xxlw6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsk3w"]
 atlas = ExtResource("5_totdf")
@@ -31,8 +38,12 @@ region = Rect2(128, 64, 64, 64)
 atlas = ExtResource("5_totdf")
 region = Rect2(256, 64, 64, 64)
 
-[node name="DeckCreatorDisplay2" type="Control" node_paths=PackedStringArray("card_image", "card_title", "card_cost", "current_count_display", "add_card_button", "remove_card_button", "buy_card_button", "deck_mod_buttons")]
-custom_minimum_size = Vector2(300, 200)
+[sub_resource type="AtlasTexture" id="AtlasTexture_bid3p"]
+atlas = ExtResource("8_xxlw6")
+region = Rect2(0, 0, 400, 699)
+
+[node name="DeckCreatorDisplay2" type="Control" node_paths=PackedStringArray("locked", "unlocked")]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,16 +56,11 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 1
 script = ExtResource("1_gos2n")
-card_image = NodePath("ResizerMargins/PanelObjects/CardImage")
-card_title = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/CardName")
-card_cost = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/OwnedVal")
-current_count_display = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/CurrentCardCount")
-add_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/AddToDeck")
-remove_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons/RemoveFromDeck")
-buy_card_button = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/Purchase Button")
-deck_mod_buttons = NodePath("ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons")
+locked = NodePath("ResizerMargins/LockedOverlay")
+unlocked = NodePath("ResizerMargins/UnlockedOverlay")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,48 +84,74 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="PanelObjects" type="HBoxContainer" parent="ResizerMargins"]
+[node name="UnlockedOverlay" type="HBoxContainer" parent="ResizerMargins"]
+visible = false
 layout_mode = 2
 alignment = 1
+script = ExtResource("2_evyqq")
 
-[node name="CardImage" type="TextureRect" parent="ResizerMargins/PanelObjects"]
+[node name="Panel" type="Panel" parent="ResizerMargins/UnlockedOverlay"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xxlw6")
+
+[node name="CardFace" type="TextureRect" parent="ResizerMargins/UnlockedOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(71, 95)
 mouse_filter = 0
 texture = ExtResource("2_b50pj")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="ButtonsAndText" type="VBoxContainer" parent="ResizerMargins/PanelObjects"]
+[node name="CardOverlay" type="TextureRect" parent="ResizerMargins/UnlockedOverlay/Panel/CardFace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ButtonsAndText" type="VBoxContainer" parent="ResizerMargins/UnlockedOverlay"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="CardName" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+[node name="CardName" type="Label" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "CARDNAME"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="Purchase Button" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+[node name="Purchase Button" type="TextureButton" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 texture_normal = SubResource("AtlasTexture_lsk3w")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="OwnedVal" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+[node name="OwnedVal" type="Label" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "OWNED:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DeckModButtons" type="HBoxContainer" parent="ResizerMargins/PanelObjects/ButtonsAndText"]
+[node name="DeckModButtons" type="HBoxContainer" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RemoveFromDeck" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+[node name="RemoveFromDeck" type="TextureButton" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText/DeckModButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture_normal = SubResource("AtlasTexture_oxebp")
@@ -127,7 +159,7 @@ texture_disabled = SubResource("AtlasTexture_3dol1")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="CurrentCardCount" type="Label" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+[node name="CurrentCardCount" type="Label" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText/DeckModButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -138,10 +170,119 @@ text = "1
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AddToDeck" type="TextureButton" parent="ResizerMargins/PanelObjects/ButtonsAndText/DeckModButtons"]
+[node name="AddToDeck" type="TextureButton" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText/DeckModButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture_normal = SubResource("AtlasTexture_o2y4p")
 texture_disabled = SubResource("AtlasTexture_xyb3a")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="LockedOverlay" type="Control" parent="ResizerMargins"]
+layout_mode = 2
+script = ExtResource("6_xxlw6")
+
+[node name="CardFace" type="TextureRect" parent="ResizerMargins/LockedOverlay"]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_qu4i5")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="CardOverlay" type="TextureRect" parent="ResizerMargins/LockedOverlay/CardFace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_bid3p")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="ResizerMargins/LockedOverlay/CardFace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="UnlockButton" type="Button" parent="ResizerMargins/LockedOverlay"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -69.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("6_54vya")
+shortcut_in_tooltip = false
+
+[node name="MarginContainer" type="MarginContainer" parent="ResizerMargins/LockedOverlay/UnlockButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ResizerMargins/LockedOverlay/UnlockButton/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CardTitle" type="Label" parent="ResizerMargins/LockedOverlay/UnlockButton/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_54vya")
+text = "This is the card title again and again"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="CardCost" type="Label" parent="ResizerMargins/LockedOverlay/UnlockButton/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_54vya")
+theme_override_colors/font_color = Color(0.862745, 0.662745, 0.0862745, 1)
+text = "This is the card cost"
+horizontal_alignment = 1
+
+[node name="MASK" type="Panel" parent="ResizerMargins/LockedOverlay/UnlockButton"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Bar" type="ColorRect" parent="ResizerMargins/LockedOverlay/UnlockButton/MASK"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(1e-05, 1)
+mouse_filter = 1
+color = Color(0.86, 0.662773, 0.1204, 0.607843)
+
+[connection signal="gui_input" from="ResizerMargins/UnlockedOverlay/Panel/CardFace" to="." method="_on_card_face_gui_input"]
+[connection signal="mouse_entered" from="ResizerMargins/UnlockedOverlay/Panel/CardFace" to="ResizerMargins/UnlockedOverlay" method="hover_start"]
+[connection signal="mouse_exited" from="ResizerMargins/UnlockedOverlay/Panel/CardFace" to="ResizerMargins/UnlockedOverlay" method="hover_end"]
+[connection signal="gui_input" from="ResizerMargins/LockedOverlay/UnlockButton" to="." method="_on_button_gui_input"]

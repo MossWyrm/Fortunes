@@ -2,119 +2,112 @@ extends Node
 class_name Deck_Manager
 
 ## the live deck being modified
-var active_deck = []
+var active_deck: Array[Card] = []
 
 ## the current deck "return to default"
-var selected_deck_list = []
+var selected_deck_list: Array[Card] = []
 
-var children = []
+var all_cards: Dictionary[int,Card] = {}
 
-func _ready():
+func _ready() -> void:
+	GM.deck_manager = self
 	Events.draw_card.connect(_draw_card)
 	Events.unlock_card.connect(unlock_card)
+	Events.shuffle.connect(shuffle)
 	for child in self.get_children():
-		children.append(child)
-	if selected_deck_list.size() <=0:
-		_create_deck()
-	_shuffle()
+		all_cards[child.card_id_num] = child
+	if selected_deck_list.is_empty():
+		_build_deck()
+	Events.emit_shuffle()
 
-func _draw_card():
-	var sizecheck = active_deck.size()
-	if sizecheck <= 0:
+func _draw_card() -> void:
+	if active_deck.is_empty():
 		print("--- Shuffling ---")
-		_shuffle()
-	var random = randi() % active_deck.size()
-	var output = active_deck[random]
-	active_deck.remove_at(random)
-	var is_flipped = flip_check()
-	Events.emit_selected_card(output, is_flipped)
+		Events.emit_shuffle()
+	var random: int = randi() % active_deck.size()
+	Events.emit_selected_card(active_deck.pop_at(random), flip_check())
 
-func _create_deck():
-	var output_deck = []
-	if selected_deck_list.size() <= 0:
+func _build_deck() -> Array[Card]:
+	var output_deck: Array[Card] = []
+	if selected_deck_list.is_empty():
 		output_deck = get_default_deck()
 		selected_deck_list.assign(output_deck)
 	else:
 		output_deck.assign(selected_deck_list)
 	return output_deck
 
-func get_default_deck():
-	var output_deck = []
-	for i in children:
-		if i.card_id_num >= 100 && i.card_id_num < 500:
-			output_deck.append(i)
+func get_default_deck() -> Array[Card]:
+	var output_deck: Array[Card] = []
+	for key in all_cards.keys():
+		if key >= 100 && key < 500:
+			output_deck.append(all_cards[key])
 	return output_deck
 
-func _shuffle():
+func shuffle(_val = false) -> void:
 	active_deck.clear()
-	active_deck = _create_deck()
-	Events.emit_shuffle()
+	active_deck = _build_deck()
 
-func _select_deck(deck_list):
-	if deck_list.size() > 0:
+func _select_deck(deck_list) -> void:
+	if !deck_list.is_empty():
 		selected_deck_list.assign(deck_list)
 	else:
 		print("Deck has no cards in dumdum!")
 	# Shuffle may not be required when changing cards
-	_shuffle()
+	Events.emit_shuffle()
 
-
-func _add_card(card_id):
-	var card: Node
-	for N in self.get_children():
-		if N.card_id_num == card_id:
-			card = N
-			break
-	if card == null:
-		print("Card not found to add to deck: %s", card_id)
-		return
-	active_deck.append(card)
-
-func unlock_card(card: Card):
-	children[children.find(card)].unlocked = true
-
-
-func _remove_card(card_suit = 0, card_id = 0):
-	if card_suit == 0 && card_id == 0:
-		var random = randi() % active_deck.size()
-		active_deck.remove_at(random)
-	elif card_suit > 0 && card_id == 0:
-		var selection = []
-		var suit_id = card_suit*100
-		for _i in active_deck:
-			if _i.card_id_num >= suit_id && _i.card_id_num < (suit_id +100):
-				selection.append(_i)
-		if selection.size() <= 0:
-			return
-		var random = randi() % selection.size()
-		var index = -1
-		for _i in active_deck:
-			if _i.card_id_num == selection[random].card_id_num:
-				index = active_deck.find(_i)
-				break
-		if index >= 0:
-			active_deck.remove_at(index)
-	elif card_suit == 0 && card_id > 0:
-		var index = -1
-		for _i in active_deck:
-			if _i.card_id_num == card_id:
-				index = active_deck.find(_i)
-				break
-		if index > 1:
-			active_deck.remove_at(index)
-
-func _get_deck_list():
+func _get_deck_list() -> Array[Card]:
 	return selected_deck_list
 
-func flip_check():
-	var random = randf()
+func flip_check() -> bool:
+	var random: float = randf()
 	random += Stats.gen_inversion_chance_mod
 	if random <= 0.5:
 		return true
 	return false
 
-func get_all_cards():
-	var all_cards = []
-	for N in children:
-		all_cards.append(N)
-	return all_cards
+func get_all_cards() -> Array[Card]:
+	return all_cards.values()
+	
+func get_card(id: int) -> Card:
+	return all_cards[id]
+	
+#region deck modification
+func unlock_card(card: Card) -> void:
+	all_cards[card.card_id_num].unlocked = true
+
+func add_card(card_id: int) -> void:
+	var card: Node = all_cards[card_id]
+	if card == null:
+		print("Card not found to add to deck: %s", card_id)
+		return
+	active_deck.append(card)
+	
+func add_card_by_suit(suit: ID.Suits) -> void:
+	var filtered: Array = all_cards.values().filter(func(x: Card): return (x.unlocked && x.card_suit == suit))
+	add_card(filtered[randi() % filtered.size()].card_id_num)
+
+func add_lower_than(card_value: int = 0, include_majors: bool = false) -> void:
+	var filtered: Array = selected_deck_list.filter(func(x): return (x.card_id_num % 100 < card_value && (include_majors || x.card_id_num < 500)))
+	add_card(filtered[randi() % filtered.size()].card_id_num)
+	
+func remove_card(card_suit: ID.Suits = ID.Suits.NONE, card_id = 0) -> Card:
+	if card_suit == ID.Suits.NONE && card_id == 0:
+		var random: int = randi() % active_deck.size()
+		return active_deck.pop_at(random)
+	elif card_suit != ID.Suits.NONE && card_id == 0:
+		var selection: Array[Variant] = active_deck.filter(func(x: Card): return x.card_suit == card_suit)
+		if selection.size() <= 0:
+			return
+		var random: int = randi() % selection.size()
+		return active_deck.pop_at(active_deck.find(selection[random]))
+	elif card_suit == 0 && card_id > 0:
+		var index: int = active_deck.find_custom(func(x:Card): return x.card_id_num == card_id)
+		if index > 0:
+			return active_deck.pop_at(index)
+	return null
+
+func remove_lower_than(card_value: int = 0, include_majors: bool = false) -> void:
+	var filtered: Array = active_deck.filter(func(x): return (x.card_id_num % 100 < card_value && (include_majors || x.card_id_num < 500)))
+	remove_card(ID.Suits.NONE, filtered[randi() % filtered.size()].card_id_num)
+#endregion
+

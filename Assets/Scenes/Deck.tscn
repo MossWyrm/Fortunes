@@ -1,63 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://dbjco1af7olio"]
+[gd_scene load_steps=3 format=3 uid="uid://dbjco1af7olio"]
 
 [ext_resource type="Script" uid="uid://bgswcqfnvs0am" path="res://Assets/Scripts/TarotManagers/Deck.gd" id="1_qawuu"]
 [ext_resource type="PackedScene" uid="uid://bamfkwko1q8l4" path="res://Assets/Scenes/Card.tscn" id="2_ax3xy"]
-[ext_resource type="Texture2D" uid="uid://ch68sff6rejp6" path="res://Assets/Sprites/SwordTarotCards/OneOfSwords.tres" id="3_pkgge"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rkbb5"]
-load_path = "res://.godot/imported/TarotSwords.png-a4b305a70acbdef6ebfdbee46f27fd85.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7mldr"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(140, 0, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_evp85"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(280, 0, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u011v"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(420, 0, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5olop"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(0, 240, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mbhmy"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(140, 240, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ojwp0"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(280, 240, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2igkc"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(420, 240, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7yy4b"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(0, 480, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5wlq2"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(140, 480, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i2r2l"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(280, 480, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_thpja"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(420, 480, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sbt4m"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(0, 720, 140, 240)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_aplpy"]
-atlas = SubResource("CompressedTexture2D_rkbb5")
-region = Rect2(140, 720, 140, 240)
 
 [node name="Deck" type="Node"]
 script = ExtResource("1_qawuu")
@@ -305,98 +249,84 @@ card_suit = 3
 card_title = "One of Swords"
 card_default_value = 1
 card_id_num = 401
-card_image = ExtResource("3_pkgge")
 
 [node name="Two of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Two of Swords"
 card_default_value = 2
 card_id_num = 402
-card_image = SubResource("AtlasTexture_7mldr")
 
 [node name="Three of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Three of Swords"
 card_default_value = 3
 card_id_num = 403
-card_image = SubResource("AtlasTexture_evp85")
 
 [node name="Four of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Four of Swords"
 card_default_value = 4
 card_id_num = 404
-card_image = SubResource("AtlasTexture_u011v")
 
 [node name="Five of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Five of Swords"
 card_default_value = 5
 card_id_num = 405
-card_image = SubResource("AtlasTexture_5olop")
 
 [node name="Six of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Six of Swords"
 card_default_value = 6
 card_id_num = 406
-card_image = SubResource("AtlasTexture_mbhmy")
 
 [node name="Seven of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Seven of Swords"
 card_default_value = 7
 card_id_num = 407
-card_image = SubResource("AtlasTexture_ojwp0")
 
 [node name="Eight of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Eight of Swords"
 card_default_value = 8
 card_id_num = 408
-card_image = SubResource("AtlasTexture_2igkc")
 
 [node name="Nine of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Nine of Swords"
 card_default_value = 9
 card_id_num = 409
-card_image = SubResource("AtlasTexture_7yy4b")
 
 [node name="Ten of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Ten of Swords"
 card_default_value = 10
 card_id_num = 410
-card_image = SubResource("AtlasTexture_5wlq2")
 
 [node name="Page of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Page of Swords"
 card_default_value = 11
 card_id_num = 411
-card_image = SubResource("AtlasTexture_i2r2l")
 
 [node name="Knight of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
-card_title = "Ama no Murakumo no Tsurugi (Knight of Swords)"
+card_title = "Knight of Swords"
 card_default_value = 12
 card_id_num = 412
-card_image = SubResource("AtlasTexture_thpja")
 
 [node name="Queen of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "Queen of Swords"
 card_default_value = 13
 card_id_num = 413
-card_image = SubResource("AtlasTexture_sbt4m")
 
 [node name="King of Swords" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 3
 card_title = "King of Swords"
 card_default_value = 14
 card_id_num = 414
-card_image = SubResource("AtlasTexture_aplpy")
 
 [node name="The Fool" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
@@ -410,6 +340,7 @@ card_suit = 4
 card_title = "The Magician"
 card_id_num = 502
 unlocked = false
+unlock_cost = 3000
 
 [node name="The High Priestess" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4

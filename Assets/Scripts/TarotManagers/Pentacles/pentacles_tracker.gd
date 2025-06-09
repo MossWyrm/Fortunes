@@ -1,94 +1,82 @@
-extends Node
+extends suit_tracker
+class_name pentacles_tracker
 
-func _init():
-	if self.get_child_count() < 1:
-		_add_pentacle_tracker()
+var current_pentacles: int 	= 0
+var charges: int         	= 1
 
-func _update_pentacle(value, uses):
-	for N in self.get_children():
-		if uses:
-			N.pentacles_uses += value
-			if N.pentacles_uses <= 0:
-				_reset_value(false)
-		else:
-			N.pentacles_current_value += value
-			if N.pentacles_current_value <=0:
-				N.pentacles_current_value = 0
+var queen_inverted: bool 	= false
+var queen_charges: int   	= 0
+var blocked: bool 			= false
 
-func _add_pentacle_tracker():
-	var child = Node.new()
-	var child_name = "pentacle_tracker"
-	child.name = child_name
-	child.script = load("res://Assets/Scripts/TarotManagers/Pentacles/pentacle.gd")
-	if child.get_parent():
-		child.get_parent().remove_child(child)
-	child.pentacles_current_value = 1
-	child.pentacles_uses = 1
-	child.pentacles_queen_protect = 0
-	add_child(child)
 
-func _get_pentacles():
-	return self.get_child(0).pentacles_current_value
+func update(value, _flipped = false, override = false) -> void:
+	if blocked:
+		return
+	if override:
+		current_pentacles = value
+	else:
+		current_pentacles += value
+	if current_pentacles <=0:
+		current_pentacles = 0
+		
+func adjust_charges(value, override = false) -> void:
+	if override:
+		charges = value
+	else:
+		charges += value
+	if charges <=0:
+		_reset(false)
 
-func _get_pentacles_display():
-	var pent_dict = {}
-	var child = self.get_child(0)
+func get_display() -> Dictionary:
+	var pent_dict: Dictionary = {}
 
-	pent_dict["value"] = child.pentacles_current_value
-	pent_dict["queen"] = child.pentacles_queen_protect
-	pent_dict["uses"] = child.pentacles_uses
+	pent_dict["value"] = current_pentacles
+	pent_dict["uses"] = charges
+	pent_dict["queen_uses"] = queen_charges
+	pent_dict["queen_inverted"] = queen_inverted
+	pent_dict["blocked"] = blocked
 
 	return pent_dict
 
-func _check_queen_pentacles(flipped):
+func update_queen_pentacles(flipped) -> void:
 	if flipped:
-		return self.get_child(0).pentacles_queen_protect > 0
+		queen_inverted = true
 	else:
-		return self.get_child(0).pentacles_queen_protect < 0
-
-func _update_queen_pentacles(val):
-	self.get_child(0).pentacles_queen_protect += val
-
-func _use_queen_pentacles():
-	var queenNode = self.get_child(0)
-	if queenNode.pentacles_queen_protect > 0:
-		queenNode.pentacles_queen_protect -=1
-	elif queenNode.pentacles_queen_protect < 0:
-		queenNode.pentacles_queen_protect +=1
-	else:
-		print("Invalid use of queen pentacles")
-
-
-func _use_pentacles(value):
-	var child = self.get_child(0)
-	var output_value = 0
-	if 0 - value > child.pentacles_current_value:
-		output_value = value + child.pentacles_current_value
-		if child.pentacles_uses >1:
-			child.pentacles_uses -=1
-		else:
-			child.pentacles_current_value = 0
+		queen_inverted = false
+	queen_charges += Stats.pent_queen_uses
+	
+func use_queen_pentacles(flipped) -> bool:
+	if queen_charges <= 0:
+		return false
+	if flipped != queen_inverted:
+		queen_charges -= 1
+		return true
+	return false
+		
+func use_pentacles(value) -> int:
+	var output_value: int = value
+	if 0 - value > current_pentacles:
+		output_value = value + current_pentacles
 	else:
 		output_value = 0
-		if child.pentacles_uses >1:
-			child.pentacles_uses -=1
-		else:
-			child.pentacles_current_value += value
-		
-	return output_value	
+	if charges >= 1:
+		charges -=1
+		return output_value
+	current_pentacles += value
+	if current_pentacles <= 0:
+		current_pentacles = 0
+	return output_value
 
-func _replace_pentacles(value):
-	self.get_child(0).pentacles_current_value = value
-
-func _reset_value(queenincluded):
-	var child = self.get_child(0)
-	child.pentacles_current_value = 0
-	child.pentacles_uses = 1
+func _reset(queenincluded) -> void:
+	current_pentacles = 0
+	charges = 0
 	if queenincluded:
-		child.pentacles_queen_protect = 0
+		queen_inverted = false
+		queen_charges = 0
 
-func _shuffle(safely):
+func shuffle(safely) -> void:
+	blocked = false
 	if safely == true:
 		return
 	else:
-		_reset_value(true)
+		_reset(true)

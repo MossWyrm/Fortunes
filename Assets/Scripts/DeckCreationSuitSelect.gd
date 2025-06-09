@@ -20,9 +20,6 @@ func set_panels():
 
 
 func open_panel(number: int):
-	for i in panels:
-		if i != panels[number]:
-			i.visible = false
-		else:
-			i.visible = true
-			i.scroll_vertical = 0
+	for i in panels.size():
+		panels[i].visible = true if i == number else false
+		panels[i].scroll_vertical = 0	

@@ -17,8 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Events="*res://Assets/Scripts/Events.gd"
+Events="*res://Assets/Scripts/Autoload/Events.gd"
 Stats="*res://Assets/Scripts/Stats.gd"
+ID="*res://Assets/Scripts/Autoload/ResourceIDs.gd"
+GM="*res://Assets/Scripts/Autoload/Main.gd"
+ResourceAutoload="*res://Assets/Scenes/PreloadedObjects.tscn"
+Descriptions="*res://Assets/Scripts/Autoload/CardDescriptions.gd"
 
 [display]
 
@@ -32,6 +36,14 @@ window/handheld/orientation=1
 
 folder_colors={
 "res://Assets/Resources/": "yellow"
+}
+
+[input]
+
+ui_click={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
 }
 
 [rendering]
