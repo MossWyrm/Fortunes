@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://do7bynut7mtib"]
+
+[ext_resource type="Script" uid="uid://rla5yjtjmr3y" path="res://Assets/Scripts/Autoload/AudioManager.gd" id="1_8cujf"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_8cujf")
+
+[node name="CardFlip" type="FmodEventEmitter2D" parent="."]
+event_name = "event:/Card Flip"
+event_guid = "{562c93b8-a9d5-438c-b5ff-f803af9acb78}"
+allow_fadeout = false
+
+[node name="MusicManager" type="Node" parent="."]
+
+[node name="Music" type="FmodEventEmitter2D" parent="MusicManager"]
