@@ -74,14 +74,14 @@ theme_override_constants/line_spacing = -1
 theme_override_font_sizes/font_size = 32
 text = "test text"
 
-[node name="CardFace" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="CardBack" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 150)
 layout_mode = 2
 texture = ExtResource("3_5t7si")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CardOverlay" type="TextureRect" parent="MarginContainer/HBoxContainer/CardFace"]
+[node name="CardOverlay" type="TextureRect" parent="MarginContainer/HBoxContainer/CardBack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

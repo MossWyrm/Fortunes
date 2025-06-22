@@ -4,7 +4,3 @@
 
 [resource]
 script = ExtResource("1_iuaif")
-growth_description = "2 ^ x
-2,4,8,16,32,64,128,256...
-
-BASE MUST BE > 1"

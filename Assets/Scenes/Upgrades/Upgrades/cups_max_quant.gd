@@ -9,4 +9,4 @@ func _scaling_formula():
 	return output
 
 func _trigger():
-	Stats.cup_max_quant +=1
+	Stats.cup_vessel_quant +=1
