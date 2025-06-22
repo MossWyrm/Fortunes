@@ -18,7 +18,7 @@ var king_active: bool:
 var king_protection: int = 0
 var king_destruction: int = 0
 
-func update(_value, flipped = false):
+func update(_value, flipped = false) -> void:
 	if combo_dir_flipped == flipped:
 		if king_destruction > 0:
 			king_destruction -= 1
@@ -76,7 +76,7 @@ func use_page(value: int) -> int:
 		return value
 		
 
-func get_display():
+func get_display() -> Dictionary:
 	var sword_dict: Dictionary = {
 		"combo" = combo,
 		"combo_value" = combo_value,

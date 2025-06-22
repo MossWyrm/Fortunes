@@ -2,13 +2,15 @@ extends Node
 class_name BuffManager
 
 var displays: Dictionary[String, buff_display]
+var major_displays: Dictionary[int, buff_display]
 var buff_scene: PackedScene = preload("res://Assets/Scenes/buff_display.tscn")
+var major_buff_scene: PackedScene = preload("res://Assets/Scenes/buff_display_major.tscn")
 
 func update_display(_dictionary: Dictionary) -> void:
 	pass
 	
-func create_new_icon(texture: Texture2D) -> buff_display:
-	var display: buff_display = buff_scene.instantiate()
+func create_new_icon(texture: Texture2D, major: bool = false) -> buff_display:
+	var display: buff_display = buff_scene.instantiate() if !major else major_buff_scene.instantiate()
 	display.init()
 	display.set_texture(texture)
 	display.set_text("")
@@ -17,6 +19,10 @@ func create_new_icon(texture: Texture2D) -> buff_display:
 	return display
 	
 func set_display(buff: buff_display, visible: bool, charges: float = 0, color: Color = Color.WHITE) -> void:
+	if !visible && buff.is_visible():
+		await buff.hide_anim()
+	else:
+		buff.modulate = Color.WHITE
 	buff.visible = visible
 	var string_to_show: String   
 	if float(int(charges)) == charges:

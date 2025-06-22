@@ -13,27 +13,17 @@ func _ready() -> void:
 	Events.selected_card.connect(_calculate_card_value)
 	
 func _calculate_card_value(card: Card, flipped = false) -> void:
-	var card_val: int = 0
+	if majors_node.wheel_requires_check():
+		majors_node.wheel_trigger(card.card_suit)
 	if _pentacles_queen_check(flipped):
 		flipped = !flipped
 	swords_node.update_swords(flipped)
-	match card.card_suit:
-		ID.Suits.CUPS:
-			card_val = cups_node.draw(card, flipped)
-		ID.Suits.WANDS:
-			card_val = wands_node.draw(card, flipped)	
-		ID.Suits.PENTACLES:
-			card_val = pentacles_node.draw(card, flipped)
-		ID.Suits.SWORDS:
-			card_val = swords_node.draw(card, flipped)
-		ID.Suits.MAJOR:
-			card_val = await majors_node.draw(card, flipped)
-	
-	card_val = roundi(float(card_val) * wand_knight_value())
 		
-	if card_val < 0:
-		card_val = pentacles_node.use_pentacles(card_val)
-	Events.emit_update_currency_display(card_val)
+	var base_value: int = base_calc(card, flipped)
+	var main_value: int = await main_calc(card,base_value,flipped)
+	var post_value: int = post_calc(main_value)
+
+	Events.emit_update_currency_display(post_value)
 	Events.emit_update_suit_displays()
 
 	
@@ -48,12 +38,64 @@ func get_display(suit: ID.Suits) -> Dictionary:
 		ID.Suits.SWORDS:
 			return swords_node.get_display()
 		ID.Suits.MAJOR:
-			return {}
+			return majors_node.get_display()
 		_:
 			return {}
 			
 func wand_knight_value() -> float:
 	return wands_node.wand_knight_multi() if wands_node.wand_knight_check() else 1.0
 	
-func _pentacles_queen_check(flipped):
+func _pentacles_queen_check(flipped) -> bool:
 	return pentacles_node.check_queen_pent(flipped)
+	
+func base_calc(card: Card, flipped: bool) -> int:
+	var base_value: int = 0
+	match card.card_suit:
+		ID.Suits.CUPS:
+			base_value = cups_node.get_base_value(card.card_default_value)
+		ID.Suits.WANDS:
+			base_value = wands_node.get_base_value(card.card_default_value)
+		ID.Suits.PENTACLES:
+			base_value = pentacles_node.get_base_value(card.card_default_value)
+		ID.Suits.SWORDS:
+			base_value = swords_node.get_base_value(card.card_default_value)
+		ID.Suits.MAJOR:
+			base_value = majors_node.get_base_value(card.card_default_value)
+		_:
+			print("card doesn't have suit")
+			return 0
+	base_value += majors_node.get_emperor()
+	if majors_node.star_active(flipped):
+		base_value = majors_node.star_trigger(base_value)
+	majors_node.update_empress(base_value)
+	majors_node.update_chariot(base_value)
+	return base_value
+	
+func main_calc(card: Card, base_value: int, flipped: bool) -> int:
+	var card_val: int = 0
+	match card.card_suit:
+		ID.Suits.CUPS:
+			card_val = cups_node.draw(card, base_value, flipped)
+		ID.Suits.WANDS:
+			card_val = wands_node.draw(card, base_value, flipped)
+		ID.Suits.PENTACLES:
+			card_val = pentacles_node.draw(card, base_value, flipped)
+		ID.Suits.SWORDS:
+			card_val = swords_node.draw(card, base_value, flipped)
+		ID.Suits.MAJOR:
+			card_val = await majors_node.draw(card, base_value, flipped)
+	return card_val
+	
+func post_calc(value: int) -> int:
+	var card_val: int = roundi(float(value) * wand_knight_value())
+
+	if card_val < 0:
+		card_val = pentacles_node.use_pentacles(card_val)
+	card_val += majors_node.get_empress()
+	if majors_node.wheel_active():
+		card_val = majors_node.wheel_mod(card_val)
+	if majors_node.temperance_active():
+		card_val = majors_node.temperance_trigger(card_val)
+	if majors_node.tower_active():
+		card_val = majors_node.tower_trigger(card_val)
+	return card_val

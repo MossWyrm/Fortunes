@@ -4,30 +4,23 @@ class_name cups_calc
 @onready var tracker: cup_tracker = get_child(0)
 
 func _value_modifier(value, flipped = false) -> int:
-	var updated_value: int = 0
-	if flipped:
-		updated_value = -value
-	else:
-		updated_value = value
-	return updated_value
-
-func _basic(value, flipped = false) -> int:
-	var val: int = _value_modifier(value+Stats.cup_basic_value, flipped)
+	return -value if flipped else value
+	
+func _basic(flipped = false) -> int:
+	var val: int = _value_modifier(card_value, flipped)
 	tracker.update(val, flipped)
 	return tracker.bonus() + val
 
 func _page(flipped = false) -> int:
-	var val: int = _value_modifier(11, flipped)
+	var val: int = _value_modifier(card_value, flipped)
 	tracker.update(val, flipped)
 	
-	var upright_val = roundi(Stats.cup_max_size * Stats.cup_page_positive) - Stats.cup_max_size
-	var flipped_val = Stats.cup_max_size - roundi(Stats.cup_max_size*Stats.cup_page_negative)
-	Stats.cup_max_size_modifier = flipped_val if flipped else upright_val
+	tracker.draw_page(flipped)
 
 	return tracker.bonus() + val
 
 func _knight(flipped = false) -> int:
-	var val: int = _value_modifier(12, flipped)
+	var val: int = _value_modifier(card_value, flipped)
 	tracker.update(val, flipped)
 	for cards in Stats.cup_knight_mod:
 		var random_num: int = randi() % 14 + 101
@@ -44,13 +37,13 @@ func _queen(flipped = false) -> int:
 		else:
 			tracker.add_cup()
 	
-	var val: int = _value_modifier(13)
+	var val: int = _value_modifier(card_value)
 	tracker.update(val, flipped)
 	
 	return tracker.bonus() + val
 
 func _king(flipped = false) -> int:
-	var val: int = _value_modifier(14)
+	var val: int = _value_modifier(card_value)
 	tracker.update(val, flipped)
 	if flipped:
 		tracker.empty_cups()
@@ -62,3 +55,6 @@ func get_display() -> Dictionary:
 	if tracker == null:
 		tracker = get_child(0)
 	return tracker.get_display()
+	
+func get_base_value(value: int) -> int:
+	return value + Stats.cup_basic_value

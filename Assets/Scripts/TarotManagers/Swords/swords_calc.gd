@@ -8,17 +8,17 @@ func _value_modifier(value, flipped = false) -> int:
 	updated_value = _use_page(updated_value)
 	return updated_value
 
-func _basic(value, flipped = false) -> int:
-	var val : int = _value_modifier(value, flipped)
+func _basic(flipped = false) -> int:
+	var val : int = _value_modifier(card_value, flipped)
 	return tracker.get_swords()*val
 
 func _page(flipped = false) -> int:
-	var val : int = _value_modifier(11, flipped)
+	var val : int = _value_modifier(card_value, flipped)
 	tracker.page_drawn(flipped)
 	return tracker.get_swords()*val
 
 func _knight(flipped = false) -> int:
-	var val : int = _value_modifier(12, flipped)
+	var val : int = _value_modifier(card_value, flipped)
 	var deck_manager = GM.deck_manager
 	for x in tracker.get_swords():
 		if flipped:
@@ -30,11 +30,11 @@ func _knight(flipped = false) -> int:
 
 func _queen(flipped = false) -> int:
 	tracker.queen_drawn(flipped)
-	var val: int = _value_modifier(13, flipped)
+	var val: int = _value_modifier(card_value, flipped)
 	return tracker.get_swords()*val
 
 func _king(flipped = false) -> int:
-	var val : int = _value_modifier(14, flipped)
+	var val : int = _value_modifier(card_value, flipped)
 	tracker.king_drawn(flipped)
 	return tracker.get_swords()*val
 
@@ -52,3 +52,7 @@ func get_display() -> Dictionary:
 	if tracker == null:
 		tracker = get_child(0)
 	return tracker.get_display()
+
+func get_base_value(value: int) -> int:
+	return value + Stats.sword_basic_value
+	

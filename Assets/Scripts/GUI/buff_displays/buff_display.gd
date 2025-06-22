@@ -7,6 +7,7 @@ var sprite: Sprite2D
 var highlight: ColorRect
 var suit: ID.Suits
 var type: ID.BuffType
+var major_type: ID.MajorID = ID.MajorID.FOOL
 var holding: bool = false
 var hold_timer: float = 0.0
 var hold_duration: float = 0.6
@@ -44,6 +45,10 @@ func set_text(value: String) -> void:
 func play_anim() -> void:
 	animator.play("icon_updating")
 	
+func hide_anim() -> void:
+	animator.play("fade_out")
+	await animator.animation_finished
+	
 func set_panel_color(panel_color: Color = Color.WHITE) -> void:
 	if panel_color == Color.WHITE:
 		highlight.hide()
@@ -51,12 +56,13 @@ func set_panel_color(panel_color: Color = Color.WHITE) -> void:
 		highlight.color = panel_color
 		highlight.show()
 
-func set_suit_and_type(set_suit: ID.Suits, set_type: ID.BuffType) -> void:
+func set_suit_and_type(set_suit: ID.Suits, set_type: ID.BuffType, set_major_type: ID.MajorID = ID.MajorID.FOOL) -> void:
 	suit = set_suit
 	type = set_type
+	major_type = set_major_type
 	
 func show_tooltip() -> void:
-	Events.emit_buff_tooltip(suit,type)
+	Events.emit_buff_tooltip(suit,type, major_type)
 	
 func _on_press(_event:InputEvent):
 	if Input.is_action_just_pressed("ui_click"):
@@ -64,3 +70,4 @@ func _on_press(_event:InputEvent):
 	if Input.is_action_just_released("ui_click"):
 		holding = false
 		hold_timer = 0
+		

@@ -1,8 +1,11 @@
 extends Node
 class_name card_calc
 
-func draw(card: Card, flipped = false) -> int:
-	match card.card_default_value:
+var card_value: int = 0
+
+func draw(card: Card, value: int, flipped = false) -> int:
+	card_value = value
+	match card.card_id_num % 100:
 		11:
 			return _page(flipped)
 		12:
@@ -12,9 +15,9 @@ func draw(card: Card, flipped = false) -> int:
 		14:
 			return _king(flipped)
 		_:
-			return _basic(card.card_default_value, flipped)
+			return _basic( flipped)
 			
-func _basic(_value: int, _flipped = false) -> int:
+func _basic(_flipped = false) -> int:
 	print("Basics not implemented")
 	return 0
 	
@@ -33,3 +36,11 @@ func _queen(_flipped = false) -> int:
 func _king(_flipped = false) -> int:
 	print("King not implemented")
 	return 0
+	
+func get_base_value(_value: int) -> int:
+	print("get base value not implemented")
+	return 0
+	
+func get_display() -> Dictionary:
+	print("get display not implemented")
+	return {}

@@ -12,7 +12,7 @@ func update_display(dictionary: Dictionary) -> void:
 	if dictionary.size() < displays.size():
 		var x: int = displays.size()
 		while x > dictionary.size():
-			displays[str(x-1)].hide()
+			displays["cup_%s"%[str(x-1)]].hide()
 			x -= 1
 	for z in dictionary.size():
 		if(z+1 > displays.size()):

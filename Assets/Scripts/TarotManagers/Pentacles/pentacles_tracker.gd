@@ -2,7 +2,7 @@ extends suit_tracker
 class_name pentacles_tracker
 
 var current_pentacles: int 	= 0
-var charges: int         	= 1
+var charges: int         	= 0
 
 var queen_inverted: bool 	= false
 var queen_charges: int   	= 0
@@ -27,17 +27,10 @@ func adjust_charges(value, override = false) -> void:
 	if charges <=0:
 		_reset(false)
 
-func get_display() -> Dictionary:
-	var pent_dict: Dictionary = {}
-
-	pent_dict["value"] = current_pentacles
-	pent_dict["uses"] = charges
-	pent_dict["queen_uses"] = queen_charges
-	pent_dict["queen_inverted"] = queen_inverted
-	pent_dict["blocked"] = blocked
-
-	return pent_dict
-
+func draw_page(flipped) -> void:
+	var mod = (1 - Stats.pent_page_mod) if flipped else (1+ Stats.pent_page_mod) 
+	current_pentacles = roundi(current_pentacles * mod)
+	
 func update_queen_pentacles(flipped) -> void:
 	if flipped:
 		queen_inverted = true
@@ -80,3 +73,14 @@ func shuffle(safely) -> void:
 		return
 	else:
 		_reset(true)
+
+func get_display() -> Dictionary:
+	var pent_dict: Dictionary = {}
+
+	pent_dict["value"] = current_pentacles
+	pent_dict["uses"] = charges
+	pent_dict["queen_uses"] = queen_charges
+	pent_dict["queen_inverted"] = queen_inverted
+	pent_dict["blocked"] = blocked
+
+	return pent_dict

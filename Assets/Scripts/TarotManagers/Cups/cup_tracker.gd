@@ -1,9 +1,10 @@
 extends suit_tracker
 class_name cup_tracker
 
+var _page_size_mod: int = 0
 var _max_size:int:
 	get:
-		return Stats.cup_max_size + Stats.cup_max_size_modifier
+		return Stats.cup_vessel_size + _page_size_mod
 var _cups: Dictionary[int,int] = {}
 
 func _init() -> void:
@@ -19,7 +20,7 @@ func update(value, _flipped = false) -> void:
 			_cups[cup] = 0
 
 func add_cup() -> void:
-	if _cups.size() >= Stats.cup_max_quant:
+	if _cups.size() >= Stats.cup_vessel_quant:
 		pass
 	_cups[_cups.size()] = 0
 
@@ -33,7 +34,7 @@ func shuffle(safely) -> void:
 	if safely == true:
 		return
 	else:
-		Stats.cup_max_size_modifier = 0
+		_page_size_mod = 0
 		for N in _cups.size():
 			remove_cup()
 
@@ -43,9 +44,6 @@ func bonus() -> int:
 		totalValue += _cups[cup]
 	return totalValue
 
-func get_display() -> Dictionary:
-	return _cups
-
 func empty_cups() -> void:
 	for cup in _cups.keys():
 		_cups[cup] = 0
@@ -53,3 +51,14 @@ func empty_cups() -> void:
 func fill_cups() -> void:
 	for cup in _cups.keys():
 		_cups[cup] = _max_size
+
+func get_display() -> Dictionary:
+	return _cups
+	
+func draw_page(flipped: bool) -> void:
+	var total_size: float
+	if flipped:
+		total_size = (1 - Stats.cup_page_mod) * float(Stats.cup_vessel_size)
+	else:
+		total_size = (1+ Stats.cup_vessel_size) * float(Stats.cup_vessel_size)
+	_page_size_mod = roundi(total_size - Stats.cup_vessel_size)
