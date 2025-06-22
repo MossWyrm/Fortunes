@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b2u07kuewepyo"]
 
 [ext_resource type="Script" uid="uid://dnf0rxt38yxtu" path="res://Assets/Scripts/GUI/floating_text.gd" id="1_c11a0"]
-[ext_resource type="LabelSettings" uid="uid://ck3dkae2jy5bl" path="res://Assets/Fonts/Label Settings/FloatingText.tres" id="2_1mq33"]
+[ext_resource type="LabelSettings" uid="uid://ck3dkae2jy5bl" path="res://Assets/Themes/Fonts/Label Settings/FloatingText.tres" id="2_1mq33"]
 
 [sub_resource type="Animation" id="Animation_2o3yl"]
 resource_local_to_scene = true

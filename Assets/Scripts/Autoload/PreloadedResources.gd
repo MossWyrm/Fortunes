@@ -4,6 +4,7 @@ extends Node
 @export var overlays_by_suit: Dictionary[ID.Suits, Texture2D]
 @export var numerals: Texture2D
 @export var buffs: Texture2D
+@export var card_back: Texture2D
 
 var _premade_atlas_textures: Dictionary[int, Texture2D]
 var _premade_numerals: Dictionary[int, Texture2D]
@@ -15,9 +16,16 @@ func get_card_texture(card: Card) -> Dictionary[String, Texture2D]:
 	var output: Dictionary[String,Texture2D] = {}
 	output["background"] = suit_backgrounds[card.card_suit]
 	output["overlay"] = _get_overlay(card)
-	output["numeral"] = _get_numeral(card)
+	output["numeral"] = get_numeral(card.card_id_num)
 
 	return output
+
+func get_upgrade_background(suit: ID.UpgradeType) -> Texture2D:
+	var texture: Texture2D
+	if suit == ID.UpgradeType.GENERAL:
+		return card_back
+	return suit_backgrounds[suit]
+	
 	
 func _get_overlay(card: Card) -> Texture2D:
 	if _premade_atlas_textures.keys().has(card.card_id_num):
@@ -34,15 +42,15 @@ func _get_overlay(card: Card) -> Texture2D:
 	_premade_atlas_textures[card.card_id_num] = atlas
 	return atlas
 	
-func _get_numeral(card: Card) -> Texture2D:
-	if _premade_numerals.keys().has(card.card_id_num):
-		return _premade_numerals[card.card_id_num]
-	if card.card_id_num > 500:
-		var index: int          = card.card_id_num % 100
+func get_numeral(id_num: int) -> Texture2D:
+	if _premade_numerals.keys().has(id_num):
+		return _premade_numerals[id_num]
+	if id_num > 500:
+		var index: int          = id_num % 100
 		var atlas: AtlasTexture = AtlasTexture.new()
 		atlas.atlas = numerals
 		atlas.region = Rect2((index-1)*64,0,64,64)
-		_premade_numerals[card.card_id_num] = atlas
+		_premade_numerals[id_num] = atlas
 		return atlas
 	else:
 		return null

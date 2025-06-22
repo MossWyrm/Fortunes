@@ -28,6 +28,6 @@ func display(card:Card) -> void:
 	card_desc.text = Descriptions.get_description(card,true)
 	show()
 	
-func display_for_buff(suit: ID.Suits, type: ID.BuffType) -> void:
-	var card_id_num: int = ((suit+1)*100)+10+type
+func display_for_buff(suit: ID.Suits, type: ID.BuffType, card_number: int) -> void:
+	var card_id_num: int = 500 + card_number if suit == ID.Suits.MAJOR else ((suit+1)*100)+10+type
 	display(GM.deck_manager.get_card(card_id_num))

@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccgrume3dcwc0"]
+
+[ext_resource type="Texture2D" uid="uid://tj1kcj0cga3l" path="res://Assets/Sprites/LargeTarot/FrontMajor.png" id="1_ieex4"]
+[ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="1_m0yrc"]
+[ext_resource type="Script" uid="uid://bypglyhxe7qya" path="res://Assets/Scripts/addable_card.gd" id="2_q2geq"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kgmhe"]
+width = 143
+height = 243
+noise = SubResource("FastNoiseLite_gtkb7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4xh4"]
+resource_local_to_scene = true
+shader = ExtResource("1_m0yrc")
+shader_parameter/using_atlas = false
+shader_parameter/sprite_size = Vector2(0, 0)
+shader_parameter/atlas_size = Vector2(0, 0)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.836804, 0.348354, 3.85046e-07, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0yrc"]
+resource_local_to_scene = true
+shader = ExtResource("1_m0yrc")
+shader_parameter/using_atlas = false
+shader_parameter/sprite_size = Vector2(0, 0)
+shader_parameter/atlas_size = Vector2(0, 0)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.836804, 0.348354, 3.85046e-07, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.11
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pjs3i"]
+resource_local_to_scene = true
+shader = ExtResource("1_m0yrc")
+shader_parameter/using_atlas = true
+shader_parameter/sprite_size = Vector2(400, 699)
+shader_parameter/atlas_size = Vector2(0, 0)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.836804, 0.348354, 3.85046e-07, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.11
+
+[node name="Addable_card" type="Control"]
+z_index = 3
+material = SubResource("ShaderMaterial_w4xh4")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -648.0
+offset_bottom = -1152.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_q2geq")
+
+[node name="Background" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_m0yrc")
+layout_mode = 0
+offset_left = -200.0
+offset_top = -349.0
+offset_right = 200.0
+offset_bottom = 350.0
+texture = ExtResource("1_ieex4")
+
+[node name="Overlay" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_pjs3i")
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
