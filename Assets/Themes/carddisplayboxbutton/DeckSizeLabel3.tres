@@ -1,6 +1,6 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://c324jpvtb2fqe"]
 
-[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="1_gmtn7"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="1_gmtn7"]
 
 [resource]
 font = ExtResource("1_gmtn7")

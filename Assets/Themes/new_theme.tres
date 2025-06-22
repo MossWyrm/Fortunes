@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=5 format=3 uid="uid://dk4unpb68tkcx"]
 
-[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="1_lm8ba"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="1_lm8ba"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e120s"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
