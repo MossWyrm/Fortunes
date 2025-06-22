@@ -15,10 +15,13 @@ signal remove_card_from_deck(card: Card)
 signal unlock_card(card: Card)
 signal tooltip(base_tooltip: BaseTooltip)
 signal card_tooltip(card: Card)
-signal buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType)
+signal buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType, card_number)
 signal choose_suit(include_majors: bool)
 signal chosen_suit(suit: ID.Suits)
 signal pause_drawing(pause:bool)
+signal load_complete
+signal save_request
+signal reset_game
 
 
 func emit_draw_card() -> void:
@@ -63,8 +66,8 @@ func emit_tooltip(base_tooltip: BaseTooltip) -> void:
 func emit_card_tooltip(card: Card) -> void:
 	card_tooltip.emit(card)
 	
-func emit_buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType) -> void:
-	buff_tooltip.emit(suit,buff_type)
+func emit_buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType, card_number: int = 0) -> void:
+	buff_tooltip.emit(suit,buff_type, card_number)
 	
 func emit_choose_suit(include_majors: bool = false) -> void:
 	choose_suit.emit(include_majors)
@@ -77,3 +80,12 @@ func emit_pause_drawing(pause: bool) -> void:
 	
 func emit_card_animation_major(flipped: bool) -> void:
 	card_animation_major.emit(flipped)
+	
+func emit_load_complete() -> void:
+	load_complete.emit()
+	
+func emit_save_request() -> void:
+	save_request.emit()
+	
+func emit_reset_game() -> void:
+	reset_game.emit()

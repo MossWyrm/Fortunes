@@ -1,6 +1,8 @@
 extends TextureButton
+class_name DeckSelectNavButton
 
 @export var deck_creator : deck_creator_navigator
+@onready var border: ColorRect = $MASK/ColorRect
 
 ##Use different numbers for different suits:
 ##[codeblock]
@@ -16,4 +18,10 @@ func _ready():
 	pressed.connect(select_panel)
 
 func select_panel():
-	deck_creator.open_panel(suit_number)
+	deck_creator.open_panel(self, suit_number)
+
+func select():
+	border.show()
+	
+func deselect():
+	border.hide()

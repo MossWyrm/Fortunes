@@ -56,7 +56,7 @@ func open_creator_menus():
 	update_deck_stats()
 
 func refresh_deck():
-	current_deck.assign(deck_manager._get_deck_list())
+	current_deck.assign(deck_manager.get_deck_list())
 
 func card_unlocked(_card: Card):
 	update_suits()

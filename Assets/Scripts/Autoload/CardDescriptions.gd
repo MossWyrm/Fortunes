@@ -103,7 +103,7 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 				output +=(good_color+"Add"+end_color_tag+
 							" / "+
 							bad_color+"Remove"+end_color_tag+
-							" %s random unlocked card for each combo point you have."%[Stats.sword_knight_mod]
+							" 1 random unlocked card below %s (%s including majors) for each combo point you have."%[Stats.sword_knight_mod, "" if Stats.sword_knight_super else "not"]
 							)
 			413:
 				output += ("Each Combo point is worth"+
@@ -140,8 +140,89 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 			503:
 				output +=""
 			504:
-				output +=""
-	
+				output +=("Remembers the last %s card(s) drawn and then "%[Stats.major_empress]+
+							good_color+"adds"+end_color_tag+
+							" / "+
+							bad_color+"removes"+end_color_tag+
+							" the value from your next card's total. Lasts until your next shuffle."
+							)
+			505:
+				output +=(good_color+"Increase "+end_color_tag+
+							" / "+
+							bad_color+"decrease"+end_color_tag+
+							" the base value of your cards by %s. Lasts until your next shuffle."%[Stats.major_emperor]
+							)
+			506:
+				output +=("")
+			507:
+				output += (good_color+"Copy %s cards "%[Stats.major_lovers]+end_color_tag+
+							" / "+
+							bad_color+"remove %s duplicate cards"%[Stats.major_lovers]+end_color_tag+
+							" in/from your deck until your next shuffle."
+							)
+			508:
+				output += ("If your current card is of higher base value than your previous card, multiply your total by that value."+
+							" When you draw a card that's lower, "+
+							good_color+"increase"+end_color_tag+
+							" / "+
+							bad_color+"decrease"+end_color_tag+
+							" your Clairvoyance by the total."
+							)
+			509:
+				output += ("")
+			510:
+				output += ("If your remaining deck contains no duplicates, "+
+							good_color+"double your clairvoyance, "+end_color_tag+
+							" otherwise "+
+							bad_color+"half it."+end_color_tag
+							)
+			511:
+				output += ("Pick a suit. If the next card drawn matches that suit, "+
+							good_color+"multiply"+end_color_tag+
+							" / "+
+							bad_color+"divide"+end_color_tag+
+							" the next %s cards by %s."%[Stats.major_wheel_charges, Stats.major_wheel_mult]
+							)
+			512:
+				output += ""
+			513:
+				output += ""
+			514:
+				output += ""
+			515:
+				output += ("All cards will score a "+
+							good_color+"minimum"+end_color_tag+
+							" / "+
+							bad_color+"maximum"+end_color_tag+
+							" of %s until your next shuffle."%[Stats.major_temperance]
+							)
+			516:
+				output += ""
+			517:
+				output += ("Adds another tower to your deck. "+
+							good_color+"Double"+end_color_tag+
+							" / "+
+							bad_color+"half"+end_color_tag+
+							" your cards value. Swap this effect when the other tower is drawn. Resets on your next shuffle."
+							)
+			518:
+				output += ("Adds %s to the base value of all positive cards. Can be affected by The Moon."%[Stats.major_star]+
+							" Lasts until your next shuffle")
+			519:
+				output += (good_color+"Multiply star value by %s"%[Stats.major_moon]+end_color_tag+
+							" / "+
+							bad_color+"Stars now work on negative cards"+end_color_tag+
+							" until your next shuffle"
+							)
+			520:
+				output += (good_color+"Add %s of The Star and %s of The Moon to your deck"%[Stats.major_sun_star, Stats.major_sun_moon]+end_color_tag+
+							" / "+
+							bad_color+"remove all copies of The Star and The Moon from your deck"+end_color_tag+
+							" until your next shuffle."
+							)
+			521:
+				output += ""
+					
 	var suit_output: String = "\n\n"
 	match card.card_suit:
 		ID.Suits.CUPS:
@@ -181,11 +262,10 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 						") of your last swords card, increase your combo. Sword values get multiplied by this combo."
 						)
 		_:
-			suit_output += ("All"+
-						("[color=#%s]"%[ID.SuitColor["MAJOR"].to_html()] if _bb_formatted else "")+
-						"Major Arcana"+
+			suit_output += (("[color=#%s]"%[ID.SuitColor["MAJOR"].to_html()] if _bb_formatted else "")+
+						"Major Arcana: "+
 						end_color_tag+
-						"have unique effects."
+						"Each card has it's own unique effect."
 						)
 	output += suit_output
 	return output

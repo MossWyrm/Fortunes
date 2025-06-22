@@ -1,5 +1,7 @@
 extends Node
 
+var signal_sent: = false
+signal references_ready
 
 var deck_manager: Deck_Manager:
 	set(value):
@@ -16,3 +18,24 @@ var cv_manager: CVC:
 		while cv_manager == null:
 			await get_tree().process_frame
 		return cv_manager
+
+var upgrade_manager: UpgradesController:
+	set(value):
+		upgrade_manager = value
+	get:
+		while upgrade_manager == null:
+			await get_tree().process_frame
+		return upgrade_manager
+		
+var save_manager: SaveManager:
+	set(value):
+		save_manager = value
+	get:
+		while save_manager == null:
+			await get_tree().process_frame
+		return save_manager
+		
+func _process(delta: float) -> void:
+	if !signal_sent && (deck_manager != null && cv_manager != null && upgrade_manager != null && save_manager != null):
+		references_ready.emit()
+		signal_sent = true 

@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://croc4rc3eq1e5" path="res://Assets/Scripts/CardSelectDisplayBox.gd" id="1_gos2n"]
 [ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="2_b50pj"]
-[ext_resource type="Script" uid="uid://d18exp8d3lrsx" path="res://Assets/Scripts/CardSelectDisplayBoxUnlocked.gd" id="2_evyqq"]
+[ext_resource type="Script" path="res://Assets/Scripts/CardSelectDisplayBoxUnlocked.gd" id="2_evyqq"]
 [ext_resource type="Texture2D" uid="uid://cee6axeacw7kl" path="res://Assets/Sprites/CardFront.png" id="5_qu4i5"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="5_totdf"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="6_54vya"]
-[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Fonts/Alkhemikal by jeti.ttf" id="6_a8mpr"]
-[ext_resource type="Script" uid="uid://d0kjyoyuch7bj" path="res://Assets/Scripts/CardSelectDisplayBoxLocked.gd" id="6_xxlw6"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="6_a8mpr"]
+[ext_resource type="Script" path="res://Assets/Scripts/CardSelectDisplayBoxLocked.gd" id="6_xxlw6"]
 [ext_resource type="Texture2D" uid="uid://cm6644lmemhkd" path="res://Assets/Sprites/LargeTarot/Cups.png" id="8_xxlw6"]
 
 [sub_resource type="Gradient" id="Gradient_gj3a4"]

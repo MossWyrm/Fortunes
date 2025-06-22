@@ -7,6 +7,7 @@ class_name deck_creator_navigator
 @export var swords_panel : ScrollContainer
 @export var majors_panel : ScrollContainer
 var panels = []
+@export var buttons: Array[DeckSelectNavButton] = []
 
 func _ready():
 	set_panels()
@@ -19,7 +20,12 @@ func set_panels():
 	panels.append(majors_panel)
 
 
-func open_panel(number: int):
+func open_panel(texture_button: TextureButton, number: int):
 	for i in panels.size():
 		panels[i].visible = true if i == number else false
 		panels[i].scroll_vertical = 0	
+	for button in buttons:
+		if button == texture_button:
+			button.select()
+		else:
+			button.deselect()

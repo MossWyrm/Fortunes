@@ -3,15 +3,25 @@ extends Node
 @export var default_card_texture: Texture
 
 @onready var card_display_title : Label = $Scroll/MarginContainer/card_text
+@onready var card_major_display_title : Label = $MajorTextDisplay/VBoxContainer/card_text
 @onready var card_display_background : TextureRect = $CardFront
 @onready var card_display_overlay: TextureRect = $CardFront/FaceImage
-
+signal anim_finished
 var animator : AnimationPlayer
-var draw_anim_finished: bool = false
+var sparkle_anim: AnimationPlayer
+var draw_anim_finished: bool = false:
+	set(value):
+		draw_anim_finished = value
+		anim_finished.emit()
 var current_card: Card
+var flipped_state: bool
 var holding: bool
 var hold_timer: float
 var hold_duration: float = 0.8
+var clearing_major: bool = false
+var major_flipped: bool = false
+var block_remove: bool = false
+var signal_recieved: bool = false
 
 func _process(delta: float) -> void:
 	if holding:
@@ -26,50 +36,55 @@ func _ready():
 	Events.clear_card.connect(clear_card)
 	Events.card_animation_major.connect(clear_major)
 	card_display_title.text = "~"
+	card_major_display_title.text = "~"
 	animator = $CardFlipAnimations
+	sparkle_anim = $Sparkling
 
 func update_card_display(card: Card, flipped: bool):
-	card_display_title.text = card.get_title()
+	flipped_state = flipped
 	set_card_image(card)
+	
 	if card.card_id_num >= 500:
+		block_remove = true
+		card_major_display_title.text = card.get_title()
 		play_major_anim()
 	else:
+		card_display_title.text = card.get_title()
 		play_flip_animation(flipped)
 	current_card = card
 
 func play_flip_animation(flipped) -> void:
+	sparkle_anim.stop()
 	if flipped:
 		card_display_background.rotation = 3.14
-		card_display_title.rotation = 3.14
 		animator.play("CardDrawBad")
 		card_display_title.label_settings.font_color = Color(0.712, 0.127, 0.128)
 	else:
 		card_display_background.rotation = 0
-		card_display_title.rotation = 0
 		animator.play("CardDrawGood")
 		card_display_title.label_settings.font_color = Color(0.0,0.0,0.0)
 
 func play_major_anim() -> void:
 	card_display_background.rotation = 0
-	card_display_title.rotation = 0
 	animator.play("MajorDraw")
-	card_display_title.label_settings.font_color = ID.SuitColor["GOOD"]
+	sparkle_anim.play("sparkle")
 	
 func finish_draw_anim():
 	draw_anim_finished = true
+	clearing_major = false
 	
 func clear_major(flipped: bool) -> void:
-	draw_anim_finished = false
-	if flipped:
-		animator.play("MajorBad")
-	else:
-		animator.play("MajorGood")
-		
+	signal_recieved = true
 
 func clear_card() -> void:
-	if current_card.card_id_num >= 500:
+	if current_card == null || (current_card.card_id_num >= 500 && (block_remove && !signal_recieved)):
 		return
+	block_remove = false
+	signal_recieved = false
 	if draw_anim_finished:
+		var color = ID.PanelColor.GOOD if !flipped_state else ID.PanelColor.BAD
+		card_display_overlay.material.set("shader_parameter/burn_color", color)
+		card_display_background.material.set("shader_parameter/burn_color", color)
 		animator.play("ReturnCard")
 		draw_anim_finished = false
 
@@ -85,6 +100,7 @@ func set_card_image(card: Card) -> void:
 	var overlay: Texture2D = dict["overlay"]
 	card_display_background.texture = background if not null else null
 	card_display_overlay.texture = overlay if not null else null
+	card_display_overlay.material.set("shader_parameter/atlas_size", overlay.atlas.get_size())
 	
 func press_and_hold(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_click"):
