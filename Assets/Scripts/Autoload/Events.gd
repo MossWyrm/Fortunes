@@ -5,7 +5,7 @@ signal selected_card(card : Card, flipped: bool)
 signal floating_text(value)
 signal shuffle(safely: bool)
 signal update_suit_displays
-signal update_currency_display(value)
+signal update_currency(value, type: ID.CurrencyType)
 signal card_value(value : float)
 signal card_animation_major(flipped: bool)
 signal card_draw_animation_finish
@@ -18,10 +18,13 @@ signal card_tooltip(card: Card)
 signal buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType, card_number)
 signal choose_suit(include_majors: bool)
 signal chosen_suit(suit: ID.Suits)
+signal choose_skip()
+signal skip_choice(skipped: bool)
 signal pause_drawing(pause:bool)
+signal pack_complete
 signal load_complete
 signal save_request
-signal reset_game
+signal reset(type: ID.PrestigeLayer)
 
 
 func emit_draw_card() -> void:
@@ -39,8 +42,8 @@ func emit_shuffle(safely : bool = false) -> void:
 func emit_update_suit_displays() -> void:
 	update_suit_displays.emit()
 
-func emit_update_currency_display(value) -> void:
-	update_currency_display.emit(value)
+func emit_update_currency(value, currency_type: ID.CurrencyType = ID.CurrencyType.CLAIRVOYANCE) -> void:
+	update_currency.emit(value, currency_type)
 
 func emit_card_value(value : float) -> void:
 	card_value.emit(value)
@@ -87,5 +90,14 @@ func emit_load_complete() -> void:
 func emit_save_request() -> void:
 	save_request.emit()
 	
-func emit_reset_game() -> void:
-	reset_game.emit()
+func emit_reset(type: ID.PrestigeLayer) -> void:
+	reset.emit(type)
+	
+func emit_choose_skip() -> void:
+	choose_skip.emit()
+	
+func emit_skip_choice(skipping: bool) -> void:
+	skip_choice.emit(skipping)
+
+func emit_pack_complete() -> void:
+	pack_complete.emit()

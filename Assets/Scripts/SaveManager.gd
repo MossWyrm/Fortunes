@@ -20,7 +20,7 @@ func initialize():
 		await GM.references_ready
 		load_save()
 	Events.save_request.connect(write_save)
-	Events.reset_game.connect(clear_save)
+	Events.reset.connect(reset)
 	
 func write_save() -> void:
 	var data := {
@@ -41,3 +41,7 @@ func load_save() -> void:
 	
 func clear_save() -> void:
 	writer.clear_save()
+	
+func reset(type: ID.PrestigeLayer) -> void:
+	if type == ID.PrestigeLayer.ALL:
+		clear_save()

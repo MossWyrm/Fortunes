@@ -1,11 +1,13 @@
 extends Node
-class_name ResourceIDs
+class_name ID
 
 enum Suits {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4, NONE = 5}
-enum UpgradeType {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4, GENERAL = 5}
+enum UpgradeType {CUPS = 0, WANDS = 1, PENTACLES = 2, SWORDS = 3, MAJOR = 4, GENERAL = 5, PACK = 6}
 enum BuffType {GENERAL = 0, PAGE = 1, KNIGHT = 2, QUEEN = 3, KING = 4}
 enum CurrencyType {CLAIRVOYANCE = 0, PACK = 1}
 enum CardState {INACTIVE = 0, POSITIVE = 1, NEGATIVE = 2, UNKNOWN = 3}
+enum PrestigeLayer {DECK = 0, PACK = 1, BONES = 3, POUCH = 4, ALL = 100}
+enum Operation {ADD, SUBTRACT, MULTIPLY, DIVIDE}
 enum BasicID{
 	ONE = 1,
 	TWO = 2,
@@ -47,7 +49,7 @@ enum MajorID {
 	WORLD 				= 22
 }
 
-var SuitColor: Dictionary = {
+static var SuitColor: Dictionary = {
 	CUPS = Color(0.06666667, 0.4117647, 0.74509805),
 	WANDS = Color(0.3137255, 0.5882353, 0.0),
 	PENTACLES = Color(0.80784315, 0.08235294, 0.11764706),
@@ -57,15 +59,17 @@ var SuitColor: Dictionary = {
 	BAD = Color(0.7176471, 0.0, 0.011764706)
 }
 
-var PanelColor: Dictionary = {
+static var PanelColor: Dictionary = {
 	GOOD = Color(0.0627451, 0.32156864, 0.0),
 	BAD = Color(0.5882353, 0.0, 0.007843138)
 							 }
 
-var GrowthType: Dictionary = {
+static var GrowthType: Dictionary = {
 	LINEAR = LinearGrowth.new(),
 	SUPERLINEAR = SuperlinearGrowth.new(),
-	EXPONENTIAL = ExponentialGrowth.new()
-							 }
+	SUBEXPONENTIAL = SuperPolynomialSubExponential.new(),
+	EXPONENTIAL = ExponentialGrowth.new(),
+	SLOW_EXPONENTIAL = SlowExponentialGrowth.new()		
+									}
 
-enum Operation {ADD, SUBTRACT, MULTIPLY, DIVIDE}
+

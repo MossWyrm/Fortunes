@@ -2,7 +2,8 @@ extends Control
 class_name UpgradeButton
 
 var main_parent: Node
-@onready var cost_text: Node 	= $MarginContainer/HBoxContainer/VBoxContainer/Cost
+@onready var cost_text: Label 	= $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Cost
+@onready var currency_image: TextureRect 	= $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CurrencyImage
 @onready var title_desc: Node 	= $MarginContainer/HBoxContainer/VBoxContainer/Title_Desc
 @onready var cvc: CVC 			= GM.cv_manager
 @onready var slider: ColorRect 	= $MASK/ColorRect
@@ -40,7 +41,7 @@ func set_button(upgrade_input, type: ID.UpgradeType):
 func _check_for_button_update() -> void:
 	if upgrade == null:
 		return 
-	if Stats.current_currency >= upgrade.cost && !upgrade.upgrade_disabled:
+	if Stats.clairvoyance >= upgrade.cost && !upgrade.upgrade_disabled:
 		cost_text.add_theme_color_override("font_color",ID.SuitColor["GOOD"])
 		locked = false
 	else:
@@ -48,11 +49,12 @@ func _check_for_button_update() -> void:
 		locked = true
 			
 func _update_button():
-	cost_text.text = "Cost: " + str(upgrade.cost)
+	currency_image.texture = ResourceAutoload.currency_type[upgrade.currency_type]
+	cost_text.text = "Cost: " + Tools.get_shorthand(upgrade.cost)
 	title_desc.text = "%s\n%s"% [upgrade.title, upgrade.description]
 
 func _purchase():
-	Events.emit_update_currency_display(-upgrade.cost)
+	Events.emit_update_currency(-upgrade.cost)
 	upgrade.times_purchased +=1
 	upgrade.trigger()
 	_update_button()

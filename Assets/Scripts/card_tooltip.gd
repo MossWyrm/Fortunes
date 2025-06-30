@@ -24,7 +24,7 @@ func display(card:Card) -> void:
 	
 	locked_overlay.visible = !card.unlocked
 	card_title.text = card.card_title
-	card_title.add_theme_color_override("default_color",ID.SuitColor[str(ResourceIDs.Suits.keys()[card.card_suit])])
+	card_title.add_theme_color_override("default_color",ID.SuitColor[str(ID.Suits.keys()[card.card_suit])])
 	card_desc.text = Descriptions.get_description(card,true)
 	show()
 	

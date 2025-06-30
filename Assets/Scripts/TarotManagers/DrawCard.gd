@@ -1,6 +1,7 @@
 extends Button
 
 var input_made = false
+@onready var overlay = $TextureRect/DisableOverlay
 
 func _ready():
 	pressed.connect(_button_pressed)
@@ -18,4 +19,5 @@ func _release_button_lock():
 	input_made = false
 
 func disable_button(pause: bool) -> void:
+	overlay.visible = pause
 	disabled = pause

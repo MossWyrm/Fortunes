@@ -138,7 +138,7 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" until your next shuffle."
 							)			
 			503:
-				output +=""
+				output +="Currently Unavailable"
 			504:
 				output +=("Remembers the last %s card(s) drawn and then "%[Stats.major_empress]+
 							good_color+"adds"+end_color_tag+
@@ -153,7 +153,7 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" the base value of your cards by %s. Lasts until your next shuffle."%[Stats.major_emperor]
 							)
 			506:
-				output +=("")
+				output +=("Currently Unavailable")
 			507:
 				output += (good_color+"Copy %s cards "%[Stats.major_lovers]+end_color_tag+
 							" / "+
@@ -169,7 +169,7 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" your Clairvoyance by the total."
 							)
 			509:
-				output += ("")
+				output += ("Currently Unavailable")
 			510:
 				output += ("If your remaining deck contains no duplicates, "+
 							good_color+"double your clairvoyance, "+end_color_tag+
@@ -184,11 +184,11 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" the next %s cards by %s."%[Stats.major_wheel_charges, Stats.major_wheel_mult]
 							)
 			512:
-				output += ""
+				output += "Currently Unavailable"
 			513:
-				output += ""
+				output += "Currently Unavailable"
 			514:
-				output += ""
+				output += "Currently Unavailable"
 			515:
 				output += ("All cards will score a "+
 							good_color+"minimum"+end_color_tag+
@@ -197,7 +197,11 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" of %s until your next shuffle."%[Stats.major_temperance]
 							)
 			516:
-				output += ""
+				output += ("Adds another Devil to your deck. You "+
+							good_color + "  may " + end_color_tag +
+							" / "+
+							bad_color + " must " + end_color_tag +
+							" skip %s cards."%[Stats.major_devil])
 			517:
 				output += ("Adds another tower to your deck. "+
 							good_color+"Double"+end_color_tag+
@@ -221,7 +225,9 @@ func get_description(card:Card, _bb_formatted = false) -> String:
 							" until your next shuffle."
 							)
 			521:
-				output += ""
+				output += "Currently Unavailable"
+			522:
+				output += "The Tower completes the full Arcana, resetting your Tarot Progress and giving you a Deck to spend."
 					
 	var suit_output: String = "\n\n"
 	match card.card_suit:

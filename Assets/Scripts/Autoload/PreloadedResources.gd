@@ -2,6 +2,7 @@ extends Node
 
 @export var suit_backgrounds: Dictionary[ID.Suits, Texture2D]
 @export var overlays_by_suit: Dictionary[ID.Suits, Texture2D]
+@export var currency_type: Dictionary[ID.CurrencyType, Texture2D]
 @export var numerals: Texture2D
 @export var buffs: Texture2D
 @export var card_back: Texture2D
@@ -21,7 +22,6 @@ func get_card_texture(card: Card) -> Dictionary[String, Texture2D]:
 	return output
 
 func get_upgrade_background(suit: ID.UpgradeType) -> Texture2D:
-	var texture: Texture2D
 	if suit == ID.UpgradeType.GENERAL:
 		return card_back
 	return suit_backgrounds[suit]

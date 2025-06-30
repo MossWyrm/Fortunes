@@ -18,7 +18,7 @@ func _ready() -> void:
 	Events.draw_card.connect(_draw_card)
 	Events.unlock_card.connect(unlock_card)
 	Events.shuffle.connect(shuffle)
-	Events.reset_game.connect(reset)
+	Events.reset.connect(reset)
 	for child in self.get_children():
 		all_cards[child.card_id_num] = child
 	if selected_deck_list.is_empty():
@@ -88,6 +88,8 @@ func get_card(id: int) -> Card:
 #region deck modification
 func unlock_card(card: Card) -> void:
 	all_cards[card.card_id_num].unlocked = true
+	if card.card_id_num == 522:
+		Events.emit_pack_complete()
 
 func add_card(card_id: int) -> void:
 	var card: Node = all_cards[card_id]
@@ -162,9 +164,10 @@ func load_deck(dict: Dictionary) -> void:
 			new_deck.append(get_card(int(key)))
 	_select_deck(new_deck)
 	
-func reset() -> void:
-	for key in all_cards.keys():
-		all_cards[key].unlocked = all_cards[key].card_suit != ID.Suits.MAJOR
-	_select_deck(get_default_deck())
-	Events.emit_shuffle()
+func reset(type: ID.PrestigeLayer) -> void:
+	if type >= ID.PrestigeLayer.DECK:
+		for key in all_cards.keys():
+			all_cards[key].unlocked = all_cards[key].card_suit != ID.Suits.MAJOR
+		_select_deck(get_default_deck())
+		Events.emit_shuffle()
 #endregion
