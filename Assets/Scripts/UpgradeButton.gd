@@ -20,6 +20,12 @@ var holding:bool = false
 var hold_timer: float = 0
 var hold_delay: float = 0.8
 
+var required_currency: int:
+	get:
+		match upgrade.currency_type:
+			ID.CurrencyType.CLAIRVOYANCE: return Stats.clairvoyance
+			ID.CurrencyType.PACK: return Stats.packs
+			_: return 0
 
 	
 func _process(delta: float) -> void:
@@ -29,7 +35,7 @@ func _process(delta: float) -> void:
 
 func set_button(upgrade_input, type: ID.UpgradeType):
 	upgrade = upgrade_input
-	card_back.texture = ResourceAutoload.get_upgrade_background(type)
+	card_back.texture = ResourceAutoload.get_upgrade_background(type if type != ID.UpgradeType.PACK else ID.UpgradeType.GENERAL)
 	if upgrade.id > 0:
 		card_overlay.texture = ResourceAutoload.get_card_texture(GM.deck_manager.get_card(upgrade.id))["overlay"]
 		card_overlay.show()
@@ -41,7 +47,7 @@ func set_button(upgrade_input, type: ID.UpgradeType):
 func _check_for_button_update() -> void:
 	if upgrade == null:
 		return 
-	if Stats.clairvoyance >= upgrade.cost && !upgrade.upgrade_disabled:
+	if required_currency >= upgrade.cost && !upgrade.fully_upgraded:
 		cost_text.add_theme_color_override("font_color",ID.SuitColor["GOOD"])
 		locked = false
 	else:
@@ -50,11 +56,13 @@ func _check_for_button_update() -> void:
 			
 func _update_button():
 	currency_image.texture = ResourceAutoload.currency_type[upgrade.currency_type]
-	cost_text.text = "Cost: " + Tools.get_shorthand(upgrade.cost)
+	var cost_text_string: String = "Cost: " + Tools.get_shorthand(upgrade.cost)
+	var fully_upgraded: String = "~ Fully Upgraded ~"
+	cost_text.text = fully_upgraded if upgrade.fully_upgraded else cost_text_string
 	title_desc.text = "%s\n%s"% [upgrade.title, upgrade.description]
 
 func _purchase():
-	Events.emit_update_currency(-upgrade.cost)
+	Events.emit_update_currency(-upgrade.cost, upgrade.currency_type)
 	upgrade.times_purchased +=1
 	upgrade.trigger()
 	_update_button()

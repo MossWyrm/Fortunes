@@ -26,7 +26,7 @@ var cup_basic_quant: int = 1  #IMPLEMENTED
 var cup_face_quant: int = 1 #IMPLEMENTED
 var cup_vessel_size: int = 100 #IMPLEMENTED
 var cup_vessel_quant: int = 1 #IMPLEMENTED
-var cup_page_mod: float = 0.0 #IMPLEMENTED
+var cup_page_mod: float = 0.2 #IMPLEMENTED
 var cup_knight_mod: int = 1 #IMPLEMENTED
 var cup_queen_mod: int = 1 #IMPLEMENTED
 
@@ -84,6 +84,9 @@ var major_sun_moon: int = 3 #IMPLEMENTED
 """
 Packs:
 """
+var pack_auto_draw: bool = false
+var pack_auto_draw_speed: float = 5.0
+var pack_card_value: int = 1
 
 func _ready() -> void:
 	Events.reset.connect(reset_game)
@@ -123,7 +126,7 @@ func reset_deck() -> void:
 	cup_face_quant = 1
 	cup_vessel_quant = 1
 	cup_vessel_size = 100
-	cup_page_mod = 0.0
+	cup_page_mod = 0.2
 	cup_knight_mod = 1
 	cup_queen_mod = 1
 	
@@ -177,6 +180,11 @@ func reset_deck() -> void:
 	major_moon = 2
 	major_sun_star = 10
 	major_sun_moon = 3
+	
+func reset_pack() -> void:
+	pack_auto_draw = false
+	pack_auto_draw_speed = 5.0
+	pack_card_value = 1
 	
 func save() -> Dictionary:
 	var save_data: Dictionary = {
@@ -233,7 +241,11 @@ func save() -> Dictionary:
 		"major_star" = major_star,
 		"major_moon" = major_moon,
 		"major_sun_star" = major_sun_star,
-		"major_sun_moon" = major_sun_moon
+		"major_sun_moon" = major_sun_moon,
+		
+		"pack_auto_draw" = pack_auto_draw,
+		"pack_auto_draw_speed" = pack_auto_draw_speed,
+		"pack_card_value" = pack_card_value
 	}
 	return save_data
 	
@@ -242,59 +254,6 @@ func load_stats(dict: Dictionary) -> void:
 	Events.emit_update_currency(dict["packs"], ID.CurrencyType.PACK)
 	for stat in dict.keys():
 		load_stat(stat, dict)
-#	load_stat("tutorial_complete", dict)
-#	load_stat("gen_inversion_chance_mod", dict) 
-#	load_stat("gen_max_deck_size", dict) 
-#	load_stat("gen_min_deck_size", dict) 
-#	
-#	load_stat("cup_basic_value", dict) 
-#	load_stat("cup_basic_quant", dict) 
-#	load_stat("cup_face_quant", dict) 
-#	load_stat("cup_vessel_quant", dict) 
-#	load_stat("cup_vessel_size", dict) 
-#	load_stat("cup_page_mod", dict) 
-#	load_stat("cup_knight_mod", dict) 
-#	load_stat("cup_queen_mod", dict) 
-#	
-#	load_stat("wand_basic_value", dict) 
-#	load_stat("wand_basic_quant", dict) 
-#	load_stat("wand_face_quant", dict) 
-#	load_stat("wand_page_mod", dict) 
-#	load_stat("wand_knight_mod", dict) 
-#	load_stat("wand_queen_mod", dict) 
-#	load_stat("wand_king_mod", dict) 
-#	
-#	load_stat("pent_basic_value", dict) 
-#	load_stat("pent_basic_quant", dict) 
-#	load_stat("pent_face_quant", dict) 
-#	load_stat("pent_page_mod", dict) 
-#	load_stat("pent_knight_uses", dict) 
-#	load_stat("pent_queen_uses", dict) 
-#	load_stat("pent_king_uses", dict) 
-#	load_stat("pent_king_value", dict) 
-#	
-#	load_stat("sword_basic_value", dict) 
-#	load_stat("sword_basic_quant", dict) 
-#	load_stat("sword_face_quant", dict) 
-#	load_stat("sword_knight_mod", dict) 
-#	load_stat("sword_knight_super", dict) 
-#	load_stat("sword_queen_mod", dict) 
-#	load_stat("sword_king_mod", dict) 
-#	
-#	load_stat("major_quant", dict) 
-#	load_stat("major_magician", dict) 
-#	load_stat("major_empress", dict) 
-#	load_stat("major_emperor", dict) 
-#	load_stat("major_lovers", dict) 
-#	load_stat("major_wheel_mult", dict) 
-#	load_stat("major_wheel_charges", dict) 
-#	load_stat("major_temperance", dict) 
-#	load_stat("major_devil", dict) 
-#	load_stat("major_star", dict) 
-#	load_stat("major_moon", dict) 
-#	load_stat("major_sun_star", dict) 
-#	load_stat("major_sun_moon", dict) 
-	
 	
 func load_stat(stat: String, dict: Dictionary) -> void:
 	if stat in dict:
@@ -304,5 +263,8 @@ func reset_game(type: ID.PrestigeLayer) -> void:
 	if type >= ID.PrestigeLayer.DECK:
 		reset_deck()
 		Events.emit_update_currency(-clairvoyance)
+	if type >= ID.PrestigeLayer.PACK:
+		reset_pack()
+		Events.emit_update_currency(-packs, ID.CurrencyType.PACK)
 	if type >= ID.PrestigeLayer.ALL:
 		tutorial_complete = false

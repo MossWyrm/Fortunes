@@ -519,9 +519,34 @@ var pack_upgrade_values: Dictionary = {
 		"STAT" = "pack_auto_draw",
 		"OPERATION" = ID.Operation.ADD,
 		"OPERATION_VALUE" = true,
-		"MAX_UPGRADES" = 1
+		"MAX_UPGRADES" = 1,
+		"CURRENCY_TYPE" = ID.CurrencyType.PACK
+	},
+	pack_auto_draw_speed ={
+		"NAME" =  "Auto Draw Speed",
+		"DESCRIPTION" = "Improves the speed of Auto Draw by 10%%.",
+		"START_COST" = 1.0,
+		"GROWTH" = ID.GrowthType["SUPERLINEAR"],
+		"GROWTH_MOD" = 2,
+		"STAT" = "pack_auto_draw_speed",
+		"OPERATION" = ID.Operation.MULTIPLY,
+		"OPERATION_VALUE" = 0.9,
+		"MAX_UPGRADES" = 1,
+		"CURRENCY_TYPE" = ID.CurrencyType.PACK
+	},
+	pack_card_value ={
+		"NAME" =  "Auto Draw Speed",
+		"DESCRIPTION" = "Improves the speed of Auto Draw by 10%%.",
+		"START_COST" = 10.0,
+		"GROWTH" = ID.GrowthType["SLOW_EXPONENTIAL"],
+		"GROWTH_MOD" = 0.95,
+		"STAT" = "pack_card_value",
+		"OPERATION" = ID.Operation.MULTIPLY,
+		"OPERATION_VALUE" = 2,
+		"MAX_UPGRADES" = 1,
+		"CURRENCY_TYPE" = ID.CurrencyType.PACK
 	}
-									  }
+}
 
 func get_initial_list() -> Dictionary:
 	var initial_list: Dictionary = {

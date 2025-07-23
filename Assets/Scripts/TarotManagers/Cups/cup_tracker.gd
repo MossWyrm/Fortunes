@@ -60,5 +60,5 @@ func draw_page(flipped: bool) -> void:
 	if flipped:
 		total_size = (1 - Stats.cup_page_mod) * float(Stats.cup_vessel_size)
 	else:
-		total_size = (1+ Stats.cup_vessel_size) * float(Stats.cup_vessel_size)
+		total_size = (1+ Stats.cup_page_mod) * float(Stats.cup_vessel_size)
 	_page_size_mod = roundi(total_size - Stats.cup_vessel_size)

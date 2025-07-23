@@ -7,3 +7,4 @@ func _ready():
 
 func pack_complete() -> void:
 	Events.emit_update_currency(1,ID.CurrencyType.PACK)
+	Events.emit_reset(ID.PrestigeLayer.DECK)

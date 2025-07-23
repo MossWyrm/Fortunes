@@ -16,7 +16,7 @@ var stat_name : String
 var effect_type: ID.Operation
 var effect_value
 var max_purchases: int
-var upgrade_disabled: bool:
+var fully_upgraded: bool:
 	get:
 		return max_purchases > 0 && times_purchased >= max_purchases
 
@@ -41,7 +41,7 @@ func trigger() -> void:
 
 	var stat = Stats.get(stat_name)
 	if effect_value is bool:
-		stat = effect_type
+		stat = effect_value
 	else:
 		match effect_type:
 			ID.Operation.ADD: stat += effect_value	

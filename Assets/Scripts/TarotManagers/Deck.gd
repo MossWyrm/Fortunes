@@ -37,6 +37,8 @@ func _draw_card() -> void:
 	if active_deck.is_empty():
 		print("--- Shuffling ---")
 		Events.emit_shuffle()
+	if Stats.pause_drawing:
+		return
 	var random: int = randi() % active_deck.size()
 	Events.emit_selected_card(active_deck.pop_at(random), flip_check())
 
