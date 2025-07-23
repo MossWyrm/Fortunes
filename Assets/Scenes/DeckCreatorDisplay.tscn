@@ -1,13 +1,13 @@
 [gd_scene load_steps=19 format=3 uid="uid://f0qhuujorct"]
 
 [ext_resource type="Script" uid="uid://croc4rc3eq1e5" path="res://Assets/Scripts/CardSelectDisplayBox.gd" id="1_gos2n"]
-[ext_resource type="Texture2D" uid="uid://dybc1uokko2o3" path="res://Assets/Sprites/CardBack.png" id="2_b50pj"]
 [ext_resource type="Script" path="res://Assets/Scripts/CardSelectDisplayBoxUnlocked.gd" id="2_evyqq"]
-[ext_resource type="Texture2D" uid="uid://cee6axeacw7kl" path="res://Assets/Sprites/CardFront.png" id="5_qu4i5"]
+[ext_resource type="Texture2D" uid="uid://et5fyeub635y" path="res://Assets/Sprites/LargeTarot/CardBack.png" id="5_qu4i5"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="5_totdf"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="6_54vya"]
 [ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="6_a8mpr"]
-[ext_resource type="Script" path="res://Assets/Scripts/CardSelectDisplayBoxLocked.gd" id="6_xxlw6"]
+[ext_resource type="Script" uid="uid://d0kjyoyuch7bj" path="res://Assets/Scripts/CardSelectDisplayBoxLocked.gd" id="6_xxlw6"]
+[ext_resource type="Texture2D" uid="uid://tj1kcj0cga3l" path="res://Assets/Sprites/LargeTarot/FrontMajor.png" id="7_xxlw6"]
 [ext_resource type="Texture2D" uid="uid://cm6644lmemhkd" path="res://Assets/Sprites/LargeTarot/Cups.png" id="8_xxlw6"]
 
 [sub_resource type="Gradient" id="Gradient_gj3a4"]
@@ -93,6 +93,7 @@ script = ExtResource("2_evyqq")
 [node name="Panel" type="Panel" parent="ResizerMargins/UnlockedOverlay"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_xxlw6")
 
 [node name="CardFace" type="TextureRect" parent="ResizerMargins/UnlockedOverlay/Panel"]
@@ -103,8 +104,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(71, 95)
-mouse_filter = 0
-texture = ExtResource("2_b50pj")
+texture = ExtResource("5_qu4i5")
 expand_mode = 3
 stretch_mode = 5
 
@@ -135,6 +135,7 @@ autowrap_mode = 2
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 texture_normal = SubResource("AtlasTexture_lsk3w")
 ignore_texture_size = true
 stretch_mode = 5
@@ -154,6 +155,7 @@ size_flags_vertical = 3
 [node name="RemoveFromDeck" type="TextureButton" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText/DeckModButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 texture_normal = SubResource("AtlasTexture_oxebp")
 texture_disabled = SubResource("AtlasTexture_3dol1")
 ignore_texture_size = true
@@ -173,6 +175,7 @@ vertical_alignment = 1
 [node name="AddToDeck" type="TextureButton" parent="ResizerMargins/UnlockedOverlay/ButtonsAndText/DeckModButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 texture_normal = SubResource("AtlasTexture_o2y4p")
 texture_disabled = SubResource("AtlasTexture_xyb3a")
 ignore_texture_size = true
@@ -180,6 +183,7 @@ stretch_mode = 5
 
 [node name="LockedOverlay" type="Control" parent="ResizerMargins"]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("6_xxlw6")
 
 [node name="CardFace" type="TextureRect" parent="ResizerMargins/LockedOverlay"]
@@ -190,7 +194,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_qu4i5")
+texture = ExtResource("7_xxlw6")
 expand_mode = 3
 stretch_mode = 5
 
@@ -225,6 +229,7 @@ offset_bottom = 69.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
+mouse_filter = 1
 theme = ExtResource("6_54vya")
 shortcut_in_tooltip = false
 

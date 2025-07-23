@@ -9,7 +9,11 @@ script = ExtResource("1_8cujf")
 event_name = "event:/Card Flip"
 event_guid = "{562c93b8-a9d5-438c-b5ff-f803af9acb78}"
 allow_fadeout = false
+preload_event = false
 
 [node name="MusicManager" type="Node" parent="."]
 
 [node name="Music" type="FmodEventEmitter2D" parent="MusicManager"]
+event_name = "event:/Card Flip"
+event_guid = "{562c93b8-a9d5-438c-b5ff-f803af9acb78}"
+preload_event = false

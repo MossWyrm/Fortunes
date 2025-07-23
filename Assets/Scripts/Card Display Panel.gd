@@ -22,6 +22,7 @@ var clearing_major: bool = false
 var major_flipped: bool = false
 var block_remove: bool = false
 var signal_recieved: bool = false
+var skip_card: bool = false
 
 func _process(delta: float) -> void:
 	if holding:
@@ -35,6 +36,7 @@ func _ready():
 	Events.selected_card.connect(update_card_display)
 	Events.clear_card.connect(clear_card)
 	Events.card_animation_major.connect(clear_major)
+	Events.skip_choice.connect(card_skip)
 	card_display_title.text = "~"
 	card_major_display_title.text = "~"
 	animator = $CardFlipAnimations
@@ -73,20 +75,33 @@ func finish_draw_anim():
 	draw_anim_finished = true
 	clearing_major = false
 	
-func clear_major(flipped: bool) -> void:
+func clear_major(_flipped: bool) -> void:
 	signal_recieved = true
+	
+func card_skip(skipping: bool) -> void:
+	skip_card = skipping
+	block_remove = false
+	clear_card()
 
 func clear_card() -> void:
 	if current_card == null || (current_card.card_id_num >= 500 && (block_remove && !signal_recieved)):
 		return
 	block_remove = false
 	signal_recieved = false
-	if draw_anim_finished:
+	if draw_anim_finished && skip_card:
+		var color: Color = Color.WHITE
+		card_display_overlay.material.set("shader_parameter/burn_color", color)
+		card_display_background.material.set("shader_parameter/burn_color", color)
+		animator.play("SkipCard")
+		draw_anim_finished = false
+		skip_card = false
+	elif draw_anim_finished:
 		var color = ID.PanelColor.GOOD if !flipped_state else ID.PanelColor.BAD
 		card_display_overlay.material.set("shader_parameter/burn_color", color)
 		card_display_background.material.set("shader_parameter/burn_color", color)
 		animator.play("ReturnCard")
 		draw_anim_finished = false
+		skip_card = false
 
 func card_cleared() -> void:
 	Events.emit_card_draw_animation_finish()

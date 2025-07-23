@@ -13,6 +13,17 @@ func _ready() -> void:
 	Events.selected_card.connect(_calculate_card_value)
 	
 func _calculate_card_value(card: Card, flipped = false) -> void:
+	if majors_node.devil_active():
+		if majors_node.devil_forced():
+			Events.emit_skip_choice(true)
+			majors_node.devil_use()
+			Events.emit_update_suit_displays()
+			return
+		Events.emit_choose_skip()
+		if await Events.skip_choice:
+			majors_node.devil_use()
+			Events.emit_update_suit_displays()
+			return
 	if majors_node.wheel_requires_check():
 		majors_node.wheel_trigger(card.card_suit)
 	if _pentacles_queen_check(flipped):

@@ -347,117 +347,144 @@ card_suit = 4
 card_title = "The High Priestess"
 card_id_num = 503
 unlocked = false
+unlock_cost = 6000
+blocked = true
 
 [node name="The Empress" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Empress"
 card_id_num = 504
 unlocked = false
+unlock_cost = 10000
 
 [node name="The Emperor" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Emperor"
 card_id_num = 505
 unlocked = false
+unlock_cost = 15000
 
 [node name="The Hierophant" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Hierophant"
 card_id_num = 506
 unlocked = false
+unlock_cost = 25000
+blocked = true
 
 [node name="The Lovers" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Lovers"
 card_id_num = 507
 unlocked = false
+unlock_cost = 50000
 
 [node name="The Chariot" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Chariot"
 card_id_num = 508
 unlocked = false
+unlock_cost = 75000
 
 [node name="Strength" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "Strength"
 card_id_num = 509
 unlocked = false
+unlock_cost = 100000
+blocked = true
 
 [node name="The Hermit" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Hermit"
 card_id_num = 510
 unlocked = false
+unlock_cost = 150000
 
 [node name="The Wheel of Fortune" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Wheel of Fortune"
 card_id_num = 511
 unlocked = false
+unlock_cost = 250000
 
 [node name="Justice" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "Justice"
 card_id_num = 512
 unlocked = false
+unlock_cost = 750000
+blocked = true
 
 [node name="The Hanged Man" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Hanged Man"
 card_id_num = 513
 unlocked = false
+unlock_cost = 1000000
+blocked = true
 
 [node name="Death" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "Death"
 card_id_num = 514
 unlocked = false
+unlock_cost = 2000000
+blocked = true
 
 [node name="Temperance" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "Temperance"
 card_id_num = 515
 unlocked = false
+unlock_cost = 5000000
 
 [node name="The Devil" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Devil"
 card_id_num = 516
 unlocked = false
+unlock_cost = 10000000
 
 [node name="The Tower" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Tower"
 card_id_num = 517
 unlocked = false
+unlock_cost = 20000000
 
 [node name="The Star" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Star"
 card_id_num = 518
 unlocked = false
+unlock_cost = 50000000
 
 [node name="The Moon" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Moon"
 card_id_num = 519
 unlocked = false
+unlock_cost = 250000000
 
 [node name="The Sun" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The Sun"
 card_id_num = 520
 unlocked = false
+unlock_cost = 1000000000
 
 [node name="Judgement" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "Judgement"
 card_id_num = 521
 unlocked = false
+unlock_cost = 2500000000
+blocked = true
 
 [node name="The World" parent="." instance=ExtResource("2_ax3xy")]
 card_suit = 4
 card_title = "The World"
 card_id_num = 522
 unlocked = false
+unlock_cost = 100000000000

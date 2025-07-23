@@ -29,8 +29,12 @@ DSP/dsp_buffer_count=4
 [application]
 
 config/name="Fortunes"
-run/main_scene="res://Assets/Scenes/Main.tscn"
+config/version="0.0.1b"
+run/main_scene="uid://rlyjd653kvns"
 config/features=PackedStringArray("4.4", "Mobile")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/fullsize=false
 config/icon="res://icon.svg"
 
 [autoload]
@@ -38,11 +42,11 @@ config/icon="res://icon.svg"
 Events="*res://Assets/Scripts/Autoload/Events.gd"
 ResourceAutoload="*res://Assets/Scenes/PreloadedObjects.tscn"
 Stats="*res://Assets/Scripts/Stats.gd"
-ID="*res://Assets/Scripts/Autoload/ResourceIDs.gd"
+ID="res://Assets/Scripts/Autoload/ResourceIDs.gd"
 GM="*res://Assets/Scripts/Autoload/Main.gd"
 Descriptions="*res://Assets/Scripts/Autoload/CardDescriptions.gd"
-FmodManager="*res://addons/fmod/FmodManager.gd"
-fmodbanks="*res://Assets/Scenes/bank_loader.tscn"
+FmodManager="res://addons/fmod/FmodManager.gd"
+fmodbanks="res://Assets/Scenes/bank_loader.tscn"
 
 [display]
 
@@ -52,10 +56,6 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
-
 [file_customization]
 
 folder_colors={
@@ -64,6 +64,14 @@ folder_colors={
 "res://Assets/Scripts/": "red",
 "res://Assets/Shaders/": "green",
 "res://Assets/Sprites/": "blue"
+}
+
+[importer_defaults]
+
+texture={
+&"compress/mode": 1,
+&"compress/normal_map": 2,
+&"mipmaps/generate": true
 }
 
 [input]
@@ -77,5 +85,5 @@ ui_click={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

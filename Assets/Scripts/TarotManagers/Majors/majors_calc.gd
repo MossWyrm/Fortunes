@@ -95,7 +95,9 @@ func _temperance(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _devil(_flipped: bool) -> int:
+func _devil(flipped: bool) -> int:
+	tracker.draw_devil(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _tower(flipped: bool) -> int:
@@ -133,6 +135,9 @@ func wheel_active() -> bool:				return tracker.check_active(ID.MajorID.WHEEL_OF_
 func wheel_mod(value: int) -> int: 			return tracker.wheel_modifier(value)
 func temperance_active() -> bool: 			return tracker.check_active(ID.MajorID.TEMPERANCE)
 func temperance_trigger(value: int) -> int:	return tracker.trigger_temperance(value)
+func devil_active() -> bool:				return tracker.check_active(ID.MajorID.DEVIL)
+func devil_use() -> void:					tracker.trigger_devil()
+func devil_forced() -> bool:				return tracker.devil_forced()
 func tower_active() -> bool: 				return tracker.check_active(ID.MajorID.TOWER)
 func tower_trigger(value:int) -> int: 		return tracker.trigger_tower(value)
 func star_active(flipped: bool) -> bool: 	return tracker.check_star(flipped)

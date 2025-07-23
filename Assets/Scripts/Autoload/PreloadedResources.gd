@@ -21,7 +21,6 @@ func get_card_texture(card: Card) -> Dictionary[String, Texture2D]:
 	return output
 
 func get_upgrade_background(suit: ID.UpgradeType) -> Texture2D:
-	var texture: Texture2D
 	if suit == ID.UpgradeType.GENERAL:
 		return card_back
 	return suit_backgrounds[suit]

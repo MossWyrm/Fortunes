@@ -2,3 +2,6 @@
 
 [node name="FmodBankLoader" type="FmodBankLoader"]
 bank_paths = ["res://Assets/Audio/Banks/Master.strings.bank", "res://Assets/Audio/Banks/Master.bank", "res://Assets/Audio/Banks/Fortunes_SFX.bank"]
+
+[node name="FmodListener2D" type="FmodListener2D" parent="."]
+is_locked = true

@@ -18,6 +18,8 @@ signal card_tooltip(card: Card)
 signal buff_tooltip(suit: ID.Suits, buff_type: ID.BuffType, card_number)
 signal choose_suit(include_majors: bool)
 signal chosen_suit(suit: ID.Suits)
+signal choose_skip()
+signal skip_choice(skipped: bool)
 signal pause_drawing(pause:bool)
 signal load_complete
 signal save_request
@@ -89,3 +91,9 @@ func emit_save_request() -> void:
 	
 func emit_reset_game() -> void:
 	reset_game.emit()
+	
+func emit_choose_skip() -> void:
+	choose_skip.emit()
+	
+func emit_skip_choice(skipping: bool) -> void:
+	skip_choice.emit(skipping)

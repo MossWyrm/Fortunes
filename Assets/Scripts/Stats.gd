@@ -73,6 +73,7 @@ var major_lovers: int = 4 #IMPLEMENTED
 var major_wheel_mult: int = 2 #IMPLEMENTED
 var major_wheel_charges: int = 5 #IMPLEMENTED
 var major_temperance: int = 100 #IMPLEMENTED
+var major_devil: int = 3 
 var major_star: int = 5 #IMPLEMENTED
 var major_moon: int = 2 #IMPLEMENTED
 var major_sun_star: int = 10 #IMPLEMENTED
@@ -165,6 +166,7 @@ func reset_deck() -> void:
 	major_wheel_mult = 2
 	major_wheel_charges = 5
 	major_temperance = 100
+	major_devil = 3
 	major_star = 5
 	major_moon = 2
 	major_sun_star = 10
@@ -219,6 +221,7 @@ func save() -> Dictionary:
 		"major_wheel_mult" = major_wheel_mult,
 		"major_wheel_charges" = major_wheel_charges,
 		"major_temperance" = major_temperance,
+		"major_devil" = major_devil,
 		"major_star" = major_star,
 		"major_moon" = major_moon,
 		"major_sun_star" = major_sun_star,
@@ -228,57 +231,63 @@ func save() -> Dictionary:
 	
 func load_stats(dict: Dictionary) -> void:
 	Events.emit_update_currency_display(dict["current_currency"])
-	gen_inversion_chance_mod = dict["gen_inversion_chance_mod"]
-	gen_max_deck_size = dict["gen_max_deck_size"]
-	gen_min_deck_size = dict["gen_min_deck_size"]
+	load_stat("gen_inversion_chance_mod", dict) 
+	load_stat("gen_max_deck_size", dict) 
+	load_stat("gen_min_deck_size", dict) 
 	
-	cup_basic_value = dict["cup_basic_value"]
-	cup_basic_quant = dict["cup_basic_quant"]
-	cup_face_quant = dict["cup_face_quant"]
-	cup_vessel_quant = dict["cup_vessel_quant"]
-	cup_vessel_size = dict["cup_vessel_size"]
-	cup_page_mod = dict["cup_page_mod"]
-	cup_knight_mod = dict["cup_knight_mod"]
-	cup_queen_mod = dict["cup_queen_mod"]
+	load_stat("cup_basic_value", dict) 
+	load_stat("cup_basic_quant", dict) 
+	load_stat("cup_face_quant", dict) 
+	load_stat("cup_vessel_quant", dict) 
+	load_stat("cup_vessel_size", dict) 
+	load_stat("cup_page_mod", dict) 
+	load_stat("cup_knight_mod", dict) 
+	load_stat("cup_queen_mod", dict) 
 	
-	wand_basic_value = dict["wand_basic_value"]
-	wand_basic_quant = dict["wand_basic_quant"]
-	wand_face_quant = dict["wand_face_quant"]
-	wand_page_mod = dict["wand_page_mod"]
-	wand_knight_mod = dict["wand_knight_mod"]
-	wand_queen_mod = dict["wand_queen_mod"]
-	wand_king_mod = dict["wand_king_mod"]
+	load_stat("wand_basic_value", dict) 
+	load_stat("wand_basic_quant", dict) 
+	load_stat("wand_face_quant", dict) 
+	load_stat("wand_page_mod", dict) 
+	load_stat("wand_knight_mod", dict) 
+	load_stat("wand_queen_mod", dict) 
+	load_stat("wand_king_mod", dict) 
 	
-	pent_basic_value = dict["pent_basic_value"]
-	pent_basic_quant = dict["pent_basic_quant"]
-	pent_face_quant = dict["pent_face_quant"]
-	pent_page_mod = dict["pent_page_mod"]
-	pent_knight_uses = dict["pent_knight_uses"]
-	pent_queen_uses = dict["pent_queen_uses"]
-	pent_king_uses = dict["pent_king_uses"]
-	pent_king_value = dict["pent_king_value"]
+	load_stat("pent_basic_value", dict) 
+	load_stat("pent_basic_quant", dict) 
+	load_stat("pent_face_quant", dict) 
+	load_stat("pent_page_mod", dict) 
+	load_stat("pent_knight_uses", dict) 
+	load_stat("pent_queen_uses", dict) 
+	load_stat("pent_king_uses", dict) 
+	load_stat("pent_king_value", dict) 
 	
-	sword_basic_value = dict["sword_basic_value"]
-	sword_basic_quant = dict["sword_basic_quant"]
-	sword_face_quant = dict["sword_face_quant"]
-	sword_knight_mod = dict["sword_knight_mod"]
-	sword_knight_super = dict["sword_knight_super"]
-	sword_queen_mod = dict["sword_queen_mod"]
-	sword_king_mod = dict["sword_king_mod"]
+	load_stat("sword_basic_value", dict) 
+	load_stat("sword_basic_quant", dict) 
+	load_stat("sword_face_quant", dict) 
+	load_stat("sword_knight_mod", dict) 
+	load_stat("sword_knight_super", dict) 
+	load_stat("sword_queen_mod", dict) 
+	load_stat("sword_king_mod", dict) 
 	
-	major_quant = dict["major_quant"]
-	major_magician = dict["major_magician"]
-	major_empress = dict["major_empress"]
-	major_emperor = dict["major_emperor"]
-	major_lovers = dict["major_lovers"]
-	major_wheel_mult = dict["major_wheel_mult"]
-	major_wheel_charges = dict["major_wheel_charges"]
-	major_temperance = dict["major_temperance"]
-	major_star = dict["major_star"]
-	major_moon = dict["major_moon"]
-	major_sun_star = dict["major_sun_star"]
-	major_sun_moon = dict["major_sun_moon"]
+	load_stat("major_quant", dict) 
+	load_stat("major_magician", dict) 
+	load_stat("major_empress", dict) 
+	load_stat("major_emperor", dict) 
+	load_stat("major_lovers", dict) 
+	load_stat("major_wheel_mult", dict) 
+	load_stat("major_wheel_charges", dict) 
+	load_stat("major_temperance", dict) 
+	load_stat("major_devil", dict) 
+	load_stat("major_star", dict) 
+	load_stat("major_moon", dict) 
+	load_stat("major_sun_star", dict) 
+	load_stat("major_sun_moon", dict) 
 	
+	
+func load_stat(stat: String, dict: Dictionary) -> void:
+	if stat in dict:
+		set(stat, dict[stat])
+		
 func reset_game() -> void:
 	reset_deck()
 	Events.emit_update_currency_display(-current_currency)

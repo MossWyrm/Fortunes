@@ -22,6 +22,7 @@ func _ready() -> void:
 	_major_states[ID.MajorID.CHARIOT].append(0)
 	_major_states[ID.MajorID.WHEEL_OF_FORTUNE].append(0)
 	_major_states[ID.MajorID.TEMPERANCE].append(0)
+	_major_states[ID.MajorID.DEVIL].append(0)
 		
 func update(_value, _flipped = false) -> void:
 	return
@@ -31,6 +32,8 @@ func shuffle(safely: bool = false) -> void:
 		return
 	for key in _major_states.keys():
 		set_state(key, ID.CardState.INACTIVE) 
+		if _major_states[key].size() >1:
+			set_charges(key, 0)
 	empress_collection.clear()
 	stars_work_on_bad = false 
 	moons_drawn = 0
@@ -177,6 +180,26 @@ func trigger_temperance(value: int) -> int:
 		return value if value <= Stats.major_temperance else Stats.major_temperance
 	return value
 
+#endregion
+#region = "Devil"
+func draw_devil(flipped: bool) -> void:
+	set_state(ID.MajorID.DEVIL, ID.CardState.NEGATIVE if flipped else ID.CardState.POSITIVE)
+	add_charges(ID.MajorID.DEVIL, Stats.major_devil)
+	if GM.deck_manager.active_deck.size() >= 3:
+		GM.deck_manager.add_card(516)
+	
+func devil_forced() -> bool:
+	var state: ID.CardState = get_state(ID.MajorID.DEVIL)
+	match state:
+		ID.CardState.NEGATIVE:
+			return true
+		_:
+			return false
+			
+func trigger_devil() -> void:
+	remove_charges(ID.MajorID.DEVIL, 1)
+	if get_charges(ID.MajorID.DEVIL) <= 0:
+		set_state(ID.MajorID.DEVIL, ID.CardState.INACTIVE)
 #endregion
 #region = "Tower"
 func draw_tower(flipped: bool) -> void:
