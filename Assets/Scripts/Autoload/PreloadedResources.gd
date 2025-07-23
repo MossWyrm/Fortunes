@@ -2,6 +2,7 @@ extends Node
 
 @export var suit_backgrounds: Dictionary[ID.Suits, Texture2D]
 @export var overlays_by_suit: Dictionary[ID.Suits, Texture2D]
+@export var currency_type: Dictionary[ID.CurrencyType, Texture2D]
 @export var numerals: Texture2D
 @export var buffs: Texture2D
 @export var card_back: Texture2D

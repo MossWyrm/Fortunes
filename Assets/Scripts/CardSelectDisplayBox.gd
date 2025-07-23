@@ -54,7 +54,7 @@ func add_card_to_deck() -> void:
 
 func buy_card() -> void:
 	Events.emit_unlock_card(stored_card)
-	Events.emit_update_currency_display(-stored_card.unlock_cost)
+	Events.emit_update_currency(-stored_card.unlock_cost)
 	holding = false
 	hold_timer = 0
 

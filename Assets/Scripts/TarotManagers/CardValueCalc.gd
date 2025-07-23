@@ -34,7 +34,7 @@ func _calculate_card_value(card: Card, flipped = false) -> void:
 	var main_value: int = await main_calc(card,base_value,flipped)
 	var post_value: int = post_calc(main_value)
 
-	Events.emit_update_currency_display(post_value)
+	Events.emit_update_currency(post_value)
 	Events.emit_update_suit_displays()
 
 	

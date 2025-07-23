@@ -124,7 +124,7 @@ func trigger_chariot() -> void:
 			output = -get_chariot_value()
 		_:
 			pass
-	Events.emit_update_currency_display(output)
+	Events.emit_update_currency(output)
 	set_state(ID.MajorID.CHARIOT, ID.CardState.INACTIVE)
 	
 func get_chariot_value() -> int:
@@ -134,11 +134,11 @@ func get_chariot_value() -> int:
 #region = "Hermit"
 func draw_hermit(_flipped: bool) -> void:
 	var hermit_output: int = (
-		 Stats.current_currency 
+		 Stats.clairvoyance 
 		 if get_duplicates(GM.deck_manager.active_deck).size() <= 0 
-		 else -roundi(float(Stats.current_currency) / 2)
+		 else -roundi(float(Stats.clairvoyance) / 2)
 							 )
-	Events.emit_update_currency_display(hermit_output)
+	Events.emit_update_currency(hermit_output)
 #endregion
 #region = "Wheel of Fortune"
 func draw_wheel_of_fortune(flipped: bool) -> void:

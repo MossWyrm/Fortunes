@@ -7,4 +7,4 @@ func _ready():
 	pressed.connect(give_money)
 
 func give_money():
-	Events.emit_update_currency_display(money_to_give)
+	Events.emit_update_currency(money_to_give)
