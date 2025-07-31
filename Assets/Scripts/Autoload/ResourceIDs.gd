@@ -8,6 +8,7 @@ enum CurrencyType {CLAIRVOYANCE = 0, PACK = 1}
 enum CardState {INACTIVE = 0, POSITIVE = 1, NEGATIVE = 2, UNKNOWN = 3}
 enum PrestigeLayer {DECK = 0, PACK = 1, BONES = 3, POUCH = 4, ALL = 100}
 enum Operation {ADD, SUBTRACT, MULTIPLY, DIVIDE}
+enum ParticleType {SUCCESS, FAILURE}
 enum BasicID{
 	ONE = 1,
 	TWO = 2,

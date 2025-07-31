@@ -12,29 +12,21 @@ func _ready() -> void:
 	GM.cv_manager = self
 	Events.selected_card.connect(_calculate_card_value)
 	
+
+# Handles the full card value calculation process when a card is selected
 func _calculate_card_value(card: Card, flipped = false) -> void:
-	if majors_node.devil_active():
-		if majors_node.devil_forced():
-			Events.emit_skip_choice(true)
-			majors_node.devil_use()
-			Events.emit_update_suit_displays()
-			return
-		Events.emit_choose_skip()
-		if await Events.skip_choice:
-			majors_node.devil_use()
-			Events.emit_update_suit_displays()
-			return
-	if majors_node.wheel_requires_check():
-		majors_node.wheel_trigger(card.card_suit)
-	if _pentacles_queen_check(flipped):
-		flipped = !flipped
-	swords_node.update_swords(flipped)
-		
+	# Run any pre-calculation logic (may modify flipped, trigger events, etc.)
+	await pre_calc(card, flipped)
+
+	# Calculate the base value of the card
 	var base_value: int = base_calc(card, flipped)
-	var main_value: int = await main_calc(card,base_value,flipped)
+	# Run the main calculation for the card, possibly async for majors
+	var main_value: int = await main_calc(card, base_value, flipped)
+	# Apply any post-calculation modifications
 	var post_value: int = post_calc(main_value)
 
-	Events.emit_update_currency(post_value)
+	if post_value != 0:
+		Events.emit_update_currency(post_value)
 	Events.emit_update_suit_displays()
 
 	
@@ -59,6 +51,24 @@ func wand_knight_value() -> float:
 func _pentacles_queen_check(flipped) -> bool:
 	return pentacles_node.check_queen_pent(flipped)
 	
+func pre_calc(card: Card, flipped: bool) -> void:
+	if majors_node.devil_active():
+		if majors_node.devil_forced():
+			Events.emit_skip_choice(true)
+			majors_node.devil_use()
+			Events.emit_update_suit_displays()
+			return
+		Events.emit_choose_skip()
+		if await Events.skip_choice:
+			majors_node.devil_use()
+			Events.emit_update_suit_displays()
+			return
+	if majors_node.wheel_requires_check():
+		majors_node.wheel_trigger(card.card_suit)
+	if _pentacles_queen_check(flipped):
+		flipped = !flipped
+	swords_node.update_swords(flipped)
+
 func base_calc(card: Card, flipped: bool) -> int:
 	var base_value: int = 0
 	match card.card_suit:
@@ -109,4 +119,8 @@ func post_calc(value: int) -> int:
 		card_val = majors_node.temperance_trigger(card_val)
 	if majors_node.tower_active():
 		card_val = majors_node.tower_trigger(card_val)
+
+	if majors_node.judgement_active():
+		card_val = majors_node.judgement_mod(card_val)
+
 	return card_val

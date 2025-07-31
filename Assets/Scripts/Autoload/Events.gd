@@ -25,6 +25,10 @@ signal pack_complete
 signal load_complete
 signal save_request
 signal reset(type: ID.PrestigeLayer)
+signal hanged_man_choice
+signal hanged_man_chosen(percent: float)
+signal particle(particle_type: ID.ParticleType)
+signal sfx(sfx_type: AudioManager.SFX)
 
 
 func emit_draw_card() -> void:
@@ -101,3 +105,15 @@ func emit_skip_choice(skipping: bool) -> void:
 
 func emit_pack_complete() -> void:
 	pack_complete.emit()
+
+func emit_hanged_man_choice() -> void:
+	hanged_man_choice.emit()
+
+func emit_hanged_man_chosen(percent: float) -> void:
+	hanged_man_chosen.emit(percent)
+
+func emit_particle(type: ID.ParticleType) -> void:
+	particle.emit(type)
+
+func emit_sfx(sfx_type: AudioManager.SFX) -> void:
+	sfx.emit(sfx_type)

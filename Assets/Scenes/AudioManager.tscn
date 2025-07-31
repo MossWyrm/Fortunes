@@ -6,14 +6,35 @@
 script = ExtResource("1_8cujf")
 
 [node name="CardFlip" type="FmodEventEmitter2D" parent="."]
-event_name = "event:/Card Flip"
+event_name = "event:/Card Flip Multi"
 event_guid = "{562c93b8-a9d5-438c-b5ff-f803af9acb78}"
 allow_fadeout = false
-preload_event = false
+
+[node name="MenuTap" type="FmodEventEmitter2D" parent="."]
+event_name = "event:/Menu Movement Multi"
+event_guid = "{b22e6e1e-1595-45e5-ad44-f7c454ffd543}"
+allow_fadeout = false
+
+[node name="MenuDing" type="FmodEventEmitter2D" parent="."]
+event_name = "event:/Menu Select Multi"
+event_guid = "{83f20564-02ab-4eae-8a70-59ed873bef4c}"
+allow_fadeout = false
+
+[node name="PageTurn" type="FmodEventEmitter2D" parent="."]
+event_name = "event:/Page Turn Multi"
+event_guid = "{5b9cf1f5-acf0-4456-b7fa-a018993bed0a}"
+allow_fadeout = false
 
 [node name="MusicManager" type="Node" parent="."]
 
 [node name="Music" type="FmodEventEmitter2D" parent="MusicManager"]
-event_name = "event:/Card Flip"
-event_guid = "{562c93b8-a9d5-438c-b5ff-f803af9acb78}"
+event_name = "event:/Occult Dub"
+event_guid = "{22e50bc0-c7f3-4bef-aebc-6cd91fd9fbd3}"
+allow_fadeout = false
 preload_event = false
+"fmod_parameters/Game End/id" = -1023953184373297247
+"fmod_parameters/Game End" = 0
+"fmod_parameters/Game End/variant_type" = 2
+"fmod_parameters/Music Intensity/id" = 4949486858805244457
+"fmod_parameters/Music Intensity" = 0.0
+"fmod_parameters/Music Intensity/variant_type" = 3

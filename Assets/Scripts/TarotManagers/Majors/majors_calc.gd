@@ -5,6 +5,9 @@ class_name majors_calc
 
 #TODO: Finish the implementation of the remaining Majors
 
+# Handles calculation logic for all Major Arcana cards
+
+# Main entry point for drawing a Major Arcana card
 func draw(card: Card, _value: int, flipped = false) -> int:
 	match card.card_id_num % 100:
 		1: return _fool(flipped)
@@ -19,7 +22,7 @@ func draw(card: Card, _value: int, flipped = false) -> int:
 		10: return _hermit(flipped)
 		11: return await _wheel_of_fortune(flipped)
 		12: return _justice(flipped)
-		13: return _hanged_man(flipped)
+		13: return await _hanged_man(flipped)
 		14: return _death(flipped)
 		15: return _temperance(flipped)
 		16: return _devil(flipped)
@@ -31,8 +34,11 @@ func draw(card: Card, _value: int, flipped = false) -> int:
 		_:
 			print("failed to find card")
 			return 0
-	
+
+# Each Major Arcana card has its own effect, handled below
+
 func _fool(flipped: bool) -> int:
+	# This card forces a shuffle of the deck
 	Events.emit_shuffle(!flipped)
 	Events.emit_card_animation_major(flipped)
 	return 0
@@ -84,7 +90,9 @@ func _wheel_of_fortune(flipped: bool) -> int:
 func _justice(_flipped: bool) -> int:
 	return 0
 	
-func _hanged_man(_flipped: bool) -> int:
+func _hanged_man(flipped: bool) -> int:
+	await tracker.draw_hanged_man(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _death(_flipped: bool) -> int:
@@ -120,9 +128,12 @@ func _sun(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _judgement(_flipped: bool) -> int:
+func _judgement(flipped: bool) -> int:
+	tracker.draw_judgement(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 
+# Utility and state methods for Majors
 func get_display() -> Dictionary: 			return tracker.get_display()
 func get_base_value(_value: int) -> int: 	return _value
 func get_empress() -> int: 					return tracker.get_empress_value()
@@ -142,3 +153,5 @@ func tower_active() -> bool: 				return tracker.check_active(ID.MajorID.TOWER)
 func tower_trigger(value:int) -> int: 		return tracker.trigger_tower(value)
 func star_active(flipped: bool) -> bool: 	return tracker.check_star(flipped)
 func star_trigger(value: int) -> int: 		return tracker.trigger_star(value)
+func judgement_active() -> bool: 			return tracker.check_active(ID.MajorID.JUDGEMENT)
+func judgement_mod(value: int) -> int: 		return tracker.judgement_modifier(value)
