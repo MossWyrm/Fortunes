@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cgssh6l4tjqg0"]
 
 [node name="FmodBankLoader" type="FmodBankLoader"]
-bank_paths = ["res://Assets/Audio/Banks/Master.strings.bank", "res://Assets/Audio/Banks/Master.bank", "res://Assets/Audio/Banks/Fortunes_SFX.bank"]
+bank_paths = ["res://Assets/Audio/Banks/Master.strings.bank", "res://Assets/Audio/Banks/Master.bank", "res://Assets/Audio/Banks/Fortunes.bank"]
 
 [node name="FmodListener2D" type="FmodListener2D" parent="."]
 is_locked = true

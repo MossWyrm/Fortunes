@@ -1,0 +1,276 @@
+[gd_scene load_steps=21 format=3 uid="uid://bbiq3lfelkb8y"]
+
+[ext_resource type="Script" uid="uid://i143awvk5j84" path="res://Assets/Scripts/card_tooltip.gd" id="1_7ktwe"]
+[ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="2_5m3p1"]
+[ext_resource type="Texture2D" uid="uid://cdjuyvq4cujco" path="res://Assets/Sprites/LargeTarot/FrontCup.png" id="3_64f26"]
+[ext_resource type="Texture2D" uid="uid://cm6644lmemhkd" path="res://Assets/Sprites/LargeTarot/Cups.png" id="4_xwkcm"]
+[ext_resource type="Texture2D" uid="uid://brkuwl2n2tvl0" path="res://Assets/Sprites/Numerals.png" id="5_c5plm"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="6_yvtd2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ktwe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pg5xu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t40wn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mhdow"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4kbup"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_721gu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fqjcf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pnir"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_80ed3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iimxx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kwusr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dsner"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgmhe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhdow"]
+atlas = ExtResource("5_c5plm")
+region = Rect2(0, 0, 64, 64)
+
+[node name="CardTooltip" type="MarginContainer"]
+z_index = 15
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+script = ExtResource("1_7ktwe")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7ktwe")
+
+[node name="CardInfo" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Header" type="Panel" parent="PanelContainer/CardInfo"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_5m3p1")
+
+[node name="Label" type="Label" parent="PanelContainer/CardInfo/Header"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_5m3p1")
+theme_override_font_sizes/font_size = 96
+text = "Card Info"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Details" type="Panel" parent="PanelContainer/CardInfo"]
+custom_minimum_size = Vector2(598, 623)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.5
+theme = ExtResource("2_5m3p1")
+
+[node name="Button" type="Button" parent="PanelContainer/CardInfo/Details"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+offset_left = 528.0
+offset_right = 608.0
+offset_bottom = 80.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("2_5m3p1")
+theme_override_colors/font_hover_color = Color(0.974307, 0.757767, 0.178021, 1)
+theme_override_colors/font_color = Color(0.862745, 0.662745, 0.0862745, 1)
+theme_override_colors/font_pressed_color = Color(0.267547, 0.197364, 0.00898539, 1)
+theme_override_fonts/font = ExtResource("6_yvtd2")
+theme_override_font_sizes/font_size = 45
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pg5xu")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_t40wn")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_mhdow")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_4kbup")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_721gu")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_fqjcf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3pnir")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_80ed3")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_iimxx")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_kwusr")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_dsner")
+text = "X"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/CardInfo/Details"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CardInfo/Details/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 369.16)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Panel" type="Panel" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_5m3p1")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgmhe")
+
+[node name="CardFace" type="TextureRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_64f26")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardOverlay" type="TextureRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_xwkcm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MASK" type="TextureRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_64f26")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LockedOverlay" type="ColorRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace/MASK"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.03, 0.03, 0.658824)
+
+[node name="Label" type="Label" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace/MASK/LockedOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -14.0
+offset_right = 37.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.862745, 0.662745, 0.0862745, 1)
+text = "- LOCKED -"
+
+[node name="Numeral" type="TextureRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.5
+offset_top = -199.5
+offset_right = 32.5
+offset_bottom = -135.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_mhdow")
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/Panel/CardFace/Numeral"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.8
+theme = ExtResource("2_5m3p1")
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="CardTitle" type="RichTextLabel" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5m3p1")
+bbcode_enabled = true
+text = "Card Name:
+XYZABC123"
+fit_content = true
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[node name="CardDesc" type="RichTextLabel" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5m3p1")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "This is the description that will be describing the card"
+fit_content = true
+scroll_active = false
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[node name="SuitDesc" type="RichTextLabel" parent="PanelContainer/CardInfo/Details/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5m3p1")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Pentacles: Whenever a Pentacle card is drawn, Increase / Decrease your Pentacle protection value, when you next draw an Inverted card, your losses will be reduced by this protection."
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
+
+[connection signal="pressed" from="PanelContainer/CardInfo/Details/Button" to="." method="hide"]

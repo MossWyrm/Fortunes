@@ -17,7 +17,9 @@ func auto_save() -> void:
 
 func initialize():
 	if writer.save_exists():
+		print("preparing load")
 		await GM.references_ready
+		print("loading game")
 		load_save()
 	Events.save_request.connect(write_save)
 	Events.reset.connect(reset)

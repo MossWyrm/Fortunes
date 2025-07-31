@@ -13,17 +13,23 @@ var requires_wheel_check: bool:
 var stars_work_on_bad: bool = false
 var moons_drawn: int = 0
 
+var requires_initialization: Array[ID.MajorID] = [
+	ID.MajorID.EMPRESS,
+	ID.MajorID.EMPEROR,
+	ID.MajorID.CHARIOT,
+	ID.MajorID.WHEEL_OF_FORTUNE,
+	ID.MajorID.TEMPERANCE,
+	ID.MajorID.DEVIL,
+	ID.MajorID.JUDGEMENT
+]
+
 func _ready() -> void:
 	super._ready()
 	for value in ID.MajorID.values():
 		_major_states[value] = [ID.CardState.INACTIVE]
-	_major_states[ID.MajorID.EMPRESS].append(0)
-	_major_states[ID.MajorID.EMPEROR].append(0)
-	_major_states[ID.MajorID.CHARIOT].append(0)
-	_major_states[ID.MajorID.WHEEL_OF_FORTUNE].append(0)
-	_major_states[ID.MajorID.TEMPERANCE].append(0)
-	_major_states[ID.MajorID.DEVIL].append(0)
-		
+	for major_id in requires_initialization:
+		_major_states[major_id].append(0)
+
 func update(_value, _flipped = false) -> void:
 	return
 
@@ -50,19 +56,28 @@ func draw_magician(flipped: bool) -> void:
 			GM.deck_manager.add_card_by_suit(suit)
 #endregion
 #region = "Empress"
+## -----
+## Handles Empress card logic, including drawing and updating the Empress value.
+## -----
+
+# Called when the Empress card is drawn
 func draw_empress(flipped: bool) -> void:
+	# Set the state to POSITIVE or NEGATIVE depending on flip
 	set_state(ID.MajorID.EMPRESS, ID.CardState.NEGATIVE if flipped else ID.CardState.POSITIVE)
-	
+
+# Updates the Empress collection with a new value
 func update_empress(value: int) -> void:
 	if value == 0:
 		return
 	empress_collection.append(abs(value))
-	if empress_collection.size() > Stats.major_empress:
+	# Keep only the most recent N values, where N is major_empress stat
+	while empress_collection.size() > Stats.major_empress:
 		empress_collection.remove_at(0)
 	set_charges(ID.MajorID.EMPRESS, abs(get_empress_value()))
 
+# Calculates the Empress value based on state and collection
 func get_empress_value() -> int:
-	var multiplier: int
+	var multiplier := 0
 	match get_state(ID.MajorID.EMPRESS):
 		ID.CardState.POSITIVE:
 			multiplier = 1
@@ -70,7 +85,8 @@ func get_empress_value() -> int:
 			multiplier = -1
 		_:
 			multiplier = 0
-	return empress_collection.reduce(func(accum,number): return accum + number, 0) * multiplier
+	# Sum the collection and apply the multiplier
+	return empress_collection.reduce(func(accum, number): return accum + number, 0) * multiplier
 #endregion
 #region = "Emperor"
 func draw_emperor(flipped: bool) -> void:
@@ -150,8 +166,10 @@ func draw_wheel_of_fortune(flipped: bool) -> void:
 func trigger_wheel_of_fortune(suit: ID.Suits) -> void:
 	if wheel_checked == false && wheel_suit == suit:
 		add_charges(ID.MajorID.WHEEL_OF_FORTUNE, Stats.major_wheel_charges)
+		Events.emit_particle(ID.ParticleType.SUCCESS)
 	else:
 		set_state(ID.MajorID.WHEEL_OF_FORTUNE, ID.CardState.INACTIVE)
+		Events.emit_particle(ID.ParticleType.FAILURE)
 	wheel_checked = true
 	
 func wheel_modifier(value: int) -> int:
@@ -166,6 +184,22 @@ func wheel_modifier(value: int) -> int:
 	if get_charges(ID.MajorID.WHEEL_OF_FORTUNE) <= 0:
 		set_state(ID.MajorID.WHEEL_OF_FORTUNE, ID.CardState.INACTIVE)
 	return output
+
+#endregion
+
+#region = "Hanged Man"
+func draw_hanged_man(flipped: bool) -> void:
+	Events.emit_hanged_man_choice()
+	var gamble_percent: float = await Events.hanged_man_chosen
+	if gamble_percent <= 0.0:
+		return
+	var chosen_gamble = Stats.clairvoyance * gamble_percent
+	if flipped:
+		Events.emit_update_currency(-chosen_gamble)
+		Events.emit_particle(ID.ParticleType.FAILURE)
+	else:
+		Events.emit_update_currency((chosen_gamble*Stats.major_hanged_man)-chosen_gamble)
+		Events.emit_particle(ID.ParticleType.SUCCESS)
 
 #endregion
 #region = "Temperance"
@@ -260,7 +294,27 @@ func draw_sun(flipped: bool) -> void:
 		for x in Stats.major_sun_moon:
 			GM.deck_manager.add_card(519)
 #endregion
+#region = "Judgement"
+func draw_judgement(flipped: bool) -> void:
+	if flipped:
+		add_charges(ID.MajorID.JUDGEMENT, 1)
+	else:
+		remove_charges(ID.MajorID.JUDGEMENT, 1)
+	var charges: int = get_charges(ID.MajorID.JUDGEMENT)
+	set_state(ID.MajorID.JUDGEMENT, ID.CardState.POSITIVE if charges > 0 else ID.CardState.NEGATIVE if charges <= 0 else ID.CardState.INACTIVE)
 
+func judgement_modifier(value: int) -> int:
+	var charges: int = get_charges(ID.MajorID.JUDGEMENT)
+	var output: int = 0
+	match get_state(ID.MajorID.JUDGEMENT):
+		ID.CardState.POSITIVE:
+			output = value * (charges * Stats.major_judgement)
+		ID.CardState.NEGATIVE:
+			output = int(float(value) / float(charges * Stats.major_judgement))
+		_:
+			output = value
+	return output
+#endregion = "Judgement"
 
 #region = "tools"
 func check_active(id: ID.MajorID) -> bool:

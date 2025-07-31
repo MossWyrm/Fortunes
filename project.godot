@@ -41,12 +41,11 @@ config/icon="res://icon.svg"
 
 Events="*res://Assets/Scripts/Autoload/Events.gd"
 ResourceAutoload="*res://Assets/Scenes/PreloadedObjects.tscn"
-Stats="*res://Assets/Scripts/Stats.gd"
-ID="res://Assets/Scripts/Autoload/ResourceIDs.gd"
+Stats="*res://Assets/Scripts/Autoload/Stats.gd"
 GM="*res://Assets/Scripts/Autoload/Main.gd"
 Descriptions="*res://Assets/Scripts/Autoload/CardDescriptions.gd"
-FmodManager="res://addons/fmod/FmodManager.gd"
-fmodbanks="res://Assets/Scenes/bank_loader.tscn"
+fmodbanks="*res://Assets/Scenes/bank_loader.tscn"
+FmodManager="*res://addons/fmod/FmodManager.gd"
 
 [display]
 
@@ -55,6 +54,10 @@ window/size/viewport_height=1152
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
 
 [file_customization]
 
