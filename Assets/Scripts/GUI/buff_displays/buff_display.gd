@@ -5,9 +5,7 @@ var label: Label
 var animator: AnimationPlayer
 var sprite: Sprite2D
 var highlight: ColorRect
-var suit: ID.Suits
-var type: ID.BuffType
-var major_type: ID.MajorID = ID.MajorID.FOOL
+var _tooltip: DataStructures.TooltipData
 var holding: bool = false
 var hold_timer: float = 0.0
 var hold_duration: float = 0.6
@@ -56,13 +54,11 @@ func set_panel_color(panel_color: Color = Color.WHITE) -> void:
 		highlight.color = panel_color
 		highlight.show()
 
-func set_suit_and_type(set_suit: ID.Suits, set_type: ID.BuffType, set_major_type: ID.MajorID = ID.MajorID.FOOL) -> void:
-	suit = set_suit
-	type = set_type
-	major_type = set_major_type
+func set_tooltip_data(tooltip: DataStructures.TooltipData) -> void:
+	_tooltip = tooltip
 	
 func show_tooltip() -> void:
-	Events.emit_buff_tooltip(suit,type, major_type)
+	GameManager.event_bus.emit_tooltip_requested(_tooltip)
 	
 func _on_press(_event:InputEvent):
 	if Input.is_action_just_pressed("ui_click"):

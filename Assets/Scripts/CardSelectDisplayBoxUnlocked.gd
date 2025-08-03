@@ -9,7 +9,7 @@ class_name CardSelectDisplayBoxUnlocked
 @onready var add_card_button: TextureButton = $ButtonsAndText/DeckModButtons/AddToDeck
 @onready var remove_card_button: TextureButton = $ButtonsAndText/DeckModButtons/RemoveFromDeck
 
-func display(card: Card, currently_in_deck: int = -1) -> void:
+func display(card: DataStructures.Card, currently_in_deck: int = -1) -> void:
 	var texture = ResourceAutoload.get_card_texture(card)
 	card_image.texture = texture["background"]
 	card_overlay.texture = texture["overlay"]

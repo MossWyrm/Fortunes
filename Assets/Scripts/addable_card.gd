@@ -15,7 +15,7 @@ func set_speeds(move_dur: float, fade_dur: float) -> void:
 	fade = fade_dur
 	movement = move_dur
 
-func create_addable(card: Card) -> void:
+func create_addable(card: DataStructures.Card) -> void:
 	if card == null:
 		return
 	_set_textures(card)
@@ -27,7 +27,7 @@ func create_addable(card: Card) -> void:
 	scale = Vector2(0.5,0.5)
 	anim = anim_type.ADDABLE
 	
-func create_removable(card: Card) -> void:
+func create_removable(card: DataStructures.Card) -> void:
 	if card == null:
 		return
 	_set_textures(card)
@@ -39,7 +39,7 @@ func create_removable(card: Card) -> void:
 	scale = Vector2(0.3,0.3)
 	anim = anim_type.REMOVABLE
 	
-func _set_textures(card: Card) -> void:
+func _set_textures(card: DataStructures.Card) -> void:
 	var textures = ResourceAutoload.get_card_texture(card)
 	background.texture = textures["background"]
 	overlay.texture = textures["overlay"]

@@ -76,7 +76,7 @@ region = Rect2(0, 256, 64, 64)
 atlas = ExtResource("7_wjnne")
 region = Rect2(64, 320, 64, 64)
 
-[node name="Upgrades" type="Control" node_paths=PackedStringArray("select_buttons")]
+[node name="Upgrades" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,7 +84,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rtjnf")
-select_buttons = [NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/CupButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/WandButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/PentacleButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/SwordButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/MajorButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/General"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/PackButton")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

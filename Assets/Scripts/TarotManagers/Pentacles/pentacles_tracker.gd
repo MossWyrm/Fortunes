@@ -1,7 +1,7 @@
 extends suit_tracker
 class_name pentacles_tracker
 
-# Tracks the state of the Pentacles suit (current value, charges, queen state, etc.)
+# Tracks the state of the Pentacles suit (current value, charges, queen state, etc)
 
 var current_pentacles: int 	= 0
 var charges: int         	= 0
@@ -94,3 +94,16 @@ func get_display() -> Dictionary:
 	pent_dict["blocked"] = blocked
 
 	return pent_dict
+
+# Restore state from backup (for simulation)
+func restore_state(state: Dictionary) -> void:
+	if state.has("value"):
+		current_pentacles = state["value"]
+	if state.has("uses"):
+		charges = state["uses"]
+	if state.has("queen_uses"):
+		queen_charges = state["queen_uses"]
+	if state.has("queen_inverted"):
+		queen_inverted = state["queen_inverted"]
+	if state.has("blocked"):
+		blocked = state["blocked"]

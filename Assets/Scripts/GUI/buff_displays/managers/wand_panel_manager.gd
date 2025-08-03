@@ -2,12 +2,12 @@ extends BuffManager
 
 
 func _ready() -> void:
-	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.WANDS, ID.BuffType.GENERAL))
-	displays["basic"].set_suit_and_type(ID.Suits.WANDS, ID.BuffType.GENERAL)
-	displays["page"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.WANDS, ID.BuffType.PAGE))
-	displays["page"].set_suit_and_type(ID.Suits.WANDS, ID.BuffType.PAGE)
-	displays["knight"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.WANDS, ID.BuffType.KNIGHT))
-	displays["knight"].set_suit_and_type(ID.Suits.WANDS, ID.BuffType.KNIGHT)
+	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.WANDS, ID.BuffType.GENERAL))
+	displays["basic"].set_suit_and_type(DataStructures.SuitType.WANDS, ID.BuffType.GENERAL)
+	displays["page"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.WANDS, ID.BuffType.PAGE))
+	displays["page"].set_suit_and_type(DataStructures.SuitType.WANDS, ID.BuffType.PAGE)
+	displays["knight"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.WANDS, ID.BuffType.KNIGHT))
+	displays["knight"].set_suit_and_type(DataStructures.SuitType.WANDS, ID.BuffType.KNIGHT)
 	
 func update_display(dictionary: Dictionary):
 	"""

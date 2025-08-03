@@ -1,17 +1,17 @@
 extends BuffManager
 
 func _ready() -> void:
-	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.SWORDS, ID.BuffType.GENERAL))
-	displays["basic"].set_suit_and_type(ID.Suits.SWORDS, ID.BuffType.GENERAL)
-	displays["page_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.SWORDS, ID.BuffType.PAGE))
-	displays["page_positive"].set_suit_and_type(ID.Suits.SWORDS, ID.BuffType.PAGE)
-	displays["page_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.SWORDS, ID.BuffType.PAGE))
-	displays["page_negative"].set_suit_and_type(ID.Suits.SWORDS, ID.BuffType.PAGE)
+	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.GENERAL))
+	displays["basic"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.GENERAL)
+	displays["page_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE))
+	displays["page_positive"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE)
+	displays["page_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE))
+	displays["page_negative"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE)
 	
-	displays["king_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.SWORDS, ID.BuffType.KING))
-	displays["king_positive"].set_suit_and_type(ID.Suits.SWORDS, ID.BuffType.KING)
-	displays["king_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.SWORDS, ID.BuffType.KING))
-	displays["king_negative"].set_suit_and_type(ID.Suits.SWORDS, ID.BuffType.KING)
+	displays["king_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.KING))
+	displays["king_positive"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.KING)
+	displays["king_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.KING))
+	displays["king_negative"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.KING)
 
 func update_display(dictionary: Dictionary):
 	"""

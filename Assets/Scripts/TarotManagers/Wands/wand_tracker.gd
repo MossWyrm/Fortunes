@@ -1,7 +1,7 @@
 extends suit_tracker
 class_name wand_tracker
 
-# Tracks the state of the Wands suit (current value, knight/page charges, etc.)
+# Tracks the state of the Wands suit (current value, knight/page charges, etc)
 
 var current_value: float 	= 1
 var page_active: bool:
@@ -93,3 +93,18 @@ func get_display() -> Dictionary:
 		"knight_positive" = knight_positive
 		}
 	return dict
+
+# Restore state from backup (for simulation)
+func restore_state(state: Dictionary) -> void:
+	if state.has("value"):
+		current_value = state["value"]
+	if state.has("value_buff"):
+		value_mod = state["value_buff"]
+	if state.has("page_charges"):
+		page_charges = state["page_charges"]
+	if state.has("page_positive"):
+		page_positive = state["page_positive"]
+	if state.has("knight_charges"):
+		knight_charges = state["knight_charges"]
+	if state.has("knight_positive"):
+		knight_positive = state["knight_positive"]

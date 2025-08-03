@@ -22,20 +22,38 @@ var hold_delay: float = 0.8
 
 var required_currency: int:
 	get:
-		match upgrade.currency_type:
-			ID.CurrencyType.CLAIRVOYANCE: return Stats.clairvoyance
-			ID.CurrencyType.PACK: return Stats.packs
-			_: return 0
+		# Use new architecture if available
+		var game_manager = get_node("/root/GameManager")
+		if game_manager and game_manager.game_state and game_manager.game_state.game_stats:
+			match upgrade.currency_type:
+				DataStructures.CurrencyType.CLAIRVOYANCE: return game_manager.game_state.game_stats.clairvoyance
+				DataStructures.CurrencyType.PACK: return game_manager.game_state.game_stats.packs
+				_: return 0
+		else:
+			# Legacy fallback
+			match upgrade.currency_type:
+				DataStructures.CurrencyType.CLAIRVOYANCE: return Stats.clairvoyance
+				DataStructures.CurrencyType.PACK: return Stats.packs
+				_: return 0
 
+func _ready():
+	# Connect to new architecture if available
+	var game_manager = get_node("/root/GameManager")
+	if game_manager and game_manager.game_state:
+		game_manager.game_state.event_bus.currency_updated.connect(_on_currency_updated)
+	
+func _on_currency_updated(currency_type: int, amount: int):
+	# Handle new architecture currency updates
+	_check_for_button_update()
 	
 func _process(delta: float) -> void:
 	if self.visible:
 		_check_for_purchase(delta)
 		_check_for_button_update()
 
-func set_button(upgrade_input, type: ID.UpgradeType):
+func set_button(upgrade_input, type: DataStructures.UpgradeData.UpgradeType):
 	upgrade = upgrade_input
-	card_back.texture = ResourceAutoload.get_upgrade_background(type if type != ID.UpgradeType.PACK else ID.UpgradeType.GENERAL)
+	card_back.texture = ResourceAutoload.get_upgrade_background(type if type != DataStructures.UpgradeData.UpgradeType.PACK else DataStructures.UpgradeData.UpgradeType.GENERAL)
 	if upgrade.id > 0:
 		card_overlay.texture = ResourceAutoload.get_card_texture(GM.deck_manager.get_card(upgrade.id))["overlay"]
 		card_overlay.show()
@@ -62,9 +80,17 @@ func _update_button():
 	title_desc.text = "%s\n%s"% [upgrade.title, upgrade.description]
 
 func _purchase():
-	Events.emit_update_currency(-upgrade.cost, upgrade.currency_type)
-	upgrade.times_purchased +=1
-	upgrade.trigger()
+	# Use new architecture if available
+	var game_manager = get_node("/root/GameManager")
+	if game_manager and game_manager.game_state:
+		game_manager.game_state.event_bus.emit_currency_updated(upgrade.currency_type, -upgrade.cost)
+		game_manager.game_state.upgrade_manager.purchase_upgrade(upgrade)
+	else:
+		# Legacy fallback
+		Events.emit_update_currency(-upgrade.cost, upgrade.currency_type)
+		upgrade.times_purchased +=1
+		upgrade.trigger()
+	
 	_update_button()
 
 func set_slider_percent(percent: float) -> void:

@@ -39,13 +39,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Events="*res://Assets/Scripts/Autoload/Events.gd"
 ResourceAutoload="*res://Assets/Scenes/PreloadedObjects.tscn"
-Stats="*res://Assets/Scripts/Autoload/Stats.gd"
-GM="*res://Assets/Scripts/Autoload/Main.gd"
-Descriptions="*res://Assets/Scripts/Autoload/CardDescriptions.gd"
 fmodbanks="*res://Assets/Scenes/bank_loader.tscn"
 FmodManager="*res://addons/fmod/FmodManager.gd"
+GameManager="*res://Assets/Scripts/Autoload/GameManager.gd"
 
 [display]
 

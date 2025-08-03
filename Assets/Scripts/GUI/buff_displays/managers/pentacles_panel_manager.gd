@@ -1,14 +1,14 @@
 extends BuffManager
 
 func _ready():
-	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
-	displays["basic"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
-	displays["uses"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
-	displays["uses"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
-	displays["queen"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.QUEEN))
-	displays["queen"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.QUEEN)
-	displays["blocked"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.KING))
-	displays["blocked"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.KING)
+	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.PENTACLES, ID.BuffType.GENERAL))
+	displays["basic"].set_suit_and_type(DataStructures.SuitType.PENTACLES, ID.BuffType.GENERAL)
+	displays["uses"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.PENTACLES, ID.BuffType.GENERAL))
+	displays["uses"].set_suit_and_type(DataStructures.SuitType.PENTACLES, ID.BuffType.GENERAL)
+	displays["queen"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.PENTACLES, ID.BuffType.QUEEN))
+	displays["queen"].set_suit_and_type(DataStructures.SuitType.PENTACLES, ID.BuffType.QUEEN)
+	displays["blocked"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.PENTACLES, ID.BuffType.KING))
+	displays["blocked"].set_suit_and_type(DataStructures.SuitType.PENTACLES, ID.BuffType.KING)
 
 func update_display(dictionary: Dictionary):
 	"""

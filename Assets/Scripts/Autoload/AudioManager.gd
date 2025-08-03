@@ -1,5 +1,5 @@
 extends Node
-class_name AudioManager
+class_name AudioManagerLegacy
 
 enum SFX {
 	CARD_FLIP,
@@ -22,10 +22,9 @@ var _SFX_dict :Dictionary[int, String] = {
 
 func _ready() -> void:
 	print("AudioManager ready")
-	GM.audio_manager = self
-	Events.draw_card.connect(play_sfx.bind(SFX.CARD_FLIP))
-	Events.sfx.connect(play_sfx)
-	_play_music()
+	# EventBus.draw_card.connect(play_sfx.bind(DataStructures.SFXType.CARD_FLIP))
+	# EventBus.sfx.connect(play_sfx)
+	# _play_music()
 	print("AudioManager initialized	")
 	
 func play_sfx(callable: SFX) -> void:

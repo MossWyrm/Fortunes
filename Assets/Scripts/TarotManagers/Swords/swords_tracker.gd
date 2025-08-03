@@ -1,7 +1,7 @@
 extends suit_tracker
 class_name swords_tracker
 
-# Tracks the state of the Swords suit (combo, page/king charges, etc.)
+# Tracks the state of the Swords suit (combo, page/king charges, etc)
 
 var combo: int
 var combo_dir_flipped: bool
@@ -95,3 +95,18 @@ func get_display() -> Dictionary:
 		"king_destruction" = king_destruction
 		 }
 	return sword_dict
+
+# Restore state from backup (for simulation)
+func restore_state(state: Dictionary) -> void:
+	if state.has("combo"):
+		combo = state["combo"]
+	if state.has("combo_value"):
+		combo_value = state["combo_value"]
+	if state.has("page_positive_charges"):
+		page_pos_charges = state["page_positive_charges"]
+	if state.has("page_negative_charges"):
+		page_neg_charges = state["page_negative_charges"]
+	if state.has("king_protection"):
+		king_protection = state["king_protection"]
+	if state.has("king_destruction"):
+		king_destruction = state["king_destruction"]

@@ -12,10 +12,19 @@ func _ready() -> void:
 	GM.cv_manager = self
 	Events.selected_card.connect(_calculate_card_value)
 	
+	# Connect to new architecture if available
+	var game_manager = get_node("/root/GameManager")
+	if game_manager and game_manager.game_state:
+		game_manager.game_state.event_bus.card_drawn.connect(_on_new_card_drawn)
+
+func _on_new_card_drawn(card: RefCounted):
+	# Handle new architecture card drawn events
+	# For now, skip processing as the legacy system handles this
+	pass
 
 # Handles the full card value calculation process when a card is selected
 func _calculate_card_value(card: Card, flipped = false) -> void:
-	# Run any pre-calculation logic (may modify flipped, trigger events, etc.)
+	# Run any pre-calculation logic (may modify flipped, trigger events, etc)
 	await pre_calc(card, flipped)
 
 	# Calculate the base value of the card
@@ -26,21 +35,101 @@ func _calculate_card_value(card: Card, flipped = false) -> void:
 	var post_value: int = post_calc(main_value)
 
 	if post_value != 0:
-		Events.emit_update_currency(post_value)
+		# Use new architecture if available
+		var game_manager = get_node("/root/GameManager")
+		if game_manager and game_manager.game_state:
+			game_manager.game_state.event_bus.emit_currency_updated(0, post_value)  # 0 for clairvoyance
+		else:
+			# Legacy fallback
+			Events.emit_update_currency(post_value)
+	
 	Events.emit_update_suit_displays()
 
+# New method: Run card calculations without applying results (for simulation)
+func simulate_card_calculation(card: Card, flipped = false) -> Dictionary:
+	# Create comprehensive state backup
+	var state_backup = create_state_backup()
 	
-func get_display(suit: ID.Suits) -> Dictionary:
+	# Run the full calculation logic (it will update state, but we'll restore it)
+	await pre_calc(card, flipped)
+	var base_value: int = base_calc(card, flipped)
+	var main_value: int = await main_calc(card, base_value, flipped)
+	var post_value: int = post_calc(main_value)
+	
+	# Restore all state
+	restore_state_backup(state_backup)
+	
+	# Return simulation results
+	return {
+		"base_value": base_value,
+		"main_value": main_value,
+		"post_value": post_value,
+		"final_value": post_value,
+		"clairvoyance_change": post_value
+	}
+
+# Create a comprehensive backup of all relevant state
+func create_state_backup() -> Dictionary:
+	var backup = {
+		"empress_collection": majors_node.empress_collection.duplicate(),
+		"chariot_tracker": majors_node.chariot_tracker.duplicate(),
+		"major_states": majors_node._major_states.duplicate(true),  # Deep copy
+		"swords_state": swords_node.get_display().duplicate(true),
+		"cups_state": cups_node.get_display().duplicate(true),
+		"wands_state": wands_node.get_display().duplicate(true),
+		"pentacles_state": pentacles_node.get_display().duplicate(true)
+	}
+	
+	# Use new architecture if available
+	var game_manager = get_node("/root/GameManager")
+	if game_manager and game_manager.game_state and game_manager.game_state.game_stats:
+		backup["clairvoyance"] = game_manager.game_state.game_stats.clairvoyance
+	else:
+		# Legacy fallback
+		backup["clairvoyance"] = Stats.clairvoyance
+	
+	return backup
+
+# Restore state from backup
+func restore_state_backup(backup: Dictionary) -> void:
+	# Use new architecture if available
+	var game_manager = get_node("/root/GameManager")
+	if game_manager and game_manager.game_state and game_manager.game_state.game_stats:
+		game_manager.game_state.game_stats.clairvoyance = backup["clairvoyance"]
+	else:
+		# Legacy fallback
+		Stats.clairvoyance = backup["clairvoyance"]
+	
+	majors_node.empress_collection = backup["empress_collection"]
+	majors_node.chariot_tracker = backup["chariot_tracker"]
+	majors_node._major_states = backup["major_states"]
+	
+	# Restore suit-specific states
+	# Note: This assumes the suit trackers have restore methods or we can set their state directly
+	# You may need to implement restore methods in each suit tracker
+	restore_suit_state(swords_node, backup["swords_state"])
+	restore_suit_state(cups_node, backup["cups_state"])
+	restore_suit_state(wands_node, backup["wands_state"])
+	restore_suit_state(pentacles_node, backup["pentacles_state"])
+
+# Helper to restore suit state
+func restore_suit_state(suit_node, state: Dictionary) -> void:
+	if suit_node.has_method("restore_state"):
+		suit_node.restore_state(state)
+	else:
+		print("Warning: ", suit_node.get_class(), " does not have restore_state method")
+	
+func get_display(suit: DataStructures.SuitType) -> Dictionary:
 	match suit:
-		ID.Suits.CUPS:
+		DataStructures.SuitType.CUPS:
 			return cups_node.get_display()
-		ID.Suits.WANDS:
+		DataStructures.SuitType.WANDS:
 			return wands_node.get_display()
-		ID.Suits.PENTACLES:
+		DataStructures.SuitType.PENTACLES:
 			return pentacles_node.get_display()
-		ID.Suits.SWORDS:
+		DataStructures.SuitType.SWORDS:
 			return swords_node.get_display()
-		ID.Suits.MAJOR:
+		DataStructures.SuitType.MAJOR:
 			return majors_node.get_display()
 		_:
 			return {}
@@ -72,15 +161,15 @@ func pre_calc(card: Card, flipped: bool) -> void:
 func base_calc(card: Card, flipped: bool) -> int:
 	var base_value: int = 0
 	match card.card_suit:
-		ID.Suits.CUPS:
+		DataStructures.SuitType.CUPS:
 			base_value = cups_node.get_base_value(card.card_default_value)
-		ID.Suits.WANDS:
+		DataStructures.SuitType.WANDS:
 			base_value = wands_node.get_base_value(card.card_default_value)
-		ID.Suits.PENTACLES:
+		DataStructures.SuitType.PENTACLES:
 			base_value = pentacles_node.get_base_value(card.card_default_value)
-		ID.Suits.SWORDS:
+		DataStructures.SuitType.SWORDS:
 			base_value = swords_node.get_base_value(card.card_default_value)
-		ID.Suits.MAJOR:
+		DataStructures.SuitType.MAJOR:
 			base_value = majors_node.get_base_value(card.card_default_value)
 		_:
 			print("card doesn't have suit")
@@ -95,15 +184,15 @@ func base_calc(card: Card, flipped: bool) -> int:
 func main_calc(card: Card, base_value: int, flipped: bool) -> int:
 	var card_val: int = 0
 	match card.card_suit:
-		ID.Suits.CUPS:
+		DataStructures.SuitType.CUPS:
 			card_val = cups_node.draw(card, base_value, flipped)
-		ID.Suits.WANDS:
+		DataStructures.SuitType.WANDS:
 			card_val = wands_node.draw(card, base_value, flipped)
-		ID.Suits.PENTACLES:
+		DataStructures.SuitType.PENTACLES:
 			card_val = pentacles_node.draw(card, base_value, flipped)
-		ID.Suits.SWORDS:
+		DataStructures.SuitType.SWORDS:
 			card_val = swords_node.draw(card, base_value, flipped)
-		ID.Suits.MAJOR:
+		DataStructures.SuitType.MAJOR:
 			card_val = await majors_node.draw(card, base_value, flipped)
 	return card_val
 	

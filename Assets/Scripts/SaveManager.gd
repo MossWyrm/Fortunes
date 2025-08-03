@@ -1,5 +1,5 @@
 extends Node
-class_name SaveManager
+# class_name SaveManager
 
 @onready var timer: Timer = $Timer
 @export var autosave_frequency: float = 10.0
@@ -44,6 +44,6 @@ func load_save() -> void:
 func clear_save() -> void:
 	writer.clear_save()
 	
-func reset(type: ID.PrestigeLayer) -> void:
-	if type == ID.PrestigeLayer.ALL:
+func reset(type: DataStructures.GameLayer) -> void:
+	if type == DataStructures.GameLayer.ALL:
 		clear_save()

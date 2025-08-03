@@ -20,3 +20,12 @@ static func get_shorthand(number: int) -> String:
 		output_num = str("%.2f" % numfloat)
 	
 	return str("%s%s"%[output_num, suffix[suffix_index]])
+
+static func create_card_tooltip(card: DataStructures.Card) -> DataStructures.TooltipData:
+	var tooltip: DataStructures.TooltipData = DataStructures.TooltipData.new(card.name, card.description, null, Color.WHITE, ResourceAutoload.get_card_texture(card))
+	return tooltip
+
+static func create_buff_tooltip(card_id: int) -> DataStructures.TooltipData:
+	var card: DataStructures.Card = GameManager.game_state.deck_manager.get_card(card_id)
+	var tooltip: DataStructures.TooltipData = DataStructures.TooltipData.new(card.name, card.description, null, Color.WHITE, ResourceAutoload.get_card_texture(card))
+	return tooltip

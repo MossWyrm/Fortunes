@@ -16,8 +16,8 @@ func update_display(dictionary: Dictionary) -> void:
 			x -= 1
 	for z in dictionary.size():
 		if(z+1 > displays.size()):
-			var icon: buff_display = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.CUPS, ID.BuffType.GENERAL))
-			icon.set_suit_and_type(ID.Suits.CUPS, ID.BuffType.GENERAL)
+			var icon: buff_display = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.CUPS, ID.BuffType.GENERAL))
+			icon.set_suit_and_type(DataStructures.SuitType.CUPS, ID.BuffType.GENERAL)
 			displays["cup_%s"%[str(z)]] = icon
 		displays["cup_%s"%[str(z)]].show()
 		displays["cup_%s"%[str(z)]].set_text(str(dictionary[z]) if dictionary[z] != 0 else "")

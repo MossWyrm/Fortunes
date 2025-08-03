@@ -90,9 +90,9 @@ func display_suit(suit : int):
 		var card_count = current_deck.count(n)
 		var cards_of_suit_in_deck = 0
 
-		if n.card_suit == ID.Suits.MAJOR:
+		if n.card_suit == DataStructures.SuitType.MAJOR:
 			for card in current_deck:
-				if card.card_suit == ID.Suits.MAJOR:
+				if card.card_suit == DataStructures.SuitType.MAJOR:
 					cards_of_suit_in_deck +=1
 
 		"""
@@ -101,7 +101,7 @@ func display_suit(suit : int):
 		"""
 		if card_count >= Stats.card_max_quant(n) || current_deck.size() >= max_deck_size:
 			addable = false
-		elif n.card_suit == ID.Suits.MAJOR && cards_of_suit_in_deck >= Stats.card_max_quant(n):
+		elif n.card_suit == DataStructures.SuitType.MAJOR && cards_of_suit_in_deck >= Stats.card_max_quant(n):
 			addable = false
 		else:
 			addable = true

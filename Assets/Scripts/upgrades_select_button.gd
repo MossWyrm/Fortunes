@@ -1,7 +1,7 @@
 extends TextureButton
 
 @export var upgrade_controller : UpgradesController
-@export var upgrade_type : ID.UpgradeType
+@export var upgrade_type : DataStructures.UpgradeData.UpgradeType
 @onready var border: ColorRect = $MASK/ColorRect
 
 func _ready():
@@ -18,4 +18,4 @@ func deselect():
 
 func _on_pressed() -> void:
 	select_panel()
-	Events.emit_sfx(AudioManager.SFX.MENU_TAP)
+	GameManager.event_bus.emit_sfx(DataStructures.SFXType.MENU_TAP)

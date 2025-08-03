@@ -13,7 +13,7 @@ var draw_anim_finished: bool = false:
 	set(value):
 		draw_anim_finished = value
 		anim_finished.emit()
-var current_card: Card
+var current_card: DataStructures.Card
 var flipped_state: bool
 var holding: bool
 var hold_timer: float
@@ -30,19 +30,19 @@ func _process(delta: float) -> void:
 		if hold_timer >= hold_duration:
 			holding = false
 			hold_timer = 0
-			Events.emit_card_tooltip(current_card)
+			GameManager.game_state.event_bus.emit_tooltip_requested(current_card)
 
 func _ready():
-	Events.selected_card.connect(update_card_display)
-	Events.clear_card.connect(clear_card)
-	Events.card_animation_major.connect(clear_major)
-	Events.skip_choice.connect(card_skip)
+	GameManager.game_state.event_bus.card_drawn.connect(update_card_display)
+	GameManager.game_state.event_bus.clear_card.connect(clear_card)
+	GameManager.game_state.event_bus.card_animation_major.connect(clear_major)
+	GameManager.game_state.event_bus.skip_choice.connect(card_skip)
 	card_display_title.text = "~"
 	card_major_display_title.text = "~"
 	animator = $CardFlipAnimations
 	sparkle_anim = $Sparkling
 
-func update_card_display(card: Card, flipped: bool):
+func update_card_display(card: DataStructures.Card, flipped: bool):
 	flipped_state = flipped
 	set_card_image(card)
 	
@@ -104,9 +104,9 @@ func clear_card() -> void:
 		skip_card = false
 
 func card_cleared() -> void:
-	Events.emit_card_draw_animation_finish()
+	GameManager.game_state.event_bus.emit_card_draw_animation_finish()
 
-func set_card_image(card: Card) -> void:
+func set_card_image(card: DataStructures.Card) -> void:
 	var dict: Dictionary = ResourceAutoload.get_card_texture(card)
 	if dict.size() == 0:
 		card_display_background.texture = default_card_texture
@@ -121,7 +121,7 @@ func press_and_hold(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_click"):
 		holding = true
 	if Input.is_action_just_released("ui_click"):
-		if hold_timer < hold_duration && !Stats.pause_drawing:
+		if hold_timer < hold_duration && !GameManager.game_state.pause_drawing:
 			clear_card()
 		holding = false
 		hold_timer = 0

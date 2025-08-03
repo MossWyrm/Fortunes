@@ -29,7 +29,7 @@ func _knight(flipped = false) -> int:
 	for cards in Stats.cup_knight_mod:
 		var random_num: int = randi() % 14 + 101
 		if flipped:
-			GM.deck_manager.remove_card(ID.Suits.CUPS,0)
+			GM.deck_manager.remove_card(DataStructures.SuitType.CUPS,0)
 		else:
 			GM.deck_manager.add_card(random_num)
 	return tracker.bonus() + val

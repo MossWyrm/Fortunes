@@ -6,7 +6,7 @@ var description: String
 var id: int = 0
 var times_purchased: int = 0
 var initial_cost: float
-var currency_type: ID.CurrencyType = ID.CurrencyType.CLAIRVOYANCE
+var currency_type: DataStructures.CurrencyType = DataStructures.CurrencyType.CLAIRVOYANCE
 var growth_type: BaseGrowthFormula
 var growth_mod: float = 0
 var cost: int:
@@ -21,7 +21,7 @@ var fully_upgraded: bool:
 		return max_purchases > 0 && times_purchased >= max_purchases
 
 
-func _init(upg_name: String, upg_desc: String, card_id: int, init_cost: float, growth: BaseGrowthFormula, growth_modifier: float, stat: String, operation: ID.Operation, effect, max_p: int = -1, currency_upgrade_type: ID.CurrencyType = ID.CurrencyType.CLAIRVOYANCE):
+func _init(upg_name: String, upg_desc: String, card_id: int, init_cost: float, growth: BaseGrowthFormula, growth_modifier: float, stat: String, operation: ID.Operation, effect, max_p: int = -1, currency_upgrade_type: DataStructures.CurrencyType = DataStructures.CurrencyType.CLAIRVOYANCE):
 	title = upg_name
 	description = upg_desc
 	id = card_id

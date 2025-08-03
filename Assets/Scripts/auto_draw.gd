@@ -12,7 +12,7 @@ func _ready() -> void:
 	auto_draw_button.pressed.connect(toggle_auto_draw)
 	
 func _process(delta: float) -> void:
-	if Stats.pack_auto_draw && !auto_draw_button.is_visible():
+	if GameManager.game_state.stats.pack_auto_draw && !auto_draw_button.is_visible():
 		auto_draw_button.show()
 	auto_draw(delta)
 	
@@ -26,9 +26,9 @@ func auto_draw(delta: float) -> void:
 		auto_draw_timer = 0
 		return
 	auto_draw_timer += delta
-	if auto_draw_timer >= Stats.pack_auto_draw_speed:
+	if auto_draw_timer >= GameManager.game_state.stats.pack_auto_draw_speed:
 		auto_draw_timer = 0
-		Events.emit_draw_card()
-		await get_tree().create_timer(Stats.pack_auto_draw_speed/2).timeout	
-		Events.emit_clear_card()
+		GameManager.event_bus.emit_draw_card()
+		await get_tree().create_timer(GameManager.game_state.stats.pack_auto_draw_speed/2).timeout	
+		GameManager.event_bus.emit_clear_card()
 		

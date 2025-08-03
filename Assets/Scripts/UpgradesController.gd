@@ -9,7 +9,7 @@ class_name UpgradesController
 var upgrade_button_path: String = "res://Assets/Scenes/Upgrades/upgrade_button.tscn"
 var parent: Node
 
-var last_opened: ID.UpgradeType = ID.UpgradeType.GENERAL
+var last_opened: DataStructures.UpgradeData.UpgradeType = DataStructures.UpgradeData.UpgradeType.GENERAL
 
 func _ready() -> void:
 	GM.upgrade_manager = self
@@ -22,7 +22,7 @@ func _ready() -> void:
 func change_size() -> void:
 	self.position.x = 0
 
-func set_upgrades(type: ID.UpgradeType = ID.UpgradeType.GENERAL, texture_button: TextureButton = null) -> void:
+func set_upgrades(type: DataStructures.UpgradeData.UpgradeType = DataStructures.UpgradeData.UpgradeType.GENERAL, texture_button: TextureButton = null) -> void:
 	if buttons.size() < upgrade_options.upgrades_list(type).size():
 		print("Not enough upgrade containers!")
 		return
@@ -65,5 +65,5 @@ func load_upgrades(dict: Dictionary) -> void:
 		for title in dict[suit].keys():
 			upgrades[int(suit)][title].times_purchased = dict[suit][title]
 		
-func reset_upgrades(type: ID.PrestigeLayer) -> void:
+func reset_upgrades(type: DataStructures.GameLayer) -> void:
 	upgrade_options.reset(type)

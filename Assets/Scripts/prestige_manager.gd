@@ -6,5 +6,5 @@ func _ready():
 	Events.pack_complete.connect(pack_complete)
 
 func pack_complete() -> void:
-	Events.emit_update_currency(1,ID.CurrencyType.PACK)
-	Events.emit_reset(ID.PrestigeLayer.DECK)
+	Events.emit_update_currency(1,DataStructures.CurrencyType.PACK)
+	Events.emit_reset(DataStructures.GameLayer.DECK)

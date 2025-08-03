@@ -1,7 +1,7 @@
 extends suit_tracker
 class_name cup_tracker
 
-# Tracks the state of Cups suit (number of cups, their values, etc.)
+# Tracks the state of Cups suit (number of cups, their values, etc)
 
 var _page_size_mod: int = 0
 var _max_size:int:
@@ -64,6 +64,10 @@ func fill_cups() -> void:
 # Returns the cup state for display
 func get_display() -> Dictionary:
 	return _cups
+	
+# Restore state from backup (for simulation)
+func restore_state(state: Dictionary) -> void:
+	_cups = state.duplicate()
 	
 # Adjusts page size modifier based on flipped state
 func draw_page(flipped: bool) -> void:

@@ -520,7 +520,7 @@ var pack_upgrade_values: Dictionary = {
 		"OPERATION" = ID.Operation.ADD,
 		"OPERATION_VALUE" = true,
 		"MAX_UPGRADES" = 1,
-		"CURRENCY_TYPE" = ID.CurrencyType.PACK
+		"CURRENCY_TYPE" = DataStructures.CurrencyType.PACK
 	},
 	pack_auto_draw_speed ={
 		"NAME" =  "Auto Draw Speed",
@@ -532,7 +532,7 @@ var pack_upgrade_values: Dictionary = {
 		"OPERATION" = ID.Operation.MULTIPLY,
 		"OPERATION_VALUE" = 0.9,
 		"MAX_UPGRADES" = 1,
-		"CURRENCY_TYPE" = ID.CurrencyType.PACK
+		"CURRENCY_TYPE" = DataStructures.CurrencyType.PACK
 	},
 	pack_card_value ={
 		"NAME" =  "Auto Draw Speed",
@@ -544,19 +544,19 @@ var pack_upgrade_values: Dictionary = {
 		"OPERATION" = ID.Operation.MULTIPLY,
 		"OPERATION_VALUE" = 2,
 		"MAX_UPGRADES" = 1,
-		"CURRENCY_TYPE" = ID.CurrencyType.PACK
+		"CURRENCY_TYPE" = DataStructures.CurrencyType.PACK
 	}
 }
 
 func get_initial_list() -> Dictionary:
 	var initial_list: Dictionary = {
-		ID.UpgradeType.GENERAL: _create_upgrade_list(general_upgrade_values),
-		ID.UpgradeType.CUPS : _create_upgrade_list(cup_upgrade_values),
-		ID.UpgradeType.WANDS: _create_upgrade_list(wand_upgrade_values),
-		ID.UpgradeType.PENTACLES: _create_upgrade_list(pent_upgrade_values),
-		ID.UpgradeType.SWORDS: _create_upgrade_list(sword_upgrade_values),
-		ID.UpgradeType.MAJOR: _create_upgrade_list(major_upgrade_values),
-		ID.UpgradeType.PACK: _create_upgrade_list(pack_upgrade_values)
+		DataStructures.UpgradeData.UpgradeType.GENERAL: _create_upgrade_list(general_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.CUPS : _create_upgrade_list(cup_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.WANDS: _create_upgrade_list(wand_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.PENTACLES: _create_upgrade_list(pent_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.SWORDS: _create_upgrade_list(sword_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.MAJOR: _create_upgrade_list(major_upgrade_values),
+		DataStructures.UpgradeData.UpgradeType.PACK: _create_upgrade_list(pack_upgrade_values)
 	}
 	return initial_list
 	
@@ -565,7 +565,7 @@ func _create_upgrade_list(dict: Dictionary) -> Dictionary:
 	for key in dict.keys():
 		var values: Dictionary = dict[key]
 		var max_upgrades = values["MAX_UPGRADES"] if values.keys().has("MAX_UPGRADES") else -1
-		var currency_type = values["CURRENCY_TYPE"] if values.keys().has("CURRENCY_TYPE") else ID.CurrencyType.CLAIRVOYANCE
+		var currency_type = values["CURRENCY_TYPE"] if values.keys().has("CURRENCY_TYPE") else DataStructures.CurrencyType.CLAIRVOYANCE
 		var id = values["ID"] if values.keys().has("ID") else 0
 		var upgrade: Upgrade = Upgrade.new(
 				values["NAME"], 

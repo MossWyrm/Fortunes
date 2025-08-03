@@ -12,18 +12,18 @@ func draw(card: Card, _value: int, flipped = false) -> int:
 	match card.card_id_num % 100:
 		1: return _fool(flipped)
 		2: return await _magician(flipped)
-		3: return _high_priestess(flipped)
+		3: return await _high_priestess(flipped)
 		4: return _empress(flipped)
 		5: return _emperor(flipped) 
-		6: return _heirophant(flipped)
+		6: return await _heirophant(flipped)
 		7: return _lovers(flipped)
 		8: return _chariot(flipped)
-		9: return _strength(flipped)
+		9: return await _strength(flipped)
 		10: return _hermit(flipped)
 		11: return await _wheel_of_fortune(flipped)
-		12: return _justice(flipped)
+		12: return await _justice(flipped)
 		13: return await _hanged_man(flipped)
-		14: return _death(flipped)
+		14: return await _death(flipped)
 		15: return _temperance(flipped)
 		16: return _devil(flipped)
 		17: return _tower(flipped)
@@ -48,7 +48,9 @@ func _magician(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _high_priestess(_flipped: bool) -> int:
+func _high_priestess(flipped: bool) -> int:
+	await tracker.draw_high_priestess(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _empress(flipped: bool) -> int:
@@ -61,7 +63,9 @@ func _emperor(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _heirophant(_flipped: bool) -> int:
+func _heirophant(flipped: bool) -> int:
+	await tracker.draw_hierophant(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _lovers(flipped: bool) -> int:
@@ -74,7 +78,9 @@ func _chariot(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _strength(_flipped: bool) -> int:
+func _strength(flipped: bool) -> int:
+	await tracker.draw_strength(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _hermit(flipped: bool) -> int:
@@ -87,7 +93,9 @@ func _wheel_of_fortune(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _justice(_flipped: bool) -> int:
+func _justice(flipped: bool) -> int:
+	await tracker.draw_justice(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _hanged_man(flipped: bool) -> int:
@@ -95,7 +103,9 @@ func _hanged_man(flipped: bool) -> int:
 	Events.emit_card_animation_major(flipped)
 	return 0
 	
-func _death(_flipped: bool) -> int:
+func _death(flipped: bool) -> int:
+	await tracker.draw_death(flipped)
+	Events.emit_card_animation_major(flipped)
 	return 0
 	
 func _temperance(flipped: bool) -> int:
@@ -141,7 +151,7 @@ func update_empress(value) -> void:			tracker.update_empress(value)
 func get_emperor() -> int: 					return tracker.get_emperor()
 func update_chariot(value) -> void:			tracker.update_chariot(value)
 func wheel_requires_check() -> bool: 		return tracker.requires_wheel_check
-func wheel_trigger(suit: ID.Suits) -> void:	tracker.trigger_wheel_of_fortune(suit)
+func wheel_trigger(suit: DataStructures.SuitType) -> void:	tracker.trigger_wheel_of_fortune(suit)
 func wheel_active() -> bool:				return tracker.check_active(ID.MajorID.WHEEL_OF_FORTUNE)
 func wheel_mod(value: int) -> int: 			return tracker.wheel_modifier(value)
 func temperance_active() -> bool: 			return tracker.check_active(ID.MajorID.TEMPERANCE)

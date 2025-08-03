@@ -15,7 +15,7 @@ func start_suit_choice(include_majors: bool = false) -> void:
 	show()
 	
 func emit_chosen_suit(suit_num: int) -> void:
-	var suit: ID.Suits = ID.Suits[ID.Suits.keys()[suit_num]]
+	var suit: DataStructures.SuitType = DataStructures.SuitType[DataStructures.SuitType.keys()[suit_num]]
 	Events.emit_chosen_suit(suit)
 	hide()
 	Stats.pause_drawing = false

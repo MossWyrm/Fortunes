@@ -14,11 +14,11 @@ func _ready() -> void:
 
 
 func update_suit_displays() -> void:
-	cup_display.update_display(GM.cv_manager.get_display(ID.Suits.CUPS))
-	wand_display.update_display(GM.cv_manager.get_display(ID.Suits.WANDS))
-	pentacles_display.update_display(GM.cv_manager.get_display(ID.Suits.PENTACLES))
-	swords_display.update_display(GM.cv_manager.get_display(ID.Suits.SWORDS))
-	majors_display.update_display(GM.cv_manager.get_display(ID.Suits.MAJOR))
+	cup_display.update_display(GM.cv_manager.get_display(DataStructures.SuitType.CUPS))
+	wand_display.update_display(GM.cv_manager.get_display(DataStructures.SuitType.WANDS))
+	pentacles_display.update_display(GM.cv_manager.get_display(DataStructures.SuitType.PENTACLES))
+	swords_display.update_display(GM.cv_manager.get_display(DataStructures.SuitType.SWORDS))
+	majors_display.update_display(GM.cv_manager.get_display(DataStructures.SuitType.MAJOR))
 	
 func shuffle(_safely) -> void:
 	await get_tree().process_frame
