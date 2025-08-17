@@ -1,49 +1,44 @@
 extends BuffManager
 
-func _ready() -> void:
-	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.GENERAL))
-	displays["basic"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.GENERAL)
-	displays["page_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE))
-	displays["page_positive"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE)
-	displays["page_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE))
-	displays["page_negative"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.PAGE)
-	
-	displays["king_positive"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.KING))
-	displays["king_positive"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.KING)
-	displays["king_negative"] = create_new_icon(ResourceAutoload.get_buff_icon(DataStructures.SuitType.SWORDS, ID.BuffType.KING))
-	displays["king_negative"].set_suit_and_type(DataStructures.SuitType.SWORDS, ID.BuffType.KING)
 
-func update_display(dictionary: Dictionary):
+func _ready():
+	GameManager.event_bus.suit_display_updated.connect(_on_suit_display_updated)
+	_init_icons()
+
+func _init_icons():
+	var suit = DataStructures.SuitType.SWORDS
+	if not displays.has("basic"):
+		displays["basic"] = create_icon(suit, DataStructures.BuffType.BASIC)
+	if not displays.has("page_positive"):
+		displays["page_positive"] = create_icon(suit, DataStructures.BuffType.PAGE)
+	if not displays.has("page_negative"):
+		displays["page_negative"] = create_icon(suit, DataStructures.BuffType.PAGE)
+	if not displays.has("king_positive"):
+		displays["king_positive"] = create_icon(suit, DataStructures.BuffType.KING)
+	if not displays.has("king_negative"):
+		displays["king_negative"] = create_icon(suit, DataStructures.BuffType.KING)
+
+func _on_suit_display_updated(suit, display_data):
+	if suit == DataStructures.SuitType.SWORDS:
+		update_display(display_data)
+
+func update_display(dictionary: Dictionary) -> void:
 	"""
-	--- Dictionary Values ---
-	"combo" = combo,
-	"combo_value" = combo_value,
-	"page_positive_charges" = page_pos_charges,
-	"page_negative_charges" = page_neg_charges,
-	"king_protection" = king_protection,
-	"king_destruction" = king_destruction
+	Expects a dictionary of the form:
+	{
+		"combo": <combo>,
+		"combo_value": <combo_value>,
+		"page_positive_charges": <page_pos_charges>,
+		"page_negative_charges": <page_neg_charges>,
+		"king_protection": <king_protection>,
+		"king_destruction": <king_destruction>
+	}
+	- Displays a buff icon for current combo ("basic").
+	- Displays a buff icon for positive/negative page charges ("page_positive", "page_negative").
+	- Displays a buff icon for king protection/destruction ("king_positive", "king_negative").
 	"""
-	set_display(displays["basic"],
-				dictionary["combo"] > 0,
-				dictionary["combo"]
-				)
-	set_display(displays["page_positive"],
-				dictionary["page_positive_charges"] > 0,
-				dictionary["page_positive_charges"],
-				get_panel_color(true)
-				)
-	set_display(displays["page_negative"],
-				dictionary["page_negative_charges"] > 0,
-				dictionary["page_negative_charges"],
-				get_panel_color(false)
-				)
-	set_display(displays["king_positive"],
-				dictionary["king_protection"] > 0,
-				dictionary["king_protection"],
-				get_panel_color(true)
-				)
-	set_display(displays["king_negative"],
-				dictionary["king_destruction"] > 0,
-				dictionary["king_destruction"],
-				get_panel_color(false)
-				)
+	set_display(displays["basic"], dictionary.get("combo", 0) > 0, dictionary.get("combo", 0))
+	set_display(displays["page_positive"], dictionary.get("page_positive_charges", 0) > 0, dictionary.get("page_positive_charges", 0), get_panel_color(true))
+	set_display(displays["page_negative"], dictionary.get("page_negative_charges", 0) > 0, dictionary.get("page_negative_charges", 0), get_panel_color(false))
+	set_display(displays["king_positive"], dictionary.get("king_protection", 0) > 0, dictionary.get("king_protection", 0), get_panel_color(true))
+	set_display(displays["king_negative"], dictionary.get("king_destruction", 0) > 0, dictionary.get("king_destruction", 0), get_panel_color(false))
