@@ -1,4 +1,4 @@
-extends RefCounted
+extends Node
 class_name AudioManager
 
 # Dependencies
@@ -10,15 +10,25 @@ var sfx_volume: float = 1.0
 var music_volume: float = 0.8
 var master_volume: float = 1.0
 
+# FMOD Event Emitters (will be assigned from scene)
+@onready var card_flip_emitter: FmodEventEmitter2D = $CardFlip
+@onready var menu_tap_emitter: FmodEventEmitter2D = $MenuTap
+@onready var menu_ding_emitter: FmodEventEmitter2D = $MenuDing
+@onready var page_turn_emitter: FmodEventEmitter2D = $PageTurn
+@onready var music_emitter: FmodEventEmitter2D = $MusicManager/Music
+
+func _ready():
+	# AudioManager will be initialized by GameState when it's created
+	pass
+
 func set_game_state(state: GameState):
 	game_state = state
-	event_bus = state.event_bus
 	_connect_events()
 
 func _connect_events():
-	event_bus.sfx_requested.connect(_on_sfx_requested)
-	event_bus.music_requested.connect(_on_music_requested)
-	event_bus.card_drawn.connect(_on_card_drawn)
+	EventBus.sfx_requested.connect(_on_sfx_requested)
+	EventBus.music_requested.connect(_on_music_requested)
+	EventBus.card_drawn.connect(_on_card_drawn)
 
 func _on_sfx_requested(sfx_type: DataStructures.SFXType):
 	play_sfx(sfx_type)
@@ -31,26 +41,39 @@ func _on_card_drawn(_card: Card, _flipped: bool):
 	play_sfx(DataStructures.SFXType.CARD_FLIP)
 
 func play_sfx(sfx_type: DataStructures.SFXType):
-	# This would integrate with your FMOD system
+	# Play FMOD events using the scene emitters
 	match sfx_type:
 		DataStructures.SFXType.CARD_FLIP:
-			print("Playing card flip sound")
+			if card_flip_emitter:
+				card_flip_emitter.play()
 		DataStructures.SFXType.MENU_TAP:
-			print("Playing menu tap sound")
+			if menu_tap_emitter:
+				menu_tap_emitter.play()
 		DataStructures.SFXType.MENU_DING:
-			print("Playing menu ding sound")
+			if menu_ding_emitter:
+				menu_ding_emitter.play()
 		DataStructures.SFXType.PAGE_TURN:
-			print("Playing page turn sound")
+			if page_turn_emitter:
+				page_turn_emitter.play()
 
 func play_music(music_type: DataStructures.MusicType):
-	# This would integrate with your FMOD system
+	# Handle music with the FMOD music emitter
+	if not music_emitter:
+		return
+		
 	match music_type:
 		DataStructures.MusicType.MAIN_THEME:
-			print("Playing main theme")
+			# Set music intensity parameter for main theme
+			music_emitter.set_parameter("Music Intensity", 0.5)
+			music_emitter.play()
 		DataStructures.MusicType.VICTORY:
-			print("Playing victory music")
+			# Set game end parameter for victory
+			music_emitter.set_parameter("Game End", 1.0)
+			music_emitter.play()
 		DataStructures.MusicType.DEFEAT:
-			print("Playing defeat music")
+			# Set game end parameter for defeat  
+			music_emitter.set_parameter("Game End", 0.0)
+			music_emitter.play()
 
 func set_sfx_volume(volume: float):
 	sfx_volume = clamp(volume, 0.0, 1.0)

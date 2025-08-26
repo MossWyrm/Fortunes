@@ -24,16 +24,15 @@ func _connect_signals() -> void:
 
 # Connect button press signals with their respective values
 func _connect_button_signals() -> void:
-	SignalManager.safe_connect(skip_button.pressed, _choose_gamble_value.bind(GameConstants.PROGRESS_CLAMP_MIN), "GambleChoice skip button")
-	SignalManager.safe_connect(button_10.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_TEN_PERCENT), "GambleChoice 10% button")
-	SignalManager.safe_connect(button_25.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_QUARTER_PERCENT), "GambleChoice 25% button")
-	SignalManager.safe_connect(button_50.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_HALF_PERCENT), "GambleChoice 50% button")
-	SignalManager.safe_connect(button_100.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_FULL_PERCENT), "GambleChoice 100% button")
+	skip_button.pressed.connect(_choose_gamble_value.bind(GameConstants.PROGRESS_CLAMP_MIN))
+	button_10.pressed.connect(_choose_gamble_value.bind(GameConstants.GAMBLE_TEN_PERCENT))
+	button_25.pressed.connect(_choose_gamble_value.bind(GameConstants.GAMBLE_QUARTER_PERCENT))
+	button_50.pressed.connect(_choose_gamble_value.bind(GameConstants.GAMBLE_HALF_PERCENT))
+	button_100.pressed.connect(_choose_gamble_value.bind(GameConstants.GAMBLE_FULL_PERCENT))
 
 # Connect to EventBus signals
 func _connect_event_bus_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.gamble_choice_requested, _on_gamble_choice_requested, "GambleChoice choice requested")
+	EventBus.gamble_choice_requested.connect(_on_gamble_choice_requested)
 
 # Initialize dialog state
 func _initialize_dialog() -> void:
@@ -45,14 +44,14 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(skip_button.pressed, _choose_gamble_value.bind(GameConstants.PROGRESS_CLAMP_MIN), "GambleChoice skip button")
-	SignalManager.safe_disconnect(button_10.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_TEN_PERCENT), "GambleChoice 10% button")
-	SignalManager.safe_disconnect(button_25.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_QUARTER_PERCENT), "GambleChoice 25% button")
-	SignalManager.safe_disconnect(button_50.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_HALF_PERCENT), "GambleChoice 50% button")
-	SignalManager.safe_disconnect(button_100.pressed, _choose_gamble_value.bind(GameConstants.GAMBLE_FULL_PERCENT), "GambleChoice 100% button")
+	skip_button.pressed.disconnect(_choose_gamble_value.bind(GameConstants.PROGRESS_CLAMP_MIN))
+	button_10.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_TEN_PERCENT))
+	button_25.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_QUARTER_PERCENT))
+	button_50.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_HALF_PERCENT))
+	button_100.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_FULL_PERCENT))
 	
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.gamble_choice_requested, _on_gamble_choice_requested, "GambleChoice choice requested")
+	if EventBus.gamble_choice_requested.is_connected(_on_gamble_choice_requested):
+		EventBus.gamble_choice_requested.disconnect(_on_gamble_choice_requested)
 #endregion
 
 #region Gamble Logic
@@ -73,7 +72,7 @@ func _choose_gamble_value(gamble_percent: float) -> void:
 # Emit the gamble result through EventBus
 func _emit_gamble_result(gamble_percent: float) -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_gamble_chosen(gamble_percent)
+		EventBus.emit_gamble_chosen(gamble_percent)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:
@@ -83,5 +82,5 @@ func _hide_dialog() -> void:
 # Pause or resume game drawing
 func _set_game_paused(is_paused: bool) -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_game_paused(is_paused)
+		EventBus.emit_game_paused(is_paused)
 #endregion

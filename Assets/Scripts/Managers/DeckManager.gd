@@ -14,12 +14,13 @@ var game_state
 
 ## Sets the game state reference and connects event bus signals.
 func set_game_state(state):
-    if not ValidationUtils.is_valid_game_state(state):
+    if not ValidationUtils.validate_game_state(state):
         push_error("DeckManager: Invalid game state provided")
         return
     game_state = state
-    if ValidationUtils.has_event_bus():
-        SignalManager.safe_connect(game_state.event_bus.request_shuffle, shuffle, "DeckManager request_shuffle")
+    # Connect to EventBus autoload
+    EventBus.request_shuffle.connect(request_shuffle)
+    initialize()
 
 ## Initializes deck data and emits initialization signal.
 func initialize():
@@ -29,6 +30,7 @@ func initialize():
     _create_default_deck()
     is_initialized = true
     initialization_signal.emit()
+    print("Deck Manager: Initialization complete")
 #endregion
 
 #region Deck Creation
@@ -58,12 +60,6 @@ func _create_suit_cards(suit: DataStructures.SuitType):
 ## Creates all major arcana cards.
 func _create_major_cards():
     var major_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
-    var major_names = [
-        "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant",
-        "Lovers", "Chariot", "Strength", "Hermit", "Wheel of Fortune", "Justice",
-        "Hanged Man", "Death", "Temperance", "Devil", "Tower", "Star",
-        "Moon", "Sun", "Judgement", "World"
-    ]
     for i in range(major_ids.size()):
         var card_id = GameConstants.MAJOR_CARD_THRESHOLD + major_ids[i]
         var card = Card.new(card_id, DataStructures.SuitType.MAJOR, major_ids[i])
@@ -105,28 +101,73 @@ func remove_card_from_selected(card: Card) -> void:
 
 ## Unlocks a card by ID and emits update.
 func unlock_card(card_id: int):
-    if all_cards.has(card_id):
-        all_cards[card_id].is_unlocked = true
+    var card = get_card(card_id)
+    if card:
+        card.is_unlocked = true
     emit_signal("deck_updated", DataStructures.DeckType.DEFAULT)
+
+## Gets a card by ID from all_cards dictionary.
+func get_card(card_id: int) -> Card:
+    if all_cards.has(card_id):
+        return all_cards[card_id]
+    push_error("DeckManager: Card with ID %d not found" % card_id)
+    return null
+
+## Gets all available cards as an array.
+func get_all_cards() -> Array[Card]:
+    return all_cards.values()
 #endregion
 
 #region Active Deck Management
 ## Builds the active deck from the selected deck and shuffles.
 func build_active_deck():
     active_deck = selected_deck.duplicate()
-    active_deck.shuffle()
-    emit_signal("deck_updated", DataStructures.DeckType.ACTIVE)
 
 ## Shuffles the active deck and emits update.
-func request_shuffle(_safely: bool = false) -> void:
+func request_shuffle(safely: bool = false) -> void:
+    _perform_shuffle(safely)
+
+## Internal method that performs the actual shuffle and notifications
+func _perform_shuffle(safely: bool) -> void:
     active_deck.shuffle()
     emit_signal("deck_updated", DataStructures.DeckType.ACTIVE)
+    
+    # Always notify other systems that a shuffle has been completed
+    if ValidationUtils.has_event_bus():
+        EventBus.emit_shuffle_completed(safely)
 
 ## Draws a card from the active deck, rebuilding if empty.
 func draw_card() -> Card:
     if active_deck.is_empty():
         build_active_deck()
+        _perform_shuffle(false)  # safely = false for manual shuffle
     return active_deck.pop_front()
+
+## Handles the complete card drawing process including inversion calculation
+func draw_and_emit_card() -> void:
+    var card = draw_card()
+    if not card:
+        push_warning("DeckManager: No card available to draw")
+        return
+    
+    var is_flipped = _calculate_card_inversion()
+    
+    if ValidationUtils.has_event_bus():
+        EventBus.emit_card_drawn(card, is_flipped)
+        print("DeckManager: Emitted card_drawn for card %d" % card.id)
+    else:
+        push_warning("DeckManager: EventBus not available, cannot emit card_drawn")
+
+## Calculates whether a card should be inverted based on game stats
+func _calculate_card_inversion() -> bool:
+    if not game_state or not game_state.stats:
+        return false
+    
+    # Base inversion chance is 50%
+    var base_chance = 0.5
+    var final_chance = base_chance + game_state.stats.inversion_chance_modifier
+
+    return randf() < final_chance
 #endregion
 
 #region Active Deck Mutation
@@ -259,7 +300,7 @@ func remove_lower_than(card_value: int = 0, include_majors: bool = false) -> Car
     for i in range(active_deck.size()):
         var candidate = active_deck[i]
         var value = candidate.value if candidate.has_method("get_value") else GameConstants.get_card_value_from_id(candidate.id)
-        var is_major = candidate.suit == DataStructures.SuitType.MAJOR if candidate.has("suit") else candidate.id >= GameConstants.MAJOR_CARD_THRESHOLD
+        var is_major = candidate.suit == DataStructures.SuitType.MAJOR
         if value < card_value and (include_majors or not is_major):
             filtered.append(i)
     if filtered.size() == 0:
@@ -287,10 +328,7 @@ func save() -> Dictionary:
         save_data["selected_deck"].append(card.id)
     # Save active deck
     for card in active_deck:
-        save_data["active_deck"].append({
-            "id": card.id,
-            "flipped": card.is_flipped
-        })
+        save_data["active_deck"].append(card.id)
     return save_data
 
 ## Loads deck state from a dictionary.
@@ -306,18 +344,17 @@ func load(data: Dictionary):
     selected_deck.clear()
     if data.has("selected_deck"):
         for card_id in data["selected_deck"]:
-            if all_cards.has(card_id):
-                selected_deck.append(all_cards[card_id])
+            var int_card_id = int(card_id)  # Ensure it's an integer
+            if all_cards.has(int_card_id):
+                selected_deck.append(all_cards[int_card_id].duplicate())
     # Load active deck
     active_deck.clear()
     if data.has("active_deck"):
-        for card_data in data["active_deck"]:
-            var card_id = card_data["id"]
-            if all_cards.has(card_id):
-                var card = all_cards[card_id].duplicate()
-                card.is_flipped = card_data.get("flipped", false)
-                active_deck.append(card)
+        for card_id in data["active_deck"]:
+            var int_card_id = int(card_id)  # Ensure it's an integer
+            if all_cards.has(int_card_id):
+                active_deck.append(all_cards[int_card_id].duplicate())
     # If no active deck, build from selected deck
     if active_deck.is_empty():
-        build_active_deck()
+        active_deck = default_deck.duplicate()
 #endregion

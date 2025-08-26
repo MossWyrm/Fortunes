@@ -1,4 +1,5 @@
-extends Node
+extends Control
+class_name UpgradesController
 ## Upgrades controller for managing the upgrade shop interface
 ##
 ## Handles the display and navigation of different upgrade categories,
@@ -23,10 +24,12 @@ func _ready() -> void:
 
 # Connect to event bus and other signals
 func _connect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.game_reset, _on_game_reset, "UpgradesController game reset")
+	# Direct EventBus connections - no timing issues since it's autoload
+	EventBus.currency_updated.connect(_on_currency_updated)
+	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
+	EventBus.game_loaded.connect(_on_game_loaded)
 	
-	SignalManager.safe_connect(get_viewport().size_changed, _on_viewport_size_changed, "UpgradesController viewport")
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -34,11 +37,17 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.game_reset, _on_game_reset, "UpgradesController game reset")
+	# Standard Godot disconnections - safe even if not connected
+	if EventBus.currency_updated.is_connected(_on_currency_updated):
+		EventBus.currency_updated.disconnect(_on_currency_updated)
+	if EventBus.upgrade_purchased.is_connected(_on_upgrade_purchased):
+		EventBus.upgrade_purchased.disconnect(_on_upgrade_purchased)
+	if EventBus.game_loaded.is_connected(_on_game_loaded):
+		EventBus.game_loaded.disconnect(_on_game_loaded)
 	
-	SignalManager.safe_disconnect(get_viewport().size_changed, _on_viewport_size_changed, "UpgradesController viewport")
-#endregion
+	if get_viewport().size_changed.is_connected(_on_viewport_size_changed):
+		get_viewport().size_changed.disconnect(_on_viewport_size_changed)
+
 # Initialize layout and positioning
 func _initialize_layout() -> void:
 	_update_position()
@@ -57,10 +66,12 @@ func _on_viewport_size_changed() -> void:
 
 # Update panel position
 func _update_position() -> void:
-	position.x = 0
+	# TODO: Fix position access - might need scene tree restructure
+	pass # position.x = 0
 #endregion
 
 #region Upgrade Display Management
+
 # Display upgrades for a specific category
 func display_upgrades_for_category(type: UpgradeData.UpgradeType = UpgradeData.UpgradeType.GENERAL, texture_button: TextureButton = null) -> void:
 	if not upgrade_manager:
@@ -68,35 +79,39 @@ func display_upgrades_for_category(type: UpgradeData.UpgradeType = UpgradeData.U
 		return
 	
 	var upgrades: Dictionary = upgrade_manager.get_upgrades_for_type(type)
-	
-	# Check if we have enough upgrade buttons
-	if upgrade_buttons.size() < upgrades.size():
-		push_error("UpgradesController: Not enough upgrade containers for category")
-		return
-	
 	current_category = type
 	
-	# Update upgrade buttons with new data
-	_update_upgrade_buttons(upgrades)
+	# Create complete display data in one batch
+	var display_data = UpgradeDisplayData.create_batch(upgrades, upgrade_manager)
+	
+	# Send data to buttons (one-way) - will show/hide as needed
+	_update_buttons_with_data(display_data)
 	
 	# Update category button selection
 	if texture_button:
 		_update_category_selection(texture_button)
 
-# Update individual upgrade buttons
-func _update_upgrade_buttons(upgrades: Dictionary) -> void:
-	var upgrade_keys: Array = upgrades.keys()
+# Update buttons with complete display data - no manager calls needed by buttons
+# Update all buttons with fresh display data (one-way flow)
+func _update_buttons_with_data(display_data_list: Array[UpgradeDisplayData]) -> void:
+	# Show/hide buttons based on available upgrades
+	for i in range(upgrade_buttons.size()):
+		var button = upgrade_buttons[i]
+		if i < display_data_list.size() and display_data_list[i]:
+			# Show button and update with data
+			button.show()
+			button.display(display_data_list[i])
+		else:
+			# Hide unused buttons
+			button.hide()
+
+# Refresh all visible upgrade buttons (called on currency/purchase events)
+func refresh_upgrade_displays() -> void:
+	if current_category == null:
+		return
 	
-	# Show and configure visible buttons
-	for i in upgrades.size():
-		if i < upgrade_buttons.size():
-			var upgrade_data: UpgradeData = upgrades[upgrade_keys[i]]
-			upgrade_buttons[i].setup_upgrade(upgrade_data, current_category)
-			upgrade_buttons[i].visible = true
-	
-	# Hide unused buttons
-	for i in range(upgrades.size(), upgrade_buttons.size()):
-		upgrade_buttons[i].visible = false
+	# Refresh current category without changing selection
+	display_upgrades_for_category(current_category)
 
 # Update category button selection visual feedback
 func _update_category_selection(selected_button: TextureButton) -> void:
@@ -108,37 +123,78 @@ func _update_category_selection(selected_button: TextureButton) -> void:
 #endregion
 
 #region Event Handlers
-# Handle game reset events
-func _on_game_reset() -> void:
-	current_category = UpgradeData.UpgradeType.GENERAL
-	if upgrade_manager:
-		display_upgrades_for_category()
+# Handle currency updates to refresh availability indicators
+func _on_currency_updated(_amount: int, _type: DataStructures.CurrencyType) -> void:
+	update_category_availability_indicators()
+	refresh_upgrade_displays()  # Refresh all visible upgrade displays
+
+# Handle upgrade purchases to refresh displays (especially for 0-cost upgrades)
+func _on_upgrade_purchased(_upgrade: UpgradeData) -> void:
+	update_category_availability_indicators()
+	refresh_upgrade_displays()  # Refresh to show new costs after purchase
 #endregion
 				
 func on_toggle_visible() -> void:
 	if self.visible:
-		set_upgrades(last_opened)
-		if Stats.packs > 0 && !pack_button.is_visible():
-			pack_button.show()
-		
-func save() -> Dictionary:
-	var save_file: Dictionary = {}
-	var upgrades: Dictionary  = upgrade_options.get_full_list()
-	for key in upgrades.keys():
-		var suit_collection: Dictionary = {}
-		for upgrade in upgrades[key].keys():
-			suit_collection[upgrade] = upgrades[key][upgrade].times_purchased
-		save_file[key] = suit_collection
-	return save_file
+		# TODO: Implement with new architecture
+		# set_upgrades(last_opened)
+		# if Stats.packs > 0 && !pack_button.is_visible():
+		#	pack_button.show()
+		pass
+
+# Get upgrade statistics for the current category
+func get_category_upgrade_stats() -> Dictionary:
+	if not upgrade_manager:
+		return {}
 	
-func load_upgrades(dict: Dictionary) -> void:
-	var upgrades: Dictionary = upgrade_options.get_full_list()
-	if upgrades == null:
-		print("Upgrades list not found")
-		return
-	for suit in dict.keys():
-		for title in dict[suit].keys():
-			upgrades[int(suit)][title].times_purchased = dict[suit][title]
+	var upgrades: Dictionary = upgrade_manager.get_upgrades_for_type(current_category)
+	var stats: Dictionary = {
+		"total_upgrades": upgrades.size(),
+		"purchased_upgrades": 0,
+		"maxed_upgrades": 0,
+		"total_spent": 0.0,
+		"upgrades_available": 0
+	}
+	
+	for upgrade_id in upgrades.keys():
+		var upgrade_progress = upgrade_manager.get_upgrade_progress(upgrade_id)
+		if upgrade_progress.get("current_purchases", 0) > 0:
+			stats.purchased_upgrades += 1
 		
-func reset_upgrades(type: DataStructures.GameLayer) -> void:
-	upgrade_options.reset(type)
+		if upgrade_progress.get("is_maxed", false):
+			stats.maxed_upgrades += 1
+		
+		if upgrade_progress.get("can_afford", false) and not upgrade_progress.get("is_maxed", false):
+			stats.upgrades_available += 1
+	
+	return stats
+
+# Get detailed progress for all upgrades in current category
+func get_all_upgrade_progress() -> Dictionary:
+	if not upgrade_manager:
+		return {}
+	
+	var upgrades: Dictionary = upgrade_manager.get_upgrades_for_type(current_category)
+	var progress_data: Dictionary = {}
+	
+	for upgrade_id in upgrades.keys():
+		progress_data[upgrade_id] = upgrade_manager.get_upgrade_progress(upgrade_id)
+	
+	return progress_data
+
+# Update availability indicators on all category buttons
+func update_category_availability_indicators() -> void:
+	if not upgrade_manager:
+		return
+	
+	# Update all category select buttons with pre-calculated data
+	for button in category_buttons:
+		if button is UpgradesSelectButton:
+			var has_affordable = upgrade_manager.has_affordable_upgrades(button.upgrade_type)
+			button.update_availability_indicator(has_affordable)
+
+# Handle game loaded event to refresh UI
+func _on_game_loaded() -> void:
+	_setup_upgrades()
+	update_category_availability_indicators()
+#endregion

@@ -1,12 +1,11 @@
 extends BaseCardDescription
 class_name WandCardDescription
 
-## Wand card descriptions (IDs 211-214)
+## Wand card descriptions (IDs 201-214)
 
-static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
+static func get_description(card: Card, bb_formatted: bool) -> String:
 	var stats = GameManager.game_state.stats.wand_stats
-	
-	match card.card_id_num:
+	match card.id:
 		211:
 			return _page_description(stats, bb_formatted)
 		212:
@@ -16,7 +15,18 @@ static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
 		214:
 			return _king_description(stats, bb_formatted)
 		_:
-			return super._get_specific_description(card, bb_formatted)
+			# Basic cards (201-210) have no specific effect
+			if _is_basic_card(card):
+				return "No specific effect."
+			return "No Description Found"
+
+static func get_title(card: Card) -> String:
+	match card.id:
+		211: return "Wand Page"
+		212: return "Wand Knight"
+		213: return "Wand Queen"
+		214: return "Wand King"
+		_: return "Wand Card"
 
 static func _page_description(stats: WandStats, bb_formatted: bool) -> String:
 	var modifier = str(stats.page_modifier)
@@ -41,11 +51,3 @@ static func _king_description(stats: WandStats, bb_formatted: bool) -> String:
 	return ("All your card values are multiplied by " +
 			format_positive_negative(modifier, divisor, bb_formatted) +
 			".")
-
-static func _get_card_title(card: Card) -> String:
-	match card.card_id_num:
-		211: return "Wand Page"
-		212: return "Wand Knight"
-		213: return "Wand Queen"
-		214: return "Wand King"
-		_: return "Wand Card"

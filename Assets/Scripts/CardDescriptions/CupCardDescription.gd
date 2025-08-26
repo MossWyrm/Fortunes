@@ -1,12 +1,12 @@
 extends BaseCardDescription
 class_name CupCardDescription
 
-## Cup card descriptions (IDs 111-114)
+## Cup card descriptions (IDs 101-114)
 
-static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
+static func get_description(card: Card, bb_formatted: bool) -> String:
 	var stats = GameManager.game_state.stats.cup_stats
 	
-	match card.card_id_num:
+	match card.id:
 		111:
 			return _page_description(stats, bb_formatted)
 		112:
@@ -16,7 +16,18 @@ static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
 		114:
 			return _king_description(bb_formatted)
 		_:
-			return super._get_specific_description(card, bb_formatted)
+			# Basic cards (101-110) have no specific effect
+			if _is_basic_card(card):
+				return "No specific effect."
+			return "Description Not Found"
+
+static func get_title(card: Card) -> String:
+	match card.id:
+		111: return "Page of Cups"
+		112: return "Knight of Cups"
+		113: return "Queen of Cups"
+		114: return "King of Cups"
+		_: return str(card.value) + " of Cups"
 
 static func _page_description(stats: CupStats, bb_formatted: bool) -> String:
 	var modifier_text = str(stats.page_modifier)
@@ -35,11 +46,3 @@ static func _king_description(bb_formatted: bool) -> String:
 	return ("Immediately " + 
 			format_positive_negative("Fill", "Empty", bb_formatted) + 
 			" all Cup banks.")
-
-static func _get_card_title(card: Card) -> String:
-	match card.card_id_num:
-		111: return "Cup Page"
-		112: return "Cup Knight"
-		113: return "Cup Queen" 
-		114: return "Cup King"
-		_: return "Cup Card"

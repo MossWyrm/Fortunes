@@ -24,16 +24,15 @@ func _connect_signals() -> void:
 
 # Connect button press signals with their respective suit values
 func _connect_button_signals() -> void:
-	SignalManager.safe_connect(cups_button.pressed, _choose_suit.bind(DataStructures.SuitType.CUPS), "SuitChoice cups button")
-	SignalManager.safe_connect(wands_button.pressed, _choose_suit.bind(DataStructures.SuitType.WANDS), "SuitChoice wands button")
-	SignalManager.safe_connect(pentacles_button.pressed, _choose_suit.bind(DataStructures.SuitType.PENTACLES), "SuitChoice pentacles button")
-	SignalManager.safe_connect(swords_button.pressed, _choose_suit.bind(DataStructures.SuitType.SWORDS), "SuitChoice swords button")
-	SignalManager.safe_connect(majors_button.pressed, _choose_suit.bind(DataStructures.SuitType.MAJOR), "SuitChoice majors button")
+	cups_button.pressed.connect(_choose_suit.bind(DataStructures.SuitType.CUPS))
+	wands_button.pressed.connect(_choose_suit.bind(DataStructures.SuitType.WANDS))
+	pentacles_button.pressed.connect(_choose_suit.bind(DataStructures.SuitType.PENTACLES))
+	swords_button.pressed.connect(_choose_suit.bind(DataStructures.SuitType.SWORDS))
+	majors_button.pressed.connect(_choose_suit.bind(DataStructures.SuitType.MAJOR))
 
 # Connect to EventBus signals
 func _connect_event_bus_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.suit_choice_requested, _on_suit_choice_requested, "SuitChoice choice requested")
+	EventBus.suit_choice_requested.connect(_on_suit_choice_requested)
 
 # Initialize dialog state
 func _initialize_dialog() -> void:
@@ -45,14 +44,14 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(cups_button.pressed, _choose_suit.bind(DataStructures.SuitType.CUPS), "SuitChoice cups button")
-	SignalManager.safe_disconnect(wands_button.pressed, _choose_suit.bind(DataStructures.SuitType.WANDS), "SuitChoice wands button")
-	SignalManager.safe_disconnect(pentacles_button.pressed, _choose_suit.bind(DataStructures.SuitType.PENTACLES), "SuitChoice pentacles button")
-	SignalManager.safe_disconnect(swords_button.pressed, _choose_suit.bind(DataStructures.SuitType.SWORDS), "SuitChoice swords button")
-	SignalManager.safe_disconnect(majors_button.pressed, _choose_suit.bind(DataStructures.SuitType.MAJOR), "SuitChoice majors button")
+	cups_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.CUPS))
+	wands_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.WANDS))
+	pentacles_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.PENTACLES))
+	swords_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.SWORDS))
+	majors_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.MAJOR))
 	
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.suit_choice_requested, _on_suit_choice_requested, "SuitChoice choice requested")
+	if EventBus.suit_choice_requested.is_connected(_on_suit_choice_requested):
+		EventBus.suit_choice_requested.disconnect(_on_suit_choice_requested)
 #endregion
 
 #region Suit Choice Logic
@@ -74,7 +73,7 @@ func _choose_suit(chosen_suit: DataStructures.SuitType) -> void:
 # Emit the suit choice result through EventBus
 func _emit_suit_result(chosen_suit: DataStructures.SuitType) -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_suit_chosen(chosen_suit)
+		EventBus.emit_suit_chosen(chosen_suit)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:
@@ -84,5 +83,5 @@ func _hide_dialog() -> void:
 # Pause or resume game drawing
 func _set_game_paused(is_paused: bool) -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_game_paused(is_paused)
+		EventBus.emit_game_paused(is_paused)
 #endregion

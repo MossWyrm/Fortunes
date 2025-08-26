@@ -27,14 +27,14 @@ var movement_duration: float = 0.0
 
 #region Configuration
 # Set animation timing parameters
-func set_speeds(move_duration: float, fade_duration: float) -> void:
-	movement_duration = move_duration
-	fade_duration = fade_duration
+func set_speeds(move_dur: float, fade_dur: float) -> void:
+	movement_duration = move_dur
+	fade_duration = fade_dur
 #endregion
 
 #region Card Setup
 # Configure card for add animation
-func create_addable(card: DataStructures.Card) -> void:
+func create_addable(card: Card) -> void:
 	if not card:
 		push_error("AddableCard: Cannot create addable with null card")
 		return
@@ -44,7 +44,7 @@ func create_addable(card: DataStructures.Card) -> void:
 	animation_type = AnimationType.ADDABLE
 
 # Configure card for remove animation
-func create_removable(card: DataStructures.Card) -> void:
+func create_removable(card: Card) -> void:
 	if not card:
 		push_error("AddableCard: Cannot create removable with null card")
 		return
@@ -54,7 +54,7 @@ func create_removable(card: DataStructures.Card) -> void:
 	animation_type = AnimationType.REMOVABLE
 
 # Setup basic card visuals and textures
-func _setup_card_visuals(card: DataStructures.Card) -> void:
+func _setup_card_visuals(card: Card) -> void:
 	var textures = PreloadedResources.get_card_texture(card)
 	
 	if background:

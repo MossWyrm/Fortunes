@@ -4,10 +4,10 @@ class_name MajorEffectBase
 # Base class for all Major Arcana effects
 var major_calc: MajorCalculator
 var game_state: GameState
-var state: DataStructures.CardState = DataStructures.CardState.INACTIVE
+var card_state: DataStructures.CardState = DataStructures.CardState.INACTIVE
 
 func _init(state: GameState) -> void:
-	major_calc = state.major_calculator
+	major_calc = state.card_calculator.major_calculator
 	self.game_state = state
 
 
@@ -17,13 +17,13 @@ func apply(_card: Card, _flipped: bool) -> int:
 
 
 # Called to shuffle or reset the effect. Used for deck shuffling or effect resets.
-func shuffle(safely: bool = false) -> void:
+func shuffle(_safely: bool = false) -> void:
 	print("shuffle not implemented for %s" % self.name)
 	pass
 
 
-# Called to update the internal state or mechanisms of the effect.
-func update(value: int) -> void:
+# Called to update the internal card_state or mechanisms of the effect.
+func update(_value: int) -> void:
 	print("update not implemented for %s" % self.name)
 	pass
 
@@ -42,18 +42,18 @@ func trigger() -> void:
 
 # Returns true if the effect is currently active.
 func active() -> bool:
-	return state != DataStructures.CardState.INACTIVE
+	return card_state != DataStructures.CardState.INACTIVE
 
 
-# Resets the effect to its default state.
+# Resets the effect to its default card_state.
 func reset() -> void:
-	state = DataStructures.CardState.INACTIVE
+	card_state = DataStructures.CardState.INACTIVE
 
-# Returns a dictionary representing the effect's state for backup
+# Returns a dictionary representing the effect's card_state for backup
 func get_state_backup() -> Dictionary:
-	return {"state": state}
+	return {"card_state": card_state}
 
-# Restores the effect's state from a backup dictionary
+# Restores the effect's card_state from a backup dictionary
 func restore_state_backup(backup: Dictionary) -> void:
-	if backup.has("state"):
-		state = backup["state"]
+	if backup.has("card_state"):
+		card_state = backup["card_state"]

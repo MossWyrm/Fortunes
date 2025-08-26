@@ -11,8 +11,7 @@ func _ready() -> void:
 
 # Connect to event bus signals
 func _connect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.pack_completed, _on_pack_completed, "PrestigeManager pack completed")
+	EventBus.pack_complete.connect(_on_pack_completed)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -20,8 +19,8 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.pack_completed, _on_pack_completed, "PrestigeManager pack completed")
+	if EventBus.pack_complete.is_connected(_on_pack_completed):
+		EventBus.pack_complete.disconnect(_on_pack_completed)
 #endregion
 
 #region Event Handlers
@@ -33,10 +32,10 @@ func _on_pack_completed() -> void:
 # Award currency for completing a pack
 func _award_pack_completion_reward() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.currency_updated.emit(1, DataStructures.CurrencyType.PACK)
+		EventBus.currency_updated.emit(1, DataStructures.CurrencyType.PACK)
 
 # Reset deck state for starting a new pack
 func _reset_deck_for_new_pack() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.game_reset.emit(DataStructures.GameLayer.DECK)
+		EventBus.game_reset.emit(DataStructures.GameLayer.DECK)
 #endregion

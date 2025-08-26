@@ -16,8 +16,8 @@ func apply(_card: Card, flipped: bool) -> int:
     else:
         clairvoyance = -roundi(float(game_state.stats.clairvoyance) / 2)
     game_state.stats.clairvoyance += clairvoyance
-    game_state.event_bus.emit_currency_updated(clairvoyance, DataStructures.CurrencyType.CLAIRVOYANCE)
-    game_state.event_bus.emit_major_card_animation_requested(flipped)
+    EventBus.emit_currency_updated(clairvoyance, DataStructures.CurrencyType.CLAIRVOYANCE)
+    EventBus.emit_major_card_animation_requested(flipped)
     return 0
 
 # Helper to find duplicate cards in a deck
@@ -25,8 +25,8 @@ func _get_duplicates(deck: Array) -> Array:
     var seen = {}
     var duplicates = []
     for card in deck:
-        if card.card_id_num in seen:
+        if card.id in seen:
             duplicates.append(card)
         else:
-            seen[card.card_id_num] = true
+            seen[card.id] = true
     return duplicates

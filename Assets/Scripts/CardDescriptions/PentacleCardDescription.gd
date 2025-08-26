@@ -1,12 +1,12 @@
 extends BaseCardDescription
 class_name PentacleCardDescription
 
-## Pentacle card descriptions (IDs 311-314)
+## Pentacle card descriptions (IDs 301-314)
 
-static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
+static func get_description(card: Card, bb_formatted: bool) -> String:
 	var stats = GameManager.game_state.stats.pentacle_stats
 	
-	match card.card_id_num:
+	match card.id:
 		311:
 			return _page_description(stats, bb_formatted)
 		312:
@@ -16,7 +16,18 @@ static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
 		314:
 			return _king_description(stats, bb_formatted)
 		_:
-			return super._get_specific_description(card, bb_formatted)
+			# Basic cards (301-310) have no specific effect
+			if _is_basic_card(card):
+				return "No specific effect."
+			return "No Description Found"
+
+static func get_title(card: Card) -> String:
+	match card.id:
+		311: return "Pentacle Page"
+		312: return "Pentacle Knight"
+		313: return "Pentacle Queen"
+		314: return "Pentacle King"
+		_: return "Pentacle Card"
 
 static func _page_description(stats: PentacleStats, bb_formatted: bool) -> String:
 	var modifier = str(stats.page_modifier)
@@ -43,11 +54,3 @@ static func _king_description(stats: PentacleStats, bb_formatted: bool) -> Strin
 	return ("Your Protection uses are set to " + uses + " and it gains " +
 			format_positive_negative("+" + value, "-" + value, bb_formatted) +
 			" base value.")
-
-static func _get_card_title(card: Card) -> String:
-	match card.card_id_num:
-		311: return "Pentacle Page"
-		312: return "Pentacle Knight"
-		313: return "Pentacle Queen"
-		314: return "Pentacle King"
-		_: return "Pentacle Card"

@@ -15,6 +15,13 @@ var formula: DataStructures.GrowthType
 var additional_formula_input: float
 var card_id: int = 0
 var type: UpgradeType
+var currency_type: DataStructures.CurrencyType:
+    get:
+        match type:
+            UpgradeType.PACK:
+                return DataStructures.CurrencyType.PACK
+            _:
+                return DataStructures.CurrencyType.CLAIRVOYANCE
 
 func _init(upgrade_id: String, upgrade_name: String, upgrade_description: String, upgrade_cost: float, upgrade_max: int, upgrade_stat: String, upgrade_value, upgrade_operation: OperationType, upgrade_formula: DataStructures.GrowthType, upgrade_additional_formula_input: float, upgrade_type: UpgradeType, upgrade_card_id: int = 0):
     id = upgrade_id

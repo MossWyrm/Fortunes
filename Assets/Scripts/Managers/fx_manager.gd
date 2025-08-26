@@ -22,8 +22,7 @@ func _ready() -> void:
 
 # Connect to event bus signals
 func _connect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.particle_effect_requested, _on_particle_effect_requested, "FXManager particle effects")
+	EventBus.request_vfx.connect(_on_particle_effect_requested)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -31,17 +30,16 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.particle_effect_requested, _on_particle_effect_requested, "FXManager particle effects")
+	EventBus.request_vfx.disconnect(_on_particle_effect_requested)
 #endregion
 
 #region Event Handlers
 # Handle particle effect requests from event bus
-func _on_particle_effect_requested(particle_type: DataStructures.ParticleType) -> void:
+func _on_particle_effect_requested(particle_type: DataStructures.VFXType) -> void:
 	match particle_type:
-		DataStructures.ParticleType.SUCCESS:
+		DataStructures.VFXType.CARD_SUCCESS:
 			emit_success()
-		DataStructures.ParticleType.FAILURE:
+		DataStructures.VFXType.CARD_FAILURE:
 			emit_failure()
 		_:
 			push_warning(DescriptionFormatter.format_warning_message("FXManager", "Unknown particle type requested: " + str(particle_type)))

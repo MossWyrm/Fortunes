@@ -1,16 +1,16 @@
 extends Panel
 class_name buff_display
 
-# === Nodes & State ===
+signal initialization_complete
+
 var label: Label
 var animator: AnimationPlayer
 var sprite: Sprite2D
 var highlight: ColorRect
-var _tooltip: TooltipData
+var _tooltip_card: Card
 var hold_timer: Timer
 const HOLD_DURATION := 0.6
 
-# === Godot Lifecycle ===
 func _ready() -> void:
 	label = $Label
 	animator = $AnimationPlayer
@@ -21,11 +21,12 @@ func _ready() -> void:
 	hold_timer.one_shot = true
 	add_child(hold_timer)
 	hold_timer.connect("timeout", Callable(self, "_on_hold_timer_timeout"))
+	
+	# Wait one frame to ensure everything is properly initialized
+	await get_tree().process_frame
+	# Signal that initialization is complete
+	initialization_complete.emit()
 
-
-# (No longer needed: _process)
-
-# === UI Update Methods ===
 func set_texture(texture: Texture2D) -> void:
 	if texture != sprite.texture:
 		sprite.texture = texture
@@ -52,21 +53,19 @@ func set_panel_color(panel_color: Color = Color.WHITE) -> void:
 		highlight.color = panel_color
 		highlight.show()
 
-# === Tooltip Methods ===
-func set_tooltip_data(tooltip: TooltipData) -> void:
-	_tooltip = tooltip
+func set_tooltip_card(card: Card) -> void:
+	_tooltip_card = card
 
 func show_tooltip() -> void:
-	GameManager.event_bus.emit_tooltip_requested(_tooltip)
+	if _tooltip_card and ValidationUtils.has_event_bus():
+		EventBus.emit_tooltip_requested(_tooltip_card, DataStructures.GameLayer.DECK)
 
-# === Input Handling ===
 func _on_press(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_click"):
 		hold_timer.start()
 	elif Input.is_action_just_released("ui_click"):
 		hold_timer.stop()
 
-# === Timer Callback ===
 func _on_hold_timer_timeout():
 	show_tooltip()
 		

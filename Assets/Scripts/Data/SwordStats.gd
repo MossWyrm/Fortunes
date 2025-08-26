@@ -3,6 +3,7 @@ class_name SwordStats
 var basic_value: int = GameConfig.DEFAULT_SWORD_BASIC_VALUE
 var basic_max_quantity: int = GameConfig.DEFAULT_SWORD_BASIC_MAX_QUANTITY
 var face_max_quantity: int = GameConfig.DEFAULT_SWORD_FACE_MAX_QUANTITY
+var page_modifier: int = GameConfig.DEFAULT_SWORD_PAGE_MODIFIER
 var knight_modifier: int = GameConfig.DEFAULT_SWORD_KNIGHT_MODIFIER
 var knight_super: bool = GameConfig.DEFAULT_SWORD_KNIGHT_SUPER
 var queen_modifier: int = GameConfig.DEFAULT_SWORD_QUEEN_MODIFIER
@@ -12,6 +13,7 @@ func reset():
     basic_value = GameConfig.DEFAULT_SWORD_BASIC_VALUE
     basic_max_quantity = GameConfig.DEFAULT_SWORD_BASIC_MAX_QUANTITY
     face_max_quantity = GameConfig.DEFAULT_SWORD_FACE_MAX_QUANTITY
+    page_modifier = GameConfig.DEFAULT_SWORD_PAGE_MODIFIER
     knight_modifier = GameConfig.DEFAULT_SWORD_KNIGHT_MODIFIER
     knight_super = GameConfig.DEFAULT_SWORD_KNIGHT_SUPER
     queen_modifier = GameConfig.DEFAULT_SWORD_QUEEN_MODIFIER
@@ -22,6 +24,7 @@ func save() -> Dictionary:
         "basic_value": basic_value,
         "basic_max_quantity": basic_max_quantity,
         "face_max_quantity": face_max_quantity,
+        "page_modifier": page_modifier,
         "knight_modifier": knight_modifier,
         "knight_super": knight_super,
         "queen_modifier": queen_modifier,
@@ -35,6 +38,8 @@ func load(data: Dictionary):
         basic_max_quantity = data["basic_max_quantity"]
     if data.has("face_max_quantity"):
         face_max_quantity = data["face_max_quantity"]
+    if data.has("page_modifier"):
+        page_modifier = data["page_modifier"]
     if data.has("knight_modifier"):
         knight_modifier = data["knight_modifier"]
     if data.has("knight_super"):

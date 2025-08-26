@@ -1,6 +1,3 @@
-
-
-
 extends BaseCalculator
 class_name MajorCalculator
 
@@ -8,11 +5,18 @@ class_name MajorCalculator
 var major_effects: Dictionary = {}
 
 # === Godot Lifecycle ===
-func _ready():
-    _init_effects()
+# Override BaseCalculator to initialize effects when game_state is available
+func set_game_state(state: GameState):
+    super.set_game_state(state)  # Call parent implementation
+    _init_effects()  # Now initialize effects with valid game_state
 
 # === Initialization ===
 func _init_effects():
+    # Only initialize if we have a valid game_state
+    if not game_state:
+        push_error("MajorCalculator: Cannot initialize effects without game_state")
+        return
+        
     major_effects = {
         DataStructures.MAJOR_ID.FOOL: FoolEffect.new(game_state),
         DataStructures.MAJOR_ID.MAGICIAN: MagicianEffect.new(game_state),

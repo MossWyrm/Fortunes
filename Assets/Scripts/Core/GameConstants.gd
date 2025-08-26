@@ -10,6 +10,7 @@ const PROGRESS_CLAMP_MIN: float = 0.0
 const PROGRESS_CLAMP_MAX: float = 1.0
 const CARD_SCALE_SMALL: Vector2 = Vector2(0.5, 0.5)
 const HOLD_DELAY_DEFAULT: float = 1.0
+const HOLD_TO_PURCHASE_DELAY: float = 1.0
 #endregion
 
 #region Card System Constants
@@ -65,7 +66,7 @@ const JSON_PREVIEW_LENGTH: int = 100
 #endregion
 
 #region Debug Constants
-const DEBUG_ENABLED: bool = true
+const DEBUG_ENABLED: bool = false
 #endregion
 
 #region UI Layout Constants

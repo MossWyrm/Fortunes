@@ -2,25 +2,21 @@ extends BuffManager
 
 
 func _ready():
-	GameManager.event_bus.suit_display_updated.connect(_on_suit_display_updated)
-	_init_icons()
+	await _init_icons()
 
 func _init_icons():
 	var suit = DataStructures.SuitType.SWORDS
 	if not displays.has("basic"):
-		displays["basic"] = create_icon(suit, DataStructures.BuffType.BASIC)
+		displays["basic"] = await create_icon(suit, DataStructures.BuffType.BASIC)
 	if not displays.has("page_positive"):
-		displays["page_positive"] = create_icon(suit, DataStructures.BuffType.PAGE)
+		displays["page_positive"] = await create_icon(suit, DataStructures.BuffType.PAGE)
 	if not displays.has("page_negative"):
-		displays["page_negative"] = create_icon(suit, DataStructures.BuffType.PAGE)
+		displays["page_negative"] = await create_icon(suit, DataStructures.BuffType.PAGE)
 	if not displays.has("king_positive"):
-		displays["king_positive"] = create_icon(suit, DataStructures.BuffType.KING)
+		displays["king_positive"] = await create_icon(suit, DataStructures.BuffType.KING)
 	if not displays.has("king_negative"):
-		displays["king_negative"] = create_icon(suit, DataStructures.BuffType.KING)
-
-func _on_suit_display_updated(suit, display_data):
-	if suit == DataStructures.SuitType.SWORDS:
-		update_display(display_data)
+		displays["king_negative"] = await create_icon(suit, DataStructures.BuffType.KING)
+	_mark_initialization_complete()
 
 func update_display(dictionary: Dictionary) -> void:
 	"""
@@ -37,6 +33,8 @@ func update_display(dictionary: Dictionary) -> void:
 	- Displays a buff icon for positive/negative page charges ("page_positive", "page_negative").
 	- Displays a buff icon for king protection/destruction ("king_positive", "king_negative").
 	"""
+	if not _initialization_complete:
+		return
 	set_display(displays["basic"], dictionary.get("combo", 0) > 0, dictionary.get("combo", 0))
 	set_display(displays["page_positive"], dictionary.get("page_positive_charges", 0) > 0, dictionary.get("page_positive_charges", 0), get_panel_color(true))
 	set_display(displays["page_negative"], dictionary.get("page_negative_charges", 0) > 0, dictionary.get("page_negative_charges", 0), get_panel_color(false))

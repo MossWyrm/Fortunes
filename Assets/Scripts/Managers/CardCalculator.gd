@@ -3,7 +3,7 @@ class_name CardCalculator
 
 # === Dependencies ===
 var game_state: GameState
-var event_bus: EventBus
+# Note: EventBus is now an autoload, no longer need to store reference
 
 
 # === Suit Calculators ===
@@ -16,27 +16,41 @@ var major_calculator: MajorCalculator
 # === Node References ===
 var display_state_manager: DisplayStateManager
 
-# === Instantiation ===
-func _init():
+# === Setup & Lifecycle ===
+func set_game_state(state: GameState):
+	game_state = state
+	_connect_signals()
+
+func _connect_signals():
+	print("CardCalculator: Connecting to EventBus autoload...")
+	# Direct connection to autoload EventBus - no timing issues!
+	EventBus.game_initialized.connect(_on_game_initialized)
+	EventBus.card_drawn.connect(_on_card_drawn)
+	EventBus.shuffle_completed.connect(_on_shuffle_completed)
+	print("CardCalculator: Signal connections completed")
+
+
+func _exit_tree():
+	_disconnect_signals()
+
+func _disconnect_signals():
+	if EventBus:
+		EventBus.game_initialized.disconnect(_on_game_initialized)
+		EventBus.card_drawn.disconnect(_on_card_drawn)
+		EventBus.shuffle_completed.disconnect(_on_shuffle_completed)
+
+func _on_game_initialized():
+	print("CardCalculator: Game initialized")
+	_setup_calculators()
+	_update_suit_displays()
+
+func _setup_calculators():
 	cup_calculator = CupCalculator.new()
 	wand_calculator = WandCalculator.new()
 	pentacle_calculator = PentacleCalculator.new()
 	sword_calculator = SwordCalculator.new()
 	major_calculator = MajorCalculator.new()
-
-# === Setup & Lifecycle ===
-
-func set_game_state(state: GameState):
-	game_state = state
-	event_bus = state.event_bus
-	_connect_events()
-	_setup_calculators()
-
-func _connect_events():
-	event_bus.card_drawn.connect(_on_card_drawn)
-	event_bus.request_shuffle.connect(_on_shuffle_requested)
-
-func _setup_calculators():
+	
 	cup_calculator.set_game_state(game_state)
 	wand_calculator.set_game_state(game_state)
 	pentacle_calculator.set_game_state(game_state)
@@ -45,28 +59,23 @@ func _setup_calculators():
 
 func set_display_state_manager(manager: DisplayStateManager):
 	display_state_manager = manager
-	if manager:
-		manager.major_calculator = major_calculator
-		manager.cup_calculator = cup_calculator
-		manager.wand_calculator = wand_calculator
-		manager.sword_calculator = sword_calculator
-		manager.pentacle_calculator = pentacle_calculator
 
 # === Event Handlers ===
-func _on_shuffle_requested(safely: bool):
+func _on_shuffle_completed(safely: bool):
 	cup_calculator.shuffle(safely)
 	wand_calculator.shuffle(safely)
 	pentacle_calculator.shuffle(safely)
 	sword_calculator.shuffle(safely)
 	major_calculator.shuffle(safely)
+	_update_suit_displays()
 
 func _on_card_drawn(card: Card, flipped: bool):
 	var result = await calculate_card(card, flipped)
-	event_bus.emit_card_calculated(card, result)
+	EventBus.emit_card_calculated(card, result)
 	_update_suit_displays()
 
 func _update_suit_displays():
-	# --- Emit suit_display_updated for all suits after real card draw ---
+	# --- Emit request_buff_update for all suits after real card draw ---
 	var display_states = {
 		DataStructures.SuitType.CUPS: cup_calculator.get_display_state(),
 		DataStructures.SuitType.WANDS: wand_calculator.get_display_state(),
@@ -74,7 +83,9 @@ func _update_suit_displays():
 		DataStructures.SuitType.SWORDS: sword_calculator.get_display_state(),
 		DataStructures.SuitType.MAJOR: major_calculator.get_display_state(),
 	}
-	display_state_manager.update_display_states(display_states)
+	# Emit request_buff_update for all suits
+	for suit in display_states.keys():
+		EventBus.emit_request_buff_update(suit, display_states[suit])
 
 # === Calculation Pipeline ===
 func calculate_card(card: Card, flipped: bool) -> CardCalculationResult:
@@ -85,8 +96,7 @@ func calculate_card(card: Card, flipped: bool) -> CardCalculationResult:
 	result.final_value = calculate_post_value(result.modified_value)
 	result.clairvoyance_change = result.final_value
 	if result.clairvoyance_change != 0:
-		game_state.stats.clairvoyance += result.clairvoyance_change
-		event_bus.emit_currency_updated(result.clairvoyance_change, DataStructures.CurrencyType.CLAIRVOYANCE)
+		EventBus.emit_currency_updated(result.clairvoyance_change, DataStructures.CurrencyType.CLAIRVOYANCE)
 	return result
 
 func simulate_card(card: Card, flipped: bool) -> CardCalculationResult:
@@ -99,14 +109,14 @@ func simulate_card(card: Card, flipped: bool) -> CardCalculationResult:
 func pre_calculate(card: Card, flipped: bool) -> void:
 	if major_calculator.devil_active():
 		if major_calculator.devil_forced():
-			event_bus.emit_skip_choice(true)
+			EventBus.emit_skip_chosen(true)
 			major_calculator.devil_use()
-			event_bus.emit_update_suit_displays()
+			EventBus.emit_request_buff_update(DataStructures.SuitType.MAJOR, {})
 			return
-		event_bus.emit_choose_skip()
-		if await event_bus.skip_choice:
+		EventBus.emit_skip_choice_requested()
+		if await EventBus.skip_chosen:
 			major_calculator.devil_use()
-			event_bus.emit_update_suit_displays()
+			EventBus.emit_request_buff_update(DataStructures.SuitType.MAJOR, {})
 			return
 	major_calculator.wheel_update(card.suit)
 	if pentacle_calculator.check_queen_pent(flipped):
@@ -170,22 +180,6 @@ func calculate_post_value(main_value: int) -> int:
 	if major_calculator.judgement_active():
 		result = major_calculator.judgement_value(result)
 	return result
-
-# === External Requests ===
-func get_display(suit: DataStructures.SuitType) -> Dictionary:
-	match suit:
-		DataStructures.SuitType.CUPS:
-			return cup_calculator.get_display()
-		DataStructures.SuitType.WANDS:
-			return wand_calculator.get_display()
-		DataStructures.SuitType.PENTACLES:
-			return pentacle_calculator.get_display()
-		DataStructures.SuitType.SWORDS:
-			return sword_calculator.get_display()
-		DataStructures.SuitType.MAJOR:
-			return major_calculator.get_display()
-		_:
-			return {"error": "Unknown Suit"}
 
 # === State Backup/Restore ===
 func create_state_backup() -> Dictionary:

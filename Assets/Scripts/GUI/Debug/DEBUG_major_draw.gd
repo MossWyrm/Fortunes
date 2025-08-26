@@ -8,9 +8,9 @@ extends Button
 func _ready() -> void:
 	_connect_signals()
 
-# Connect button press signal using SignalManager for safe connections
+# Connect button press signal
 func _connect_signals() -> void:
-	SignalManager.safe_connect(pressed, _on_debug_draw_major, "DEBUG major draw button")
+	pressed.connect(_on_debug_draw_major)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -18,7 +18,7 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(pressed, _on_debug_draw_major, "DEBUG major draw button")
+	pressed.disconnect(_on_debug_draw_major)
 #endregion
 
 #region Debug Functionality
@@ -38,5 +38,5 @@ func _force_draw_major_card() -> void:
 	if ValidationUtils.has_deck_manager():
 		var card = GameManager.game_state.deck_manager.get_card(major_card_id)
 		if card and ValidationUtils.has_event_bus():
-			GameManager.game_state.event_bus.emit_card_drawn(card, false)
+			EventBus.emit_card_drawn(card, false)
 #endregion

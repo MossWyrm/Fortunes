@@ -22,7 +22,7 @@ func apply(_card: Card, flipped: bool) -> int:
             var cards_needed = target_count - current_count
             for i in range(cards_needed):
                 game_state.deck_manager.add_card_by_suit(suit)
-    game_state.event_bus.emit_major_card_animation_requested(flipped)
+    EventBus.emit_major_card_animation_requested(flipped)
     return 0
 
 # Helpers
@@ -30,7 +30,7 @@ func count_suits_in_deck(deck_manager) -> Dictionary:
     var counts = {}
     var deck = deck_manager.get_deck_list()
     for card in deck:
-        counts[card.card_suit] = counts.get(card.card_suit, 0) + 1
+        counts[card.suit] = counts.get(card.suit, 0) + 1
     return counts
 
 func get_most_common_suit(counts: Dictionary) -> int:

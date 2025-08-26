@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dbjco1af7olio"]
 
-[ext_resource type="Script" uid="uid://bgswcqfnvs0am" path="res://Assets/Scripts/TarotManagers/Deck.gd" id="1_qawuu"]
+[ext_resource type="Script" uid="uid://dcm7upgobqjnt" path="res://Assets/Scripts/Managers/DeckManager.gd" id="1_qawuu"]
 [ext_resource type="PackedScene" uid="uid://bamfkwko1q8l4" path="res://Assets/Scenes/Card.tscn" id="2_ax3xy"]
 
 [node name="Deck" type="Node"]

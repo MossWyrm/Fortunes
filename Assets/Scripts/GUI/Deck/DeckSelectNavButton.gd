@@ -6,7 +6,7 @@ class_name DeckSelectNavButton
 ## in the deck creator interface. Shows visual feedback when selected.
 
 #region Export Properties
-@export var deck_creator: deck_creator_navigator
+@export var deck_creator: DeckCreatorNavigator
 # Suit number mapping:
 # 0 - Cups
 # 1 - Wands  

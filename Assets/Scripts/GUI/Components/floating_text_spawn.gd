@@ -7,7 +7,7 @@ class_name FloatingTextSpawn
 const floating_text_scene: PackedScene = preload("res://Assets/Scenes/FloatingText.tscn")
 
 func _ready() -> void:
-	SignalManager.safe_connect(GameManager.game_state.event_bus.floating_text_requested, display_text, "FloatingTextSpawn floating_text_requested")
+	EventBus.floating_text_requested.connect(display_text)
 
 func display_text(value: float) -> void:
 	var floating_text = floating_text_scene.instantiate()

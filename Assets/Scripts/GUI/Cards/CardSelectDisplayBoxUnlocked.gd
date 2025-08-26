@@ -43,7 +43,7 @@ func _setup_card_visuals(card: Card) -> void:
 # Setup card title and deck count information
 func _setup_card_information(card: Card, currently_in_deck: int) -> void:
 	if card_title:
-		card_title.text = card.card_title
+		card_title.text = Tools.get_card_title(card)
 	
 	if current_count_display:
 		current_count_display.text = str(currently_in_deck)

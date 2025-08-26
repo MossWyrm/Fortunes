@@ -5,8 +5,8 @@ class_name DescriptionFormatter
 ## Centralizes the repetitive string building patterns for card descriptions
 
 #region Color Tags
-const GOOD_COLOR: String = "[color=%#e7c45a]"
-const BAD_COLOR: String = "[color=%#ce151e]"
+const GOOD_COLOR: String = "[color=#e7c45a]"
+const BAD_COLOR: String = "[color=#ce151e]"
 const END_COLOR_TAG: String = "[/color]"
 #endregion
 
@@ -34,6 +34,18 @@ static func protected_broken_text(item: String) -> String:
 static func format_title_description(title: String, description: String) -> String:
 	return "%s\n%s" % [title, description]
 
+## Creates a title-description formatted text block with purchase count information
+static func format_title_description_with_count(title: String, description: String, purchased: int, max_purchases: int = -1) -> String:
+	var title_with_count: String
+	if max_purchases > 0:
+		title_with_count = "%s [%d/%d]" % [title, purchased, max_purchases]
+	elif purchased > 0:
+		title_with_count = "%s [%d]" % [title, purchased]
+	else:
+		title_with_count = title
+	
+	return "%s\n%s" % [title_with_count, description]
+
 ## Creates error message with context formatting
 static func format_error_message(operation: String, details: String) -> String:
 	return "%s: %s" % [operation, details]
@@ -55,8 +67,6 @@ static func format_deck_size_info(size: int, type_label: String) -> String:
 static func format_warning_message(module: String, message: String) -> String:
 	return "%s: %s" % [module, message]
 #endregion
-static func protected_broken_text(context: String) -> String:
-	return GOOD_COLOR + "protected" + END_COLOR_TAG + " / " + BAD_COLOR + "broken" + END_COLOR_TAG + " " + context
 
 ## Creates value-based descriptions with color coding
 static func value_effect_text(good_value: String, bad_value: String, context: String = "") -> String:

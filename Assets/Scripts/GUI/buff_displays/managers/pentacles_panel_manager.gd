@@ -2,23 +2,19 @@ extends BuffManager
 
 
 func _ready():
-	GameManager.event_bus.suit_display_updated.connect(_on_suit_display_updated)
-	_init_icons()
+	await _init_icons()
 
 func _init_icons():
 	var suit = DataStructures.SuitType.PENTACLES
 	if not displays.has("basic"):
-		displays["basic"] = create_icon(suit, DataStructures.BuffType.BASIC)
+		displays["basic"] = await create_icon(suit, DataStructures.BuffType.BASIC)
 	if not displays.has("uses"):
-		displays["uses"] = create_icon(suit, DataStructures.BuffType.BASIC)
+		displays["uses"] = await create_icon(suit, DataStructures.BuffType.BASIC)
 	if not displays.has("queen"):
-		displays["queen"] = create_icon(suit, DataStructures.BuffType.QUEEN)
+		displays["queen"] = await create_icon(suit, DataStructures.BuffType.QUEEN)
 	if not displays.has("blocked"):
-		displays["blocked"] = create_icon(suit, DataStructures.BuffType.KING)
-
-func _on_suit_display_updated(suit, display_data):
-	if suit == DataStructures.SuitType.PENTACLES:
-		update_display(display_data)
+		displays["blocked"] = await create_icon(suit, DataStructures.BuffType.KING)
+	_mark_initialization_complete()
 
 func update_display(dictionary: Dictionary) -> void:
 	"""
@@ -35,6 +31,8 @@ func update_display(dictionary: Dictionary) -> void:
 	- Displays a buff icon for queen uses ("queen"), with color indicating inversion.
 	- Displays a buff icon for blocked state ("blocked").
 	"""
+	if not _initialization_complete:
+		return
 	var value = dictionary.get("value", 0)
 	var uses = dictionary.get("uses", 0)
 	var queen_uses = dictionary.get("queen_uses", 0)

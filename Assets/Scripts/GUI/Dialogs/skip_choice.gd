@@ -21,13 +21,13 @@ func _connect_signals() -> void:
 
 # Connect button press signals
 func _connect_button_signals() -> void:
-	SignalManager.safe_connect(skip_button.pressed, _on_skip_selected, "SkipChoice skip button")
-	SignalManager.safe_connect(continue_button.pressed, _on_continue_selected, "SkipChoice continue button")
+	skip_button.pressed.connect(_on_skip_selected)
+	continue_button.pressed.connect(_on_continue_selected)
 
 # Connect to EventBus signals
 func _connect_event_bus_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(GameManager.game_state.event_bus.skip_choice_requested, _on_skip_choice_requested, "SkipChoice choice requested")
+	# Direct EventBus connection - always available as autoload
+	EventBus.skip_choice_requested.connect(_on_skip_choice_requested)
 
 # Initialize dialog state
 func _initialize_dialog() -> void:
@@ -39,16 +39,13 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(skip_button.pressed, _on_skip_selected, "SkipChoice skip button")
-	SignalManager.safe_disconnect(continue_button.pressed, _on_continue_selected, "SkipChoice continue button")
+	if skip_button.pressed.is_connected(_on_skip_selected):
+		skip_button.pressed.disconnect(_on_skip_selected)
+	if continue_button.pressed.is_connected(_on_continue_selected):
+		continue_button.pressed.disconnect(_on_continue_selected)
 	
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(GameManager.game_state.event_bus.skip_choice_requested, _on_skip_choice_requested, "SkipChoice choice requested")
-#endregion
-
-# Initialize dialog state
-func _initialize_dialog() -> void:
-	hide()  # Start hidden
+	if EventBus.skip_choice_requested.is_connected(_on_skip_choice_requested):
+		EventBus.skip_choice_requested.disconnect(_on_skip_choice_requested)
 #endregion
 
 #region Choice Logic
@@ -77,7 +74,7 @@ func _make_choice(should_skip: bool) -> void:
 # Emit the choice result through EventBus
 func _emit_choice_result(should_skip: bool) -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_skip_chosen(should_skip)
+		EventBus.emit_skip_chosen(should_skip)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:
@@ -87,6 +84,6 @@ func _hide_dialog() -> void:
 # Pause or resume game drawing
 func _set_game_paused(is_paused: bool) -> void:
 	if GameManager.game_state:
-		GameManager.game_state.event_bus.emit_game_paused(is_paused)
+		EventBus.emit_game_paused(is_paused)
 #endregion
 	

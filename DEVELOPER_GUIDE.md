@@ -27,7 +27,7 @@ GameManager.game_state.deck_manager.draw_card()
 ```gdscript
 # Always validate before accessing
 if ValidationUtils.has_event_bus():
-    GameManager.game_state.event_bus.emit_something()
+    EventBus.emit_something()
 
 # Use constants instead of magic numbers
 if card.rank == GameConstants.CARD_RANK_KING:
@@ -105,13 +105,13 @@ Use the EventBus for all UI updates:
 ```gdscript
 # Listen for events
 SignalManager.safe_connect(
-    GameManager.game_state.event_bus.money_updated,
+    EventBus.money_updated,
     _on_money_changed,
     "MyComponent money update"
 )
 
 # Emit events
-GameManager.game_state.event_bus.emit_money_updated(new_amount)
+EventBus.emit_money_updated(new_amount)
 ```
 
 ### Safe Component Development
@@ -135,7 +135,7 @@ func _setup_component():
         return
         
     # Safe signal connections
-    var event_bus = GameManager.game_state.event_bus
+    var event_bus = EventBus
     SignalManager.safe_connect(event_bus.some_signal, _on_signal, "MyUIComponent")
 
 func _exit_tree():
@@ -144,7 +144,7 @@ func _exit_tree():
 func _disconnect_signals():
     # Always clean up signals
     if ValidationUtils.has_event_bus():
-        var event_bus = GameManager.game_state.event_bus
+        var event_bus = EventBus
         SignalManager.safe_disconnect(event_bus.some_signal, _on_signal, "MyUIComponent")
 ```
 

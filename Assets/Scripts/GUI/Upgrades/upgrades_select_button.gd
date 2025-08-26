@@ -20,7 +20,9 @@ func _ready() -> void:
 
 # Connect button signals
 func _connect_signals() -> void:
-	SignalManager.safe_connect(pressed, _on_button_pressed, "UpgradesSelectButton pressed")
+	# Standard Godot signal connection - safe and simple
+	if not pressed.is_connected(_on_button_pressed):
+		pressed.connect(_on_button_pressed)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -28,7 +30,8 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(pressed, _on_button_pressed, "UpgradesSelectButton pressed")
+	if pressed.is_connected(_on_button_pressed):
+		pressed.disconnect(_on_button_pressed)
 #endregion
 
 #region Input Handling
@@ -44,18 +47,28 @@ func _select_upgrade_panel() -> void:
 
 # Play menu tap sound effect
 func _play_menu_sound() -> void:
-	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.sfx_requested.emit(DataStructures.SFXType.MENU_TAP)
+	# Direct EventBus access - always available as autoload
+	EventBus.emit_sfx_requested(DataStructures.SFXType.MENU_TAP)
 #endregion
 
 #region Visual State Management
-# Show selection border
+# Show selection border and scale up
 func select() -> void:
 	if border:
 		border.show()
+	scale = Vector2(1.1, 1.1)  # 10% larger when selected
 
-# Hide selection border
+# Hide selection border and return to normal size
 func deselect() -> void:
 	if border:
 		border.hide()
+	scale = Vector2(1.0, 1.0)  # Normal size when deselected
+
+# Update availability indicator (called by controller with pre-calculated data)
+func update_availability_indicator(has_affordable: bool) -> void:
+	# Add visual indicator for affordable upgrades
+	if has_affordable:
+		modulate = Color.WHITE  # Normal color
+	else:
+		modulate = Color(0.7, 0.7, 0.7)  # Dimmed when no affordable upgrades
 #endregion

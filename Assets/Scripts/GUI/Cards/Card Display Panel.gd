@@ -47,14 +47,23 @@ func _ready() -> void:
 	_connect_event_bus_signals()
 	_initialize_display()
 
+# Cleanup on exit
+func _exit_tree() -> void:
+	_disconnect_signals()
+
 # Connect to the new EventBus architecture
 func _connect_event_bus_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		var event_bus = GameManager.game_state.event_bus
-		event_bus.card_drawn.connect(_on_card_drawn)
-		event_bus.clear_card.connect(_on_clear_card)
-		event_bus.major_card_animation_requested.connect(_on_clear_major)
-		event_bus.skip_chosen.connect(_on_card_skip)
+	EventBus.card_drawn.connect(_on_card_drawn)
+	EventBus.clear_card.connect(_on_clear_card)
+	EventBus.major_card_animation_requested.connect(_on_clear_major)
+	EventBus.skip_chosen.connect(_on_card_skip)
+
+# Disconnect all signals safely
+func _disconnect_signals() -> void:
+	EventBus.card_drawn.disconnect(_on_card_drawn)
+	EventBus.clear_card.disconnect(_on_clear_card)
+	EventBus.major_card_animation_requested.disconnect(_on_clear_major)
+	EventBus.skip_chosen.disconnect(_on_card_skip)
 
 # Initialize the display with default values
 func _initialize_display() -> void:
@@ -92,7 +101,7 @@ func _on_card_drawn(card: Card, flipped: bool) -> void:
 
 # Set the card's texture and visual elements
 func _set_card_visuals(card: Card) -> void:
-	var textures = get_node("/root/PreloadedResources").get_card_texture(card)
+	var textures = PreloadedResources.get_card_texture(card)
 	
 	if textures.is_empty():
 		card_background.texture = default_card_texture
@@ -111,17 +120,17 @@ func _set_card_visuals(card: Card) -> void:
 # Display a major arcana card with special effects
 func _display_major_card(card: Card) -> void:
 	block_remove = true
-	major_title_label.text = card.get_title()
+	major_title_label.text = Tools.get_card_title(card)
 	_play_major_animation()
 
 # Display a regular suit card
 func _display_regular_card(card: Card, flipped: bool) -> void:
-	card_title_label.text = card.get_title()
+	card_title_label.text = Tools.get_card_title(card)
 	_play_flip_animation(flipped)
 
 # Check if the card is a major arcana card
 func _is_major_card(card: Card) -> bool:
-	return card.card_id_num >= GameConstants.MAJOR_CARD_THRESHOLD
+	return card.id >= GameConstants.MAJOR_CARD_THRESHOLD
 #endregion
 
 #region Animations
@@ -211,13 +220,13 @@ func _reset_animation_state() -> void:
 
 # Called by animation player when card clear animation completes
 func card_cleared() -> void:
-	# Note: This signal may need to be added to EventBus or handled differently
-	pass
+	animation_done = true
+	EventBus.emit_card_animation_finished(current_card)
 #endregion
 
 #region Event Handlers
 # Handle major card clear signal
-func _on_clear_major(flipped: bool) -> void:
+func _on_clear_major(_flipped: bool) -> void:
 	signal_received = true
 
 # Handle skip choice signal
@@ -229,7 +238,7 @@ func _on_card_skip(skipped: bool) -> void:
 
 #region Input Handling
 # Handle press and hold input for card interactions
-func press_and_hold(event: InputEvent) -> void:
+func press_and_hold(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_click"):
 		_start_hold()
 	elif Input.is_action_just_released("ui_click"):
@@ -254,9 +263,7 @@ func _reset_hold_state() -> void:
 # Show tooltip for the current card
 func _show_card_tooltip() -> void:
 	if current_card and ValidationUtils.has_event_bus():
-		var tooltip_data = TooltipData.new()
-		tooltip_data.card = current_card
-		GameManager.game_state.event_bus.emit_tooltip_requested(tooltip_data)
+		EventBus.emit_tooltip_requested(current_card, DataStructures.GameLayer.DECK)
 
 # Check if card drawing is currently paused
 func _is_drawing_paused() -> bool:

@@ -1,12 +1,12 @@
 extends BaseCardDescription
 class_name SwordCardDescription
 
-## Sword card descriptions (IDs 411-414)
+## Sword card descriptions (IDs 401-414)
 
-static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
+static func get_description(card: Card, bb_formatted: bool) -> String:
 	var stats = GameManager.game_state.stats.sword_stats
 	
-	match card.card_id_num:
+	match card.id:
 		411:
 			return _page_description(stats, bb_formatted)
 		412:
@@ -16,10 +16,21 @@ static func _get_specific_description(card: Card, bb_formatted: bool) -> String:
 		414:
 			return _king_description(stats, bb_formatted)
 		_:
-			return super._get_specific_description(card, bb_formatted)
+			# Basic cards (401-410) have no specific effect
+			if _is_basic_card(card):
+				return "No specific effect."
+			return "No Description Found"
+
+static func get_title(card: Card) -> String:
+	match card.id:
+		411: return "Page of Swords"
+		412: return "Knight of Swords"
+		413: return "Queen of Swords"
+		414: return "King of Swords"
+		_: return str(card.value) + " of Swords"
 
 static func _page_description(stats: SwordStats, bb_formatted: bool) -> String:
-	var modifier = str(stats.page_modifier)
+	var _modifier = str(stats.page_modifier)
 	return ("Next sword card is raised to the power of your Combo, and then " +
 			format_positive_negative("Added", "Subtracted", bb_formatted) +
 			" from your total.")
@@ -42,11 +53,3 @@ static func _king_description(stats: SwordStats, bb_formatted: bool) -> String:
 			" the next " + modifier + " times it would otherwise be " +
 			format_positive_negative("decreased", "increased", bb_formatted) +
 			".")
-
-static func _get_card_title(card: Card) -> String:
-	match card.card_id_num:
-		411: return "Sword Page"
-		412: return "Sword Knight"
-		413: return "Sword Queen"
-		414: return "Sword King"
-		_: return "Sword Card"

@@ -1,9 +1,13 @@
 extends RefCounted
 class_name UpgradeManager
 
+## Manages the upgrade system for the game
+## Handles upgrade creation, purchasing, effects application, and persistence
+
+#region Dependencies and Data
 # Dependencies
 var game_state: GameState
-var event_bus: EventBus
+
 
 # Upgrade data
 var upgrades_list: UpgradesList = UpgradesList.new()
@@ -18,69 +22,69 @@ var formulas: Dictionary = {
 	}
 
 var game_stats: GameStats
+#endregion
 
+#region Initialization
+## Sets up the UpgradeManager with game state and initializes all upgrades
 func set_game_state(state: GameState):
-	if not ValidationUtils.is_valid_game_state(state):
+	if not ValidationUtils.validate_game_state(state):
 		push_error("UpgradeManager: Invalid game state provided")
 		return
 	game_state = state
 	game_stats = state.stats
-	event_bus = state.event_bus
+
 	_connect_events()
 	_initialize_upgrades()
 
+## Connects to necessary event bus signals
 func _connect_events():
-	SignalManager.safe_connect(event_bus.upgrade_purchased, _on_upgrade_purchased, "UpgradeManager upgrade_purchased")
+	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
+	EventBus.game_reset.connect(reset)
 
+## Initializes all upgrades using the direct creation method
 func _initialize_upgrades():
-	_create_upgrades()
+	# New efficient approach - direct creation from UpgradesList
+	_create_upgrades_directly()
+	
+	# Legacy approach for backwards compatibility
+	# _create_upgrades()
 
-func _batch_create_upgrades(upgrade_dict: Dictionary, type: UpgradeData.UpgradeType):
-	for upgrade_id in upgrade_dict.keys():
-		var upgrade_data = upgrade_dict[upgrade_id]
-		_add_upgrade(
-			upgrade_id, 
-			upgrade_data["NAME"], 
-			upgrade_data["DESCRIPTION"], 
-			upgrade_data["START_COST"], 
-			upgrade_data.get("MAX_UPGRADES", -1), 
-			upgrade_data["STAT_PATH"], 
-			upgrade_data["OPERATION_VALUE"], 
-			upgrade_data.get("OPERATION", UpgradeData.OperationType.ADD), 
-			upgrade_data["GROWTH"], 
-			upgrade_data.get("GROWTH_MOD", 0),
-			type,
-			upgrade_data.get("ID", 0)
-		)
+## Creates all upgrades directly from UpgradesList and initializes purchase tracking
+func _create_upgrades_directly():
+	var all_upgrade_data = upgrades_list.create_all_upgrades()
+	upgrades = all_upgrade_data
+	
+	# Initialize purchase tracking
+	for upgrade_id in upgrades.keys():
+		purchased_upgrades[upgrade_id] = 0
+#endregion
 
-func _create_upgrades():
-	_batch_create_upgrades(upgrades_list.general_upgrade_values, UpgradeData.UpgradeType.GENERAL)
-	_batch_create_upgrades(upgrades_list.cup_upgrade_values, UpgradeData.UpgradeType.CUPS)
-	_batch_create_upgrades(upgrades_list.wand_upgrade_values, UpgradeData.UpgradeType.WANDS)
-	_batch_create_upgrades(upgrades_list.pent_upgrade_values, UpgradeData.UpgradeType.PENTACLES)
-	_batch_create_upgrades(upgrades_list.sword_upgrade_values, UpgradeData.UpgradeType.SWORDS)
-	_batch_create_upgrades(upgrades_list.major_upgrade_values, UpgradeData.UpgradeType.MAJOR)
-	_batch_create_upgrades(upgrades_list.pack_upgrade_values, UpgradeData.UpgradeType.PACK)
-
-func _add_upgrade(id: String, name: String, description: String, base_cost: float, max_upgrades: int, stat_path: String, effect_value: float, operation: UpgradeData.OperationType, formula: DataStructures.GrowthType, additional_formula_input: float, upgrade_type: UpgradeData.UpgradeType, card_id: int = 0):
-	var upgrade = UpgradeData.new(id, name, description, base_cost, max_upgrades, stat_path, effect_value, operation, formula, additional_formula_input, upgrade_type, card_id)
-	upgrades[id] = upgrade
-	purchased_upgrades[id] = 0
-
+#region Upgrade Access and Queries
+## Returns the UpgradeData for a specific upgrade ID
 func get_upgrade(id: String) -> UpgradeData:
 	return upgrades.get(id)
 
+## Returns all upgrades of a specific type
+func get_upgrades_for_type(type: UpgradeData.UpgradeType) -> Dictionary:
+	var result: Dictionary = {}
+	for upgrade in upgrades.values():
+		if upgrade.type == type:
+			result[upgrade.id] = upgrade
+	return result
+
+## Calculates the current cost of an upgrade based on purchase count and growth formula
 func get_upgrade_cost(id: String) -> float:
 	var upgrade: UpgradeData = get_upgrade(id)
 	if not upgrade:
 		return 0.0
-	return formulas[upgrade.formula].apply_formula(purchased_upgrades.get(id,0), upgrade.base_cost, upgrade.additional_formula_input)
+	return formulas[upgrade.formula].apply_formula(get_purchase_count(id), upgrade.base_cost, upgrade.additional_formula_input)
 
+## Checks if a player can afford and is allowed to purchase an upgrade
 func can_purchase_upgrade(id: String) -> bool:
 	var upgrade: UpgradeData = get_upgrade(id)
 	if not upgrade:
 		return false
-	if upgrade.max_purchases > 0 && purchased_upgrades.get(id,0) >= upgrade.max_purchases:
+	if upgrade.max_purchases > 0 && get_purchase_count(id) >= upgrade.max_purchases:
 		return false
 	
 	var cost: float   = get_upgrade_cost(id)
@@ -93,6 +97,16 @@ func can_purchase_upgrade(id: String) -> bool:
 	
 	return currency >= cost
 
+## Checks if an upgrade has reached its maximum purchase level
+func is_max_level(id: String) -> bool:
+	var upgrade: UpgradeData = get_upgrade(id)
+	if not upgrade:
+		return false
+	return get_purchase_count(id) >= upgrade.max_purchases if upgrade.max_purchases > 0 else false
+#endregion
+
+#region Purchase and Effect Application
+## Attempts to purchase an upgrade, deducting currency and applying effects
 func purchase_upgrade(id: String) -> bool:
 	if not can_purchase_upgrade(id):
 		return false
@@ -100,24 +114,25 @@ func purchase_upgrade(id: String) -> bool:
 	var upgrade: UpgradeData = get_upgrade(id)
 	var cost: float          = get_upgrade_cost(id)
 	
-	# Deduct currency
+	# Deduct currency (fixed logic)
 	match upgrade.type:
 		UpgradeData.UpgradeType.PACK:
-			game_state.stats.clairvoyance -= int(cost)
+			EventBus.emit_currency_updated(-int(cost), DataStructures.CurrencyType.PACK)
 		_:
-			game_state.stats.packs -= int(cost)
+			EventBus.emit_currency_updated(-int(cost), DataStructures.CurrencyType.CLAIRVOYANCE)
 	
 	# Apply effect
 	_apply_upgrade_effect(upgrade)
 	
 	# Increment purchase count
-	purchased_upgrades[id] = purchased_upgrades.get(id, 0) + 1
+	purchased_upgrades[id] = get_purchase_count(id) + 1
 	
 	# Emit event
-	event_bus.emit_upgrade_purchased(upgrade)
+	EventBus.emit_upgrade_purchased(upgrade)
 	
 	return true
 
+## Applies the effect of an upgrade to the appropriate game stat
 func _apply_upgrade_effect(upgrade: UpgradeData):
 	var stat_path: String   = upgrade.stat_name
 	var effect_value = upgrade.effect_value
@@ -141,7 +156,135 @@ func _apply_upgrade_effect(upgrade: UpgradeData):
 					stat_object.set(property_name, current_value * effect_value)
 				UpgradeData.OperationType.DIVIDE:
 					stat_object.set(property_name, current_value / effect_value)
+#endregion
 
+#region Utility Functions
+## Gets the current purchase count for an upgrade
+func get_purchase_count(id: String) -> int:
+	return purchased_upgrades.get(id, 0)
+
+## Gets all purchased upgrades and their counts
+func get_all_purchase_counts() -> Dictionary:
+	return purchased_upgrades.duplicate()
+
+## Gets purchase counts for a specific upgrade type
+func get_purchase_counts_by_type(upgrade_type: UpgradeData.UpgradeType) -> Dictionary:
+	var type_upgrades = get_upgrades_for_type(upgrade_type)
+	var type_counts: Dictionary = {}
+	
+	for upgrade_id in type_upgrades.keys():
+		var count = get_purchase_count(upgrade_id)
+		if count > 0:
+			type_counts[upgrade_id] = count
+	
+	return type_counts
+
+## Checks if any upgrades of a type are affordable
+func has_affordable_upgrades(upgrade_type: UpgradeData.UpgradeType) -> bool:
+	var type_upgrades = get_upgrades_for_type(upgrade_type)
+	
+	for upgrade_id in type_upgrades.keys():
+		if can_purchase_upgrade(upgrade_id):
+			return true
+	
+	return false
+
+## Gets purchase progress for an upgrade (for UI display)
+func get_upgrade_progress(id: String) -> Dictionary:
+	var upgrade: UpgradeData = get_upgrade(id)
+	if not upgrade:
+		return {}
+	
+	var current_purchases = get_purchase_count(id)
+	var max_purchases = upgrade.max_purchases
+	var current_cost = get_upgrade_cost(id)
+	var can_afford = can_purchase_upgrade(id)
+	var is_maxed = is_max_level(id)
+	
+	return {
+		"current_purchases": current_purchases,
+		"max_purchases": max_purchases,
+		"current_cost": current_cost,
+		"can_afford": can_afford,
+		"is_maxed": is_maxed,
+		"progress_percent": float(current_purchases) / float(max_purchases) if max_purchases > 0 else 0.0
+	}
+
+## Debug function to print upgrade status for development
+func debug_upgrade_status(id: String) -> void:
+	var upgrade: UpgradeData = get_upgrade(id)
+	if not upgrade:
+		print("Debug: Upgrade '%s' not found" % id)
+		return
+	
+	var progress = get_upgrade_progress(id)
+	print("Debug: Upgrade '%s' (%s)" % [id, upgrade.name])
+	print("  Purchases: %d/%s" % [progress.current_purchases, str(progress.max_purchases) if progress.max_purchases > 0 else "∞"])
+	print("  Cost: %s" % Tools.get_shorthand(int(progress.current_cost)))
+	print("  Can afford: %s" % str(progress.can_afford))
+	print("  Is maxed: %s" % str(progress.is_maxed))
+
+## Debug function to print all upgrade purchase counts
+func debug_all_purchases() -> void:
+	var all_counts = get_all_purchase_counts()
+	print("Debug: All upgrade purchase counts:")
+	for upgrade_id in all_counts.keys():
+		var count = all_counts[upgrade_id]
+		if count > 0:
+			print("  %s: %d" % [upgrade_id, count])
+
+## Gets comprehensive upgrade statistics for analytics/debugging
+func get_upgrade_statistics() -> Dictionary:
+	var stats: Dictionary = {
+		"total_upgrades": upgrades.size(),
+		"total_purchases": 0,
+		"total_spent_clairvoyance": 0.0,
+		"total_spent_packs": 0.0,
+		"maxed_upgrades": 0,
+		"upgrades_by_type": {},
+		"most_purchased": {"id": "", "count": 0}
+	}
+	
+	var most_purchased_count = 0
+	
+	for upgrade_id in upgrades.keys():
+		var upgrade: UpgradeData = get_upgrade(upgrade_id)
+		var purchase_count = get_purchase_count(upgrade_id)
+		
+		# Track total purchases
+		stats.total_purchases += purchase_count
+		
+		# Track most purchased
+		if purchase_count > most_purchased_count:
+			most_purchased_count = purchase_count
+			stats.most_purchased.id = upgrade_id
+			stats.most_purchased.count = purchase_count
+		
+		# Track maxed upgrades
+		if is_max_level(upgrade_id):
+			stats.maxed_upgrades += 1
+		
+		# Track by type
+		var type_key = str(upgrade.type)
+		if not stats.upgrades_by_type.has(type_key):
+			stats.upgrades_by_type[type_key] = {"count": 0, "purchases": 0}
+		
+		stats.upgrades_by_type[type_key].count += 1
+		stats.upgrades_by_type[type_key].purchases += purchase_count
+		
+		# Calculate total spent (approximate based on base cost * purchases)
+		var total_cost_approx = upgrade.base_cost * purchase_count
+		match upgrade.type:
+			UpgradeData.UpgradeType.PACK:
+				stats.total_spent_packs += total_cost_approx
+			_:
+				stats.total_spent_clairvoyance += total_cost_approx
+	
+	return stats
+#endregion
+
+#region Stat Path Utilities
+## Gets the object that contains the stat to be modified
 func _get_stat_object(stat_path: String) -> Object:
 	var path_parts: PackedStringArray = stat_path.split(".")
 	
@@ -155,6 +298,7 @@ func _get_stat_object(stat_path: String) -> Object:
 	
 	return null
 
+## Extracts the property name from a stat path
 func _get_property_name(stat_path: String) -> String:
 	var path_parts: PackedStringArray = stat_path.split(".")
 	
@@ -164,11 +308,17 @@ func _get_property_name(stat_path: String) -> String:
 		return path_parts[1]
 	
 	return ""
+#endregion
 
+#region Event Handling
+## Handles post-purchase logic when an upgrade is purchased
 func _on_upgrade_purchased(_upgrade: UpgradeData):
 	# Handle any post-purchase logic
 	pass
+#endregion
 
+#region Reset and Persistence
+## Resets purchased upgrades based on game layer reset type
 func reset(reset_type: DataStructures.GameLayer):
 	if reset_type >= DataStructures.GameLayer.DECK:
 		var deck_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return get_upgrade(x).type <= UpgradeData.UpgradeType.GENERAL)
@@ -185,8 +335,11 @@ func reset(reset_type: DataStructures.GameLayer):
 		for upgrade_id in upgrades.keys():
 			purchased_upgrades[upgrade_id] = 0
 
+## Saves the current state of purchased upgrades
 func save() -> Dictionary:
 	return purchased_upgrades.duplicate()
 
+## Loads purchased upgrade data from a save file
 func load(data: Dictionary):
 	purchased_upgrades = data.duplicate()
+#endregion

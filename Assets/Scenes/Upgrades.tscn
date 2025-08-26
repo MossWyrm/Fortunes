@@ -1,9 +1,9 @@
 [gd_scene load_steps=17 format=3 uid="uid://cmd65qh0ndrgw"]
 
-[ext_resource type="Script" uid="uid://c61ilfuu65xuh" path="res://Assets/Scripts/UpgradesController.gd" id="1_rtjnf"]
-[ext_resource type="PackedScene" uid="uid://ct6d58kf4xqwl" path="res://Assets/Scenes/Upgrades/upgrade_button.tscn" id="3_1sf28"]
+[ext_resource type="Script" uid="uid://c61ilfuu65xuh" path="res://Assets/Scripts/GUI/Upgrades/UpgradesController.gd" id="1_rtjnf"]
+[ext_resource type="PackedScene" uid="uid://ct6d58kf4xqwl" path="res://Assets/upgrade_button.tscn" id="3_1sf28"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="3_msc5d"]
-[ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://Assets/Scripts/upgrades_select_button.gd" id="4_scdj4"]
+[ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://Assets/Scripts/GUI/Upgrades/upgrades_select_button.gd" id="4_scdj4"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="7_wjnne"]
 
 [sub_resource type="Animation" id="Animation_qxwfb"]
@@ -76,7 +76,7 @@ region = Rect2(0, 256, 64, 64)
 atlas = ExtResource("7_wjnne")
 region = Rect2(64, 320, 64, 64)
 
-[node name="Upgrades" type="Control"]
+[node name="Upgrades" type="Control" node_paths=PackedStringArray("category_buttons")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,6 +84,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rtjnf")
+category_buttons = [NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/General"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/CupButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/WandButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/PentacleButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/SwordButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/MajorButton"), NodePath("MarginContainer/UpgradePanel/Control/MarginContainer/VBox/Navigation/PackButton")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

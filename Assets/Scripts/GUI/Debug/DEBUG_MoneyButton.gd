@@ -12,9 +12,9 @@ extends Button
 func _ready() -> void:
 	_connect_signals()
 
-# Connect button press signal using SignalManager for safe connections
+# Connect button press signal
 func _connect_signals() -> void:
-	SignalManager.safe_connect(pressed, _on_debug_give_money, "DEBUG money button")
+	pressed.connect(_on_debug_give_money)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -22,14 +22,14 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(pressed, _on_debug_give_money, "DEBUG money button")
+	pressed.disconnect(_on_debug_give_money)
 #endregion
 
 #region Debug Functionality
 # Add debug currency to the player
 func _on_debug_give_money() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_currency_updated(
+		EventBus.emit_currency_updated(
 			money_to_give, 
 			DataStructures.CurrencyType.CLAIRVOYANCE
 		)

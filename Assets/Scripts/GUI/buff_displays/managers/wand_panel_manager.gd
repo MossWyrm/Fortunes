@@ -2,21 +2,17 @@ extends BuffManager
 
 
 func _ready():
-	GameManager.event_bus.suit_display_updated.connect(_on_suit_display_updated)
-	_init_icons()
+	await _init_icons()
 
 func _init_icons():
 	var suit = DataStructures.SuitType.WANDS
 	if not displays.has("basic"):
-		displays["basic"] = create_icon(suit, DataStructures.BuffType.BASIC)
+		displays["basic"] = await create_icon(suit, DataStructures.BuffType.BASIC)
 	if not displays.has("page"):
-		displays["page"] = create_icon(suit, DataStructures.BuffType.PAGE)
+		displays["page"] = await create_icon(suit, DataStructures.BuffType.PAGE)
 	if not displays.has("knight"):
-		displays["knight"] = create_icon(suit, DataStructures.BuffType.KNIGHT)
-
-func _on_suit_display_updated(suit, display_data):
-	if suit == DataStructures.SuitType.WANDS:
-		update_display(display_data)
+		displays["knight"] = await create_icon(suit, DataStructures.BuffType.KNIGHT)
+	_mark_initialization_complete() 
 
 func update_display(dictionary: Dictionary) -> void:
 	"""
@@ -33,6 +29,8 @@ func update_display(dictionary: Dictionary) -> void:
 	- Displays a buff icon for page charges ("page"), with color indicating positivity.
 	- Displays a buff icon for knight charges ("knight"), with color indicating positivity.
 	"""
+	if not _initialization_complete:
+		return
 	set_display(displays["basic"], dictionary.get("value", 0.0) > 0.0, dictionary.get("value", 0.0))
 	set_display(displays["page"], dictionary.get("page_charges", 0) > 0, dictionary.get("page_charges", 0), get_panel_color(dictionary.get("page_positive", false)))
 	set_display(displays["knight"], dictionary.get("knight_charges", 0) > 0, dictionary.get("knight_charges", 0), get_panel_color(dictionary.get("knight_positive", false)))

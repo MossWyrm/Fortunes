@@ -4,35 +4,35 @@ class_name MoonEffect
 """
 === The Moon ===
 When drawn:
-- If upright (not flipped): increments moons_drawn, sets charges for Moon, and sets state to POSITIVE.
-- If reversed (flipped): sets stars_work_on_bad to true and sets state to NEGATIVE.
+- If upright (not flipped): increments moons_drawn, sets charges for Moon, and sets card_state to POSITIVE.
+- If reversed (flipped): sets stars_work_on_bad to true and sets card_state to NEGATIVE.
 - Always triggers a major card animation.
-In post-calc, Moon does not directly modify value, but its state and moons_drawn affect Star and other cards.
+In post-calc, Moon does not directly modify value, but its card_state and moons_drawn affect Star and other cards.
 """
 var moons_drawn: int = 0
 
-func apply(card: Card, flipped: bool) -> int:
+func apply(_card: Card, flipped: bool) -> int:
 	if flipped:
 		major_calc.get_major_effect(DataStructures.MAJOR_ID.STAR).works_on_negative = true
-		state = DataStructures.CardState.NEGATIVE
+		card_state = DataStructures.CardState.NEGATIVE
 	else:
 		moons_drawn += 1
-		state = DataStructures.CardState.POSITIVE
-	game_state.event_bus.emit_major_card_animation_requested(flipped)
+		card_state = DataStructures.CardState.POSITIVE
+	EventBus.emit_major_card_animation_requested(flipped)
 	return 0
 
 func reset() -> void:
 	moons_drawn = 0
-	state = DataStructures.CardState.INACTIVE
+	card_state = DataStructures.CardState.INACTIVE
 
 func get_state_backup() -> Dictionary:
 	return {
-		"state": state,
+		"card_state": card_state,
 		"moons_drawn": moons_drawn
 	}
 
 func restore_state_backup(backup: Dictionary) -> void:
-	if backup.has("state"):
-		state = backup["state"]
+	if backup.has("card_state"):
+		card_state = backup["card_state"]
 	if backup.has("moons_drawn"):
 		moons_drawn = backup["moons_drawn"]

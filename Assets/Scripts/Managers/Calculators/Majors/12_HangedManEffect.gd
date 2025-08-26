@@ -8,18 +8,18 @@ Always triggers a major card animation.
 """
 
 func apply(_card: Card, flipped: bool) -> int:
-    game_state.event_bus.emit_gamble_choice_requested()
-    var gamble_percent: float = await game_state.event_bus.gamble_chosen
+    EventBus.emit_gamble_choice_requested()
+    var gamble_percent: float = await EventBus.gamble_chosen
     if gamble_percent <= 0.0:
         return 0
     var chosen_gamble: int = roundi(game_state.stats.clairvoyance * gamble_percent)
     if flipped:
         game_state.stats.clairvoyance -= chosen_gamble
-        game_state.event_bus.emit_currency_updated(-chosen_gamble, DataStructures.CurrencyType.CLAIRVOYANCE)
-        game_state.event_bus.emit_request_vfx(DataStructures.VFXType.CARD_FAILURE)
+        EventBus.emit_currency_updated(-chosen_gamble, DataStructures.CurrencyType.CLAIRVOYANCE)
+        EventBus.emit_request_vfx(DataStructures.VFXType.CARD_FAILURE)
     else:
         game_state.stats.clairvoyance += chosen_gamble * game_state.stats.major_stats.hanged_man - chosen_gamble
-        game_state.event_bus.emit_currency_updated((chosen_gamble * game_state.stats.major_stats.hanged_man) - chosen_gamble, DataStructures.CurrencyType.CLAIRVOYANCE)
-        game_state.event_bus.emit_request_vfx(DataStructures.VFXType.CARD_SUCCESS)
-    game_state.event_bus.emit_major_card_animation_requested(flipped)
+        EventBus.emit_currency_updated((chosen_gamble * game_state.stats.major_stats.hanged_man) - chosen_gamble, DataStructures.CurrencyType.CLAIRVOYANCE)
+        EventBus.emit_request_vfx(DataStructures.VFXType.CARD_SUCCESS)
+    EventBus.emit_major_card_animation_requested(flipped)
     return 0

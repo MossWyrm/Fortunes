@@ -15,9 +15,9 @@ var _premade_buffs: Dictionary[DataStructures.SuitType, Dictionary]
 ## Returns "background", "overlay" and "numeral" if applicable
 func get_card_texture(card: Card) -> Dictionary[String, Texture2D]:
 	var output: Dictionary[String,Texture2D] = {}
-	output["background"] = suit_backgrounds[card.card_suit]
+	output["background"] = suit_backgrounds[card.suit]
 	output["overlay"] = _get_overlay(card)
-	output["numeral"] = get_numeral(card.card_id_num)
+	output["numeral"] = get_numeral(card.id)
 
 	return output
 
@@ -28,18 +28,18 @@ func get_upgrade_background(suit: UpgradeData.UpgradeType) -> Texture2D:
 	
 	
 func _get_overlay(card: Card) -> Texture2D:
-	if _premade_atlas_textures.keys().has(card.card_id_num):
-		return _premade_atlas_textures[card.card_id_num]
+	if _premade_atlas_textures.keys().has(card.id):
+		return _premade_atlas_textures[card.id]
 	var atlas: AtlasTexture = AtlasTexture.new()
-	if !overlays_by_suit.keys().has(card.card_suit):
+	if !overlays_by_suit.keys().has(card.suit):
 		atlas.atlas = null
 	else:
-		atlas.atlas = overlays_by_suit[card.card_suit]
+		atlas.atlas = overlays_by_suit[card.suit]
 	
-	var id: int = card.card_id_num % GameConstants.SUIT_CARD_COUNT
+	var id: int = card.id % GameConstants.SUIT_CARD_COUNT
 	# art is currently 400 x 699 and atlas is produced in horizontal row
 	atlas.region = Rect2(GameConstants.CARD_ART_WIDTH*(id-1), 0, GameConstants.CARD_ART_WIDTH, GameConstants.CARD_ART_HEIGHT)
-	_premade_atlas_textures[card.card_id_num] = atlas
+	_premade_atlas_textures[card.id] = atlas
 	return atlas
 	
 func get_numeral(id_num: int) -> Texture2D:
@@ -55,10 +55,18 @@ func get_numeral(id_num: int) -> Texture2D:
 	else:
 		return null
 		
-func get_buff_icon(suit: DataStructures.SuitType, type: DataStructures.BuffType) -> Texture2D:
+func get_buff_icon(suit: DataStructures.SuitType, type_or_id) -> Texture2D:
 	if _premade_buffs.is_empty():
 		_create_buff_dict()
-	return _premade_buffs[suit][type]
+	
+	# For major cards, use the card's numeral/art instead of buff atlas
+	if suit == DataStructures.SuitType.MAJOR:
+		# For major cards, type_or_id is the major card ID
+		# Use the existing get_numeral method to get the card's texture
+		return get_numeral(type_or_id)
+	else:
+		# For regular suits, type_or_id is a BuffType
+		return _premade_buffs[suit][type_or_id]
 		
 func _create_buff_dict() -> void:
 	for suit in DataStructures.SuitType.values():

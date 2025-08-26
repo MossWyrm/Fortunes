@@ -1,11 +1,11 @@
 extends Node
 class_name CurrencyManager
 
-# === Exported Currency Displays ===
 @export var clairvoyance_display: CurrencyDisplay
 @export var packs_display: CurrencyDisplay
 
-# === Internal State ===
+var currency_animation: float = 0.0
+
 var _clairvoyance: int:
 	get: 
 		if ValidationUtils.has_game_state():
@@ -26,33 +26,48 @@ var _packs: int:
 
 var _tweens := {}
 
-# === Godot Lifecycle ===
 func _ready() -> void:
-	SignalManager.safe_connect(GameManager.event_bus.currency_updated, update_currency, "CurrencyManager currency_updated")
-	SignalManager.safe_connect(GameManager.event_bus.game_reset, reset, "CurrencyManager game_reset")
+	# Direct EventBus connections - always available as autoload
+	EventBus.currency_updated.connect(update_currency)
+	EventBus.game_reset.connect(reset)
+	EventBus.game_loaded.connect(_on_game_loaded)
 	clairvoyance_display.update_text(_clairvoyance)
 	if !packs_display.is_visible() and _packs >= 1:
 		packs_display.show()
 		packs_display.update_text(_packs)
 
+# === Event Handlers ===
+func _on_game_loaded() -> void:
+	# Refresh currency displays after loading
+	clairvoyance_display.update_text(_clairvoyance)
+	if _packs >= 1:
+		packs_display.show()
+		packs_display.update_text(_packs)
+	else:
+		packs_display.hide()
+
 # === Currency Update Routing ===
 func update_currency(card_value, currency_type: DataStructures.CurrencyType) -> void:
 	match currency_type:
 		DataStructures.CurrencyType.CLAIRVOYANCE:
+			var target_value = 0 if _clairvoyance + card_value < 0 else _clairvoyance + card_value
+			print(target_value)
+			print(_clairvoyance)
 			_update_currency_animated(
 				clairvoyance_display,
 				_clairvoyance,
-				_clairvoyance + card_value,
+				target_value,
 				func(val): _clairvoyance = val
 			)
 			_emit_floating_text(card_value, _clairvoyance)
 		DataStructures.CurrencyType.PACK:
 			if !packs_display.is_visible() and _packs + card_value >= 1:
 				packs_display.show()
+			var target_value = 0 if _packs + card_value < 0 else _packs + card_value
 			_update_currency_animated(
 				packs_display,
 				_packs,
-				_packs + card_value,
+				target_value,
 				func(val): _packs = val
 			)
 			_emit_floating_text(card_value, _packs)
@@ -63,14 +78,9 @@ func _update_currency_animated(display, old_value, new_value, set_stat_func):
 		_tweens[display].kill()
 	var tween = create_tween()
 	_tweens[display] = tween
-
-	tween.tween_property(self, "_dummy", 1.0, 0.5).from(0.0) # Dummy property to drive the step
-	tween.connect("tween_step", func():
-		var t = tween.get_total_elapsed_time() / tween.get_total_duration()
-		var lerped = lerp(old_value, new_value, t)
-		display.update_text(round(lerped))
-	)
-	tween.connect("finished", func():
+	var tween_speed = GameManager.game_state.stats.pack_auto_draw_speed if GameManager.game_state.stats.pack_auto_draw_speed < 1.5 else 1.5
+	tween.tween_method(func(x): display.update_text(round(x)), old_value, new_value, tween_speed).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	tween.finished.connect(func():
 		set_stat_func.call(new_value)
 		display.update_text(new_value)
 		_tweens.erase(display)
@@ -78,10 +88,8 @@ func _update_currency_animated(display, old_value, new_value, set_stat_func):
 
 # === Floating Text Logic ===
 func _emit_floating_text(card_value, stat_value):
-	if stat_value + card_value <= 0:
-		GameManager.event_bus.emit_floating_text_requested(-stat_value)
-	else:
-		GameManager.event_bus.emit_floating_text_requested(card_value)
+	var value = -stat_value if stat_value + card_value <= 0 else card_value
+	EventBus.emit_floating_text_requested(value)
 
 # === Reset Logic ===
 func reset(type: DataStructures.GameLayer) -> void:

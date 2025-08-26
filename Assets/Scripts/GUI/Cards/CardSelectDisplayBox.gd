@@ -1,4 +1,5 @@
 extends Control
+class_name CardSelectDisplayBox
 ## Card selection display box for deck creation
 ##
 ## Manages the display and interaction for individual cards in deck creation,
@@ -27,8 +28,8 @@ func _ready() -> void:
 # Connect button signals from unlocked display
 func _connect_signals() -> void:
 	if unlocked_display:
-		SignalManager.safe_connect(unlocked_display.add_card_button.pressed, _on_add_card_pressed, "CardSelectDisplayBox add card")
-		SignalManager.safe_connect(unlocked_display.remove_card_button.pressed, _on_remove_card_pressed, "CardSelectDisplayBox remove card")
+		unlocked_display.add_card_button.pressed.connect(_on_add_card_pressed)
+		unlocked_display.remove_card_button.pressed.connect(_on_remove_card_pressed)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -37,8 +38,10 @@ func _exit_tree() -> void:
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
 	if unlocked_display:
-		SignalManager.safe_disconnect(unlocked_display.add_card_button.pressed, _on_add_card_pressed, "CardSelectDisplayBox add card")
-		SignalManager.safe_disconnect(unlocked_display.remove_card_button.pressed, _on_remove_card_pressed, "CardSelectDisplayBox remove card")
+		if unlocked_display.add_card_button.pressed.is_connected(_on_add_card_pressed):
+			unlocked_display.add_card_button.pressed.disconnect(_on_add_card_pressed)
+		if unlocked_display.remove_card_button.pressed.is_connected(_on_remove_card_pressed):
+			unlocked_display.remove_card_button.pressed.disconnect(_on_remove_card_pressed)
 #endregion
 
 #region Update Loop
@@ -99,20 +102,20 @@ func _on_remove_card_pressed() -> void:
 # Add card to deck through new architecture
 func _add_card_to_deck() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_deck_modified(
+		EventBus.emit_deck_modified(
 			DataStructures.DeckOperation.ADD, 
 			stored_card
 		)
-	print("Added card: ", stored_card.card_title)
+	print("Added card: ", Tools.get_card_title(stored_card))
 
 # Remove card from deck through new architecture
 func _remove_card_from_deck() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_deck_modified(
+		EventBus.emit_deck_modified(
 			DataStructures.DeckOperation.REMOVE, 
 			stored_card
 		)
-	print("Removed card: ", stored_card.card_title)
+	print("Removed card: ", Tools.get_card_title(stored_card))
 #endregion
 
 #region Purchase System
@@ -123,7 +126,7 @@ func _purchase_card() -> void:
 	
 	# Update currency through new architecture
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_currency_updated(
+		EventBus.emit_currency_updated(
 			-stored_card.unlock_cost,
 			DataStructures.CurrencyType.CLAIRVOYANCE
 		)
@@ -166,7 +169,7 @@ func _on_button_gui_input(_event: InputEvent) -> void:
 	
 	if Input.is_action_just_released("ui_click"):
 		# Show tooltip if quick tap or button disabled
-		if _is_quick_tap() or _is_unlock_disabled():
+		if _is_early_hold_release() or _is_unlock_disabled():
 			_show_card_tooltip()
 		
 		# Reset progress display and hold state
@@ -185,7 +188,5 @@ func _is_unlock_disabled() -> bool:
 # Show tooltip for the stored card
 func _show_card_tooltip() -> void:
 	if stored_card and ValidationUtils.has_event_bus():
-		var tooltip_data = TooltipData.new()
-		tooltip_data.card = stored_card
-		GameManager.game_state.event_bus.emit_tooltip_requested(tooltip_data)
+		EventBus.emit_tooltip_requested(stored_card, DataStructures.GameLayer.DECK)
 #endregion

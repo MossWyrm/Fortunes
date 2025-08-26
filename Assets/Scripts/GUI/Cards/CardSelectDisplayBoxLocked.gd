@@ -39,7 +39,7 @@ func _setup_card_visuals(card: Card) -> void:
 # Setup unlock cost and title information
 func _setup_unlock_information(card: Card) -> void:
 	if title:
-		title.text = card.card_title
+		title.text = Tools.get_card_title(card)
 	
 	if cost:
 		var cost_text = _get_unlock_cost_text(card)

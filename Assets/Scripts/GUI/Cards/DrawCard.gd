@@ -19,15 +19,14 @@ func _ready() -> void:
 
 # Connect button and EventBus signals
 func _connect_signals() -> void:
-	SignalManager.safe_connect(pressed, _on_button_pressed, "DrawCard button")
 	_connect_event_bus_signals()
+	pressed.connect(_on_button_pressed)
 
 # Connect to EventBus signals for state management
 func _connect_event_bus_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		var event_bus = GameManager.game_state.event_bus
-		SignalManager.safe_connect(event_bus.card_animation_finished, _on_animation_finished, "DrawCard animation finished")
-		SignalManager.safe_connect(event_bus.game_paused, _on_game_paused, "DrawCard game paused")
+	# Direct EventBus connections - always available as autoload
+	EventBus.card_animation_finished.connect(_on_animation_finished)
+	EventBus.game_paused.connect(_on_game_paused)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -35,20 +34,23 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(pressed, _on_button_pressed, "DrawCard button")
+	if pressed.is_connected(_on_button_pressed):
+		pressed.disconnect(_on_button_pressed)
 	
-	if ValidationUtils.has_event_bus():
-		var event_bus = GameManager.game_state.event_bus
-		SignalManager.safe_disconnect(event_bus.card_animation_finished, _on_animation_finished, "DrawCard animation finished")
-		SignalManager.safe_disconnect(event_bus.game_paused, _on_game_paused, "DrawCard game paused")
+	if EventBus.card_animation_finished.is_connected(_on_animation_finished):
+		EventBus.card_animation_finished.disconnect(_on_animation_finished)
+	if EventBus.game_paused.is_connected(_on_game_paused):
+		EventBus.game_paused.disconnect(_on_game_paused)
 #endregion
 
 #region Button Interaction
 # Handle button press - draw card or clear current card
 func _on_button_pressed() -> void:
 	if not input_made:
+		print("Attempting draw card")
 		_draw_new_card()
 	else:
+		print("Clearing current card")
 		_clear_current_card()
 
 # Draw a new card from the deck
@@ -56,26 +58,16 @@ func _draw_new_card() -> void:
 	input_made = true
 	
 	if not ValidationUtils.has_deck_manager():
+		push_warning("DrawCard: DeckManager not available, cannot draw card")
 		return
 	
-	var card = GameManager.game_state.deck_manager.draw_card()
-	if card:
-		# Determine if card should be flipped (implement your game logic)
-		var is_flipped = _should_card_be_flipped(card)
-		
-		# Emit card drawn signal
-		if ValidationUtils.has_event_bus():
-			GameManager.game_state.event_bus.emit_card_drawn(card, is_flipped)
+	# Let DeckManager handle the complete draw process including inversion logic
+	GameManager.game_state.deck_manager.draw_and_emit_card()
 
 # Clear the currently displayed card
 func _clear_current_card() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_clear_card()
-
-# Determine if a card should be drawn flipped - implement your game logic
-func _should_card_be_flipped(_card: Card) -> bool:
-	# TODO: Implement your card flipping logic here
-	return false
+		EventBus.emit_clear_card()
 #endregion
 
 #region State Management
@@ -93,8 +85,8 @@ func force_disable_button(should_disable: bool) -> void:
 	_update_button_state(should_disable)
 
 # Update button visual and interaction state
-func _update_button_state(is_disabled: bool) -> void:
-	var should_be_disabled = is_disabled or force_disable
+func _update_button_state(should_disable: bool) -> void:
+	var should_be_disabled = should_disable or force_disable
 	disable_overlay.visible = should_be_disabled
 	disabled = should_be_disabled
 #endregion

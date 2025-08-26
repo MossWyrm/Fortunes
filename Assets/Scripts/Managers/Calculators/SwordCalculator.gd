@@ -123,9 +123,9 @@ func _knight(base_value: int, flipped: bool) -> int:
     for i in range(get_combo()):
         if game_state.deck_manager:
             if flipped:
-                game_state.deck_manager.remove_lower_than(sword_stats.knight_mod, sword_stats.knight_super)
+                game_state.deck_manager.remove_lower_than(sword_stats.knight_modifier, sword_stats.knight_super)
             else:
-                game_state.deck_manager.add_lower_than(sword_stats.knight_mod, sword_stats.knight_super)
+                game_state.deck_manager.add_lower_than(sword_stats.knight_modifier, sword_stats.knight_super)
     return get_combo() * val
 
 # Queen Swords card calculation

@@ -25,14 +25,14 @@ func _ready() -> void:
 func _setup_auto_draw_button() -> void:
 	auto_draw_button = $/root/Main/DisplayMaster/Navigation/AutoDrawButton
 	if auto_draw_button:
-		SignalManager.safe_connect(auto_draw_button.pressed, _on_auto_draw_toggled)
+		auto_draw_button.pressed.connect(_on_auto_draw_toggled)
 	else:
 		push_error("AutoDraw: Could not find auto draw button")
 
-# Connect to EventBus signals safely
+# Connect to EventBus signals directly
 func _connect_signals() -> void:
-	SignalManager.connect_to_event_bus("game_reset", _on_game_reset)
-	SignalManager.connect_to_event_bus("game_paused", _on_game_paused)
+	EventBus.game_reset.connect(_on_game_reset)
+	EventBus.game_paused.connect(_on_game_paused)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -40,11 +40,13 @@ func _exit_tree() -> void:
 
 # Disconnect all signals safely
 func _disconnect_signals() -> void:
-	if auto_draw_button:
-		SignalManager.safe_disconnect(auto_draw_button.pressed, _on_auto_draw_toggled)
+	if auto_draw_button and auto_draw_button.pressed.is_connected(_on_auto_draw_toggled):
+		auto_draw_button.pressed.disconnect(_on_auto_draw_toggled)
 	
-	SignalManager.disconnect_from_event_bus("game_reset", _on_game_reset)
-	SignalManager.disconnect_from_event_bus("game_paused", _on_game_paused)
+	if EventBus.game_reset.is_connected(_on_game_reset):
+		EventBus.game_reset.disconnect(_on_game_reset)
+	if EventBus.game_paused.is_connected(_on_game_paused):
+		EventBus.game_paused.disconnect(_on_game_paused)
 #endregion
 
 #endregion
@@ -122,13 +124,11 @@ func _get_auto_draw_speed() -> float:
 
 # Emit draw card event through EventBus
 func _emit_draw_card() -> void:
-	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.card_draw_requested.emit()
+	EventBus.draw_and_emit_card()
 
 # Emit clear card event through EventBus
 func _emit_clear_card() -> void:
-	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.card_clear_requested.emit()
+	EventBus.emit_clear_card()
 #endregion
 
 #region Event Handlers

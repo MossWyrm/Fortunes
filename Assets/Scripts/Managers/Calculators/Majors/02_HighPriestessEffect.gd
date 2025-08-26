@@ -15,8 +15,8 @@ func apply(_card: Card, flipped: bool) -> int:
 	if cards.is_empty():
 		return 0
 	# Show the cards to the player (UI event, if available)
-	if game_state.event_bus:
-		game_state.event_bus.emit_show_revealed_cards(cards)
+	if EventBus:
+		EventBus.emit_show_revealed_cards(cards)
 	# Simulate each card and collect their final_value and card reference
 	var sim_results = []
 	for c in cards:
@@ -37,6 +37,6 @@ func apply(_card: Card, flipped: bool) -> int:
 			c.copy_from(chosen["card"])
 			print("High Priestess: Copied card ", chosen["card"].id, " to card ", c.id)
 	# Animation event
-	if game_state.event_bus:
-		game_state.event_bus.emit_major_card_animation_requested(flipped)
+	if EventBus:
+		EventBus.emit_major_card_animation_requested(flipped)
 	return 0

@@ -8,9 +8,8 @@ extends Button
 func _ready() -> void:
 	_connect_signals()
 
-# Connect button press signal using SignalManager for safe connections
 func _connect_signals() -> void:
-	SignalManager.safe_connect(pressed, _on_debug_reset_game, "DEBUG reset game button")
+	pressed.connect(_on_debug_reset_game)
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -18,12 +17,13 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(pressed, _on_debug_reset_game, "DEBUG reset game button")
+	if pressed.is_connected(_on_debug_reset_game):
+		pressed.disconnect(_on_debug_reset_game)
 #endregion
 
 #region Debug Functionality
 # Reset the entire game state for debugging
 func _on_debug_reset_game() -> void:
 	if ValidationUtils.has_event_bus():
-		GameManager.game_state.event_bus.emit_game_reset(DataStructures.GameLayer.ALL)
+		EventBus.emit_game_reset(DataStructures.GameLayer.ALL)
 #endregion

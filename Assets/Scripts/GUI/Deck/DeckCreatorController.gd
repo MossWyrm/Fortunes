@@ -1,4 +1,4 @@
-extends Node
+extends Control
 ## Deck creator controller for managing card selection interface
 ##
 ## Handles the deck building interface, allowing players to add/remove cards
@@ -48,13 +48,12 @@ func _ready() -> void:
 
 # Connect to event bus and other signals
 func _connect_signals() -> void:
-	SignalManager.safe_connect(get_viewport().size_changed, _on_viewport_size_changed, "DeckCreator viewport")
+	# Standard viewport signal connection
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
 	
-	if ValidationUtils.has_event_bus():
-		var event_bus = GameManager.game_state.event_bus
-		SignalManager.safe_connect(event_bus.add_card_to_deck, _on_add_card_to_deck, "DeckCreator add card")
-		SignalManager.safe_connect(event_bus.remove_card_from_deck, _on_remove_card_from_deck, "DeckCreator remove card")
-		SignalManager.safe_connect(event_bus.unlock_card, _on_card_unlocked, "DeckCreator unlock card")
+	# Direct EventBus connection - always available as autoload
+	EventBus.deck_modified.connect(_on_deck_modified)
+	# EventBus.unlock_card.connect(_on_card_unlocked)  # When needed
 
 # Initialize layout and positioning
 func _initialize_layout() -> void:
@@ -70,13 +69,13 @@ func _exit_tree() -> void:
 
 # Disconnect all signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	SignalManager.safe_disconnect(get_viewport().size_changed, _on_viewport_size_changed, "DeckCreator viewport")
+	if get_viewport().size_changed.is_connected(_on_viewport_size_changed):
+		get_viewport().size_changed.disconnect(_on_viewport_size_changed)
 	
-	if ValidationUtils.has_event_bus():
-		var event_bus = GameManager.game_state.event_bus
-		SignalManager.safe_disconnect(event_bus.add_card_to_deck, _on_add_card_to_deck, "DeckCreator add card")
-		SignalManager.safe_disconnect(event_bus.remove_card_from_deck, _on_remove_card_from_deck, "DeckCreator remove card")
-		SignalManager.safe_disconnect(event_bus.unlock_card, _on_card_unlocked, "DeckCreator unlock card")
+	if EventBus.deck_modified.is_connected(_on_deck_modified):
+		EventBus.deck_modified.disconnect(_on_deck_modified)
+	# if EventBus.unlock_card.is_connected(_on_card_unlocked):
+	#     EventBus.unlock_card.disconnect(_on_card_unlocked)
 #endregion
 
 #region Layout Management
@@ -137,20 +136,16 @@ func _update_deck_stats() -> void:
 
 #region Event Handlers
 # Handle card unlock events
-func _on_card_unlocked(_card: Card) -> void:
-	_update_suits()
+# func _on_card_unlocked(_card: Card) -> void:
+# 	_update_suits()
 
-# Handle adding a card to the deck
-func _on_add_card_to_deck(card: Card) -> void:
+# Handle modifying the selected deck
+func _on_deck_modified(operation: DataStructures.DeckOperation, card: Card) -> void:
 	if ValidationUtils.has_deck_manager():
-		GameManager.game_state.deck_manager.add_card_to_selected(card)
-		_update_suits()
-		_update_deck_stats()
-
-# Handle removing a card from the deck
-func _on_remove_card_from_deck(card: Card) -> void:
-	if ValidationUtils.has_deck_manager():
-		GameManager.game_state.deck_manager.remove_card_from_selected(card)
+		if operation == DataStructures.DeckOperation.ADD:
+			GameManager.game_state.deck_manager.add_card_to_selected(card)
+		elif operation == DataStructures.DeckOperation.REMOVE:
+			GameManager.game_state.deck_manager.remove_card_from_selected(card)
 		_update_suits()
 		_update_deck_stats()
 #endregion
@@ -184,7 +179,7 @@ func _display_suit(suit: int) -> void:
 func _get_cards_for_suit(suit: int) -> Array[Card]:
 	var cards_in_suit: Array[Card] = []
 	for card in all_cards:
-		if card.card_suit == suit:
+		if card.suit == suit:
 			cards_in_suit.append(card)
 	return cards_in_suit
 
@@ -193,7 +188,7 @@ func _count_suit_cards_in_deck(deck: Array[Card], suit: int) -> int:
 	var count: int = 0
 	if suit == DataStructures.SuitType.MAJOR:
 		for card in deck:
-			if card.card_suit == DataStructures.SuitType.MAJOR:
+			if card.suit == DataStructures.SuitType.MAJOR:
 				count += 1
 	return count
 #endregion

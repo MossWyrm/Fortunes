@@ -1,44 +1,40 @@
-[gd_scene load_steps=116 format=4 uid="uid://cn8b6yho4nfbk"]
+[gd_scene load_steps=112 format=4 uid="uid://cn8b6yho4nfbk"]
 
-[ext_resource type="PackedScene" uid="uid://dbjco1af7olio" path="res://Assets/Scenes/Deck.tscn" id="1_ovwq0"]
-[ext_resource type="Script" uid="uid://gceaqvyc0d6m" path="res://Assets/Scripts/SaveManager.gd" id="1_t40wn"]
-[ext_resource type="Script" uid="uid://dagjoq58uj3xk" path="res://Assets/Scripts/tutorial_manager.gd" id="2_4kbup"]
-[ext_resource type="Script" uid="uid://dy8gfv5loxe5b" path="res://Assets/Scripts/currency_manager.gd" id="2_7j5dx"]
-[ext_resource type="PackedScene" uid="uid://do7bynut7mtib" path="res://Assets/Scenes/AudioManager.tscn" id="3_3pnir"]
-[ext_resource type="Script" uid="uid://do2wlvnh5rn4x" path="res://Assets/Scripts/prestige_manager.gd" id="3_721gu"]
+[ext_resource type="Script" uid="uid://dagjoq58uj3xk" path="res://Assets/Scripts/GUI/Tutorial/tutorial_manager.gd" id="2_4kbup"]
+[ext_resource type="Script" uid="uid://dy8gfv5loxe5b" path="res://Assets/Scripts/Managers/CurrencyManager.gd" id="2_7j5dx"]
+[ext_resource type="Script" uid="uid://do2wlvnh5rn4x" path="res://Assets/Scripts/Managers/prestige_manager.gd" id="3_721gu"]
 [ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="3_ya55p"]
 [ext_resource type="Script" uid="uid://b28i4rtb3jkcv" path="res://Assets/Scenes/SetFullscreen.gd" id="4_0a5o6"]
-[ext_resource type="Script" uid="uid://bhoqrg2cj7rk5" path="res://Assets/Scripts/auto_draw.gd" id="4_3pnir"]
-[ext_resource type="PackedScene" uid="uid://c2nx2icg0isfq" path="res://Assets/Scenes/CardValueCalc.tscn" id="5_3wvqc"]
-[ext_resource type="Script" uid="uid://btnx848pb21df" path="res://Assets/Scripts/TarotManagers/DrawCard.gd" id="5_knim0"]
-[ext_resource type="Script" uid="uid://i2fcilpq4vmw" path="res://Assets/Scripts/GUI/currency_display.gd" id="6_vbw1f"]
-[ext_resource type="Script" uid="uid://bh4c4870hlw82" path="res://Assets/Scripts/fx_manager.gd" id="7_4kbup"]
+[ext_resource type="Script" uid="uid://bhoqrg2cj7rk5" path="res://Assets/Scripts/Utils/auto_draw.gd" id="4_3pnir"]
+[ext_resource type="Script" uid="uid://btnx848pb21df" path="res://Assets/Scripts/GUI/Cards/DrawCard.gd" id="5_knim0"]
+[ext_resource type="Script" uid="uid://i2fcilpq4vmw" path="res://Assets/Scripts/GUI/Components/currency_display.gd" id="6_vbw1f"]
+[ext_resource type="Script" uid="uid://bh4c4870hlw82" path="res://Assets/Scripts/Managers/fx_manager.gd" id="7_4kbup"]
 [ext_resource type="Script" uid="uid://d4f6bxpuo8jri" path="res://Assets/Scripts/GUI/buff_displays/managers/cup_panel_manager.gd" id="7_gp1iq"]
-[ext_resource type="Script" uid="uid://bv8hm8wvg8qas" path="res://Assets/Scripts/UpdateSuitDisplays.gd" id="7_njn3m"]
+[ext_resource type="Script" uid="uid://bv8hm8wvg8qas" path="res://Assets/Scripts/GUI/Components/UpdateSuitDisplays.gd" id="7_njn3m"]
 [ext_resource type="Texture2D" uid="uid://cp6ej6xmb3bg7" path="res://Assets/Sprites/GameBackground.png" id="8_4kbup"]
 [ext_resource type="Texture2D" uid="uid://et5fyeub635y" path="res://Assets/Sprites/LargeTarot/CardBack.png" id="10_kgmhe"]
 [ext_resource type="Script" uid="uid://doexfs08c30kt" path="res://Assets/Scripts/GUI/buff_displays/managers/wand_panel_manager.gd" id="10_oapdq"]
-[ext_resource type="Script" uid="uid://dotqtg04h1aem" path="res://Assets/Scripts/add_remove.gd" id="11_4kbup"]
-[ext_resource type="Script" uid="uid://bl8j1vce5hdam" path="res://Assets/Scripts/GUI/floating_text_spawn.gd" id="13_0qmqn"]
+[ext_resource type="Script" uid="uid://dotqtg04h1aem" path="res://Assets/Scripts/Utils/add_remove.gd" id="11_4kbup"]
+[ext_resource type="Script" uid="uid://bl8j1vce5hdam" path="res://Assets/Scripts/GUI/Components/floating_text_spawn.gd" id="13_0qmqn"]
 [ext_resource type="Script" uid="uid://duxbysx8f11ww" path="res://Assets/Scripts/GUI/buff_displays/managers/pentacles_panel_manager.gd" id="13_ajfjt"]
 [ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="14_mhdow"]
 [ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="15_4kbup"]
 [ext_resource type="Texture2D" uid="uid://bkdc5l7xv6x34" path="res://Assets/Sprites/LargeTarot/Pentacles.png" id="15_721gu"]
 [ext_resource type="Script" uid="uid://bnlwsofoau3lr" path="res://Assets/Scripts/GUI/buff_displays/managers/swords_panel_manager.gd" id="16_biycs"]
 [ext_resource type="Script" uid="uid://cnuc7hur2ads3" path="res://Assets/Scripts/GUI/buff_displays/managers/majors_panel_manager.gd" id="17_7rtng"]
-[ext_resource type="Script" uid="uid://cx6i3e4vy6sgp" path="res://Assets/Scripts/Card Display Panel.gd" id="17_vdpkn"]
+[ext_resource type="Script" uid="uid://cx6i3e4vy6sgp" path="res://Assets/Scripts/GUI/Cards/Card Display Panel.gd" id="17_vdpkn"]
 [ext_resource type="LabelSettings" uid="uid://cd0fq6xk2c8xp" path="res://Assets/Themes/Fonts/Label Settings/CardTextDisplayFont.tres" id="19_iqb4k"]
 [ext_resource type="PackedScene" uid="uid://cmd65qh0ndrgw" path="res://Assets/Scenes/Upgrades.tscn" id="19_kbho8"]
-[ext_resource type="Script" uid="uid://cfuu5x5q7hcrw" path="res://Assets/Scripts/DEBUG_MoneyButton.gd" id="19_pdf0n"]
-[ext_resource type="Script" uid="uid://bfrk3wjayh24" path="res://Assets/Scripts/suit_choices.gd" id="20_i4h8h"]
+[ext_resource type="Script" uid="uid://cfuu5x5q7hcrw" path="res://Assets/Scripts/GUI/Debug/DEBUG_MoneyButton.gd" id="19_pdf0n"]
+[ext_resource type="Script" uid="uid://bfrk3wjayh24" path="res://Assets/Scripts/GUI/Dialogs/suit_choices.gd" id="20_i4h8h"]
 [ext_resource type="Texture2D" uid="uid://cbg7c4ljxrn4a" path="res://Assets/Sprites/Scroll.png" id="20_w0f3l"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="21_7rtng"]
-[ext_resource type="Script" uid="uid://bw6vg3odn186h" path="res://Assets/Scripts/DEBUG_major_draw.gd" id="24_7j5dx"]
+[ext_resource type="Script" uid="uid://bw6vg3odn186h" path="res://Assets/Scripts/GUI/Debug/DEBUG_major_draw.gd" id="24_7j5dx"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="24_7rtng"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="26_7rtng"]
-[ext_resource type="Script" uid="uid://bceuv1lv1yuf2" path="res://Assets/Scripts/skip_choice.gd" id="27_721gu"]
-[ext_resource type="Script" uid="uid://cbon5cdhm8gju" path="res://Assets/Scripts/gamble_choice.gd" id="28_fqjcf"]
-[ext_resource type="Script" uid="uid://bdq7syjg7t8rl" path="res://Assets/Scripts/DEBUG_reset_game.gd" id="28_mhdow"]
+[ext_resource type="Script" uid="uid://bceuv1lv1yuf2" path="res://Assets/Scripts/GUI/Dialogs/skip_choice.gd" id="27_721gu"]
+[ext_resource type="Script" uid="uid://cbon5cdhm8gju" path="res://Assets/Scripts/GUI/Dialogs/gamble_choice.gd" id="28_fqjcf"]
+[ext_resource type="Script" uid="uid://bdq7syjg7t8rl" path="res://Assets/Scripts/GUI/Debug/DEBUG_reset_game.gd" id="28_mhdow"]
 [ext_resource type="PackedScene" uid="uid://48yhm7rt4c5e" path="res://Assets/Scenes/Deck_Creator.tscn" id="28_v5en1"]
 [ext_resource type="PackedScene" uid="uid://bbiq3lfelkb8y" path="res://Assets/Scenes/Card_Tooltip.tscn" id="38_mhdow"]
 [ext_resource type="Texture2D" uid="uid://s8u1vr3kpunw" path="res://Assets/Sprites/single_pixel.png" id="40_721gu"]
@@ -144,7 +140,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"finish_draw_anim"
+"method": &"finish_draw_animation"
 }]
 }
 tracks/3/type = "value"
@@ -294,7 +290,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"finish_draw_anim"
+"method": &"finish_draw_animation"
 }]
 }
 tracks/3/type = "value"
@@ -546,7 +542,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"finish_draw_anim"
+"method": &"finish_draw_animation"
 }]
 }
 tracks/3/type = "value"
@@ -2058,26 +2054,13 @@ script = ExtResource("2_4kbup")
 [node name="PrestigeManager" type="Node" parent="."]
 script = ExtResource("3_721gu")
 
-[node name="AudioManager" parent="." instance=ExtResource("3_3pnir")]
-
 [node name="AutoDrawManager" type="Node" parent="."]
 script = ExtResource("4_3pnir")
-
-[node name="AutoSave" type="Node" parent="."]
-script = ExtResource("1_t40wn")
-
-[node name="Timer" type="Timer" parent="AutoSave"]
-wait_time = 20.0
-autostart = true
-
-[node name="Deck" parent="." instance=ExtResource("1_ovwq0")]
 
 [node name="CurrencyManager" type="Node" parent="." node_paths=PackedStringArray("clairvoyance_display", "packs_display")]
 script = ExtResource("2_7j5dx")
 clairvoyance_display = NodePath("../DisplayMaster/CardDrawZone/CurrencyDisplay/Clairvoyance")
 packs_display = NodePath("../DisplayMaster/CardDrawZone/CurrencyDisplay/Packs")
-
-[node name="Clairvoiance Calc" parent="." instance=ExtResource("5_3wvqc")]
 
 [node name="DisplayMaster" type="Control" parent="."]
 layout_mode = 3

@@ -20,12 +20,8 @@ func _ready() -> void:
 
 # Connect to the new EventBus architecture
 func _connect_event_bus() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_connect(
-			GameManager.game_state.event_bus.tooltip_requested,
-			_on_tooltip_requested,
-			"CardTooltip tooltip_requested"
-		)
+	EventBus.tooltip_requested.connect(_on_tooltip_requested)
+
 
 # Cleanup on exit
 func _exit_tree() -> void:
@@ -33,19 +29,49 @@ func _exit_tree() -> void:
 
 # Disconnect signals to prevent memory leaks
 func _disconnect_signals() -> void:
-	if ValidationUtils.has_event_bus():
-		SignalManager.safe_disconnect(
-			GameManager.game_state.event_bus.tooltip_requested,
-			_on_tooltip_requested,
-			"CardTooltip tooltip_requested"
-		)
+	EventBus.tooltip_requested.disconnect(_on_tooltip_requested)
 #endregion
 
 #region Tooltip Display
-# Handle tooltip request from EventBus
-func _on_tooltip_requested(tooltip_data: TooltipData) -> void:
-	if tooltip_data and tooltip_data.card:
-		display_card_tooltip(tooltip_data.card)
+# Handle tooltip request from EventBus - Smart translator with layer and object type support
+func _on_tooltip_requested(object: Variant, layer: DataStructures.GameLayer) -> void:
+	if object:
+		# Route to appropriate tooltip handler based on game layer
+		match layer:
+			DataStructures.GameLayer.DECK:
+				_display_deck_tooltip(object)
+			DataStructures.GameLayer.PACK:
+				_display_pack_tooltip(object)  # Future implementation
+			DataStructures.GameLayer.BONES:
+				_display_bones_tooltip(object)  # Future implementation
+			DataStructures.GameLayer.POUCH:
+				_display_pouch_tooltip(object)  # Future implementation
+			_:
+				# Default to deck layer for backwards compatibility
+				_display_deck_tooltip(object)
+
+# Display tooltip for deck layer (current tarot system - expects Card objects)
+func _display_deck_tooltip(object: Variant) -> void:
+	if object is Card:
+		display_card_tooltip(object as Card)
+	else:
+		push_warning("TooltipSystem: DECK layer expected Card object, got: " + str(type_string(typeof(object))))
+
+# Future implementations for other prestige layers
+func _display_pack_tooltip(object: Variant) -> void:
+	# TODO: Implement pack layer tooltip formatting
+	# Could handle Rune, Symbol, or other pack-specific objects
+	_display_deck_tooltip(object)  # Fallback to deck for now
+
+func _display_bones_tooltip(object: Variant) -> void:
+	# TODO: Implement bones layer tooltip formatting  
+	# Could handle Bone, Artifact, or other bones-specific objects
+	_display_deck_tooltip(object)  # Fallback to deck for now
+
+func _display_pouch_tooltip(object: Variant) -> void:
+	# TODO: Implement pouch layer tooltip formatting
+	# Could handle Charm, Item, or other pouch-specific objects
+	_display_deck_tooltip(object)  # Fallback to deck for now
 
 # Display tooltip for a specific card
 func display_card_tooltip(card: Card) -> void:
@@ -56,7 +82,7 @@ func display_card_tooltip(card: Card) -> void:
 
 # Configure the visual elements of the card
 func _set_card_visuals(card: Card) -> void:
-	var textures = get_node("/root/PreloadedResources").get_card_texture(card)
+	var textures = PreloadedResources.get_card_texture(card)
 	
 	# Set main textures
 	card_face.texture = textures.get("background")
@@ -75,18 +101,21 @@ func _set_card_information(card: Card) -> void:
 	# Show/hide lock overlay
 	locked_overlay.visible = not card.is_unlocked
 	
-	# Set card title
-	card_title.text = card.card_title
-	
-	# Set suit-appropriate color
-	var suit_color = _get_suit_color(card.card_suit)
+	# Always get fresh card information from Tools
+	if card.value > GameConstants.FACE_CARD_THRESHOLD:
+		card_title.text = Tools.get_card_title(card)
+	else:
+		card_title.text = "Basic Suit Effect"
+
+	# Set suit-appropriate color (always fresh from card.suit)
+	var suit_color = _get_suit_color(card.suit)
 	card_title.add_theme_color_override("default_color", suit_color)
 
 # Set the card and suit descriptions
 func _set_card_descriptions(card: Card) -> void:
-	var description_data = get_node("/root/CardDescriptions").get_description(card, true)
-	card_desc.text = description_data.get("card", "")
-	suit_desc.text = description_data.get("suit", "")
+	# Use Tools methods for consistent access to card and suit descriptions
+	card_desc.text = Tools.get_card_description(card, true)
+	suit_desc.text = Tools.get_suit_description(card, true)
 
 # Get the appropriate color for a card suit
 func _get_suit_color(suit: DataStructures.SuitType) -> Color:

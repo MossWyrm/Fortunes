@@ -9,7 +9,7 @@ var _cups: Dictionary = {}
 ### --- Initialization ---
 func _init():
 	if _cups.size() < 1:
-		add_cup()
+		_cups[_cups.size()] = 0
 
 func set_game_state(state: GameState):
 	super.set_game_state(state)

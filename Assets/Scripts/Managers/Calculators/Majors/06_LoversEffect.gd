@@ -9,7 +9,7 @@ Always triggers a major card animation.
 """
 
 func apply(_card: Card, flipped: bool) -> int:
-    game_state.event_bus.emit_major_card_animation_requested(flipped)
+    EventBus.emit_major_card_animation_requested(flipped)
     var count = game_state.stats.major_stats.lovers
     if flipped:
         var cards = _get_duplicates(game_state.deck_manager.active_deck)
@@ -22,7 +22,7 @@ func apply(_card: Card, flipped: bool) -> int:
         for i in range(count):
             if deck.size() <= 0:
                 break
-            game_state.deck_manager.add_card(deck.pop_at(randi() % deck.size()).card_id_num)
+            game_state.deck_manager.add_card(deck.pop_at(randi() % deck.size()).id)
     return 0
 
 # Helper to find duplicate cards in a deck
@@ -30,8 +30,8 @@ func _get_duplicates(deck: Array) -> Array:
     var seen = {}
     var duplicates = []
     for card in deck:
-        if card.card_id_num in seen:
+        if card.id in seen:
             duplicates.append(card)
         else:
-            seen[card.card_id_num] = true
+            seen[card.id] = true
     return duplicates

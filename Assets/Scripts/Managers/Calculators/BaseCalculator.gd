@@ -2,11 +2,9 @@
 class_name BaseCalculator
 
 var game_state: GameState
-var event_bus: EventBus
 
 func set_game_state(state: GameState):
     game_state = state
-    event_bus = state.event_bus
 
 func calculate_base_value(_card: Card, _flipped: bool) -> int:
     return 0

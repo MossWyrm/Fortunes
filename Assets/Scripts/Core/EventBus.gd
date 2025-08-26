@@ -1,25 +1,31 @@
-extends RefCounted
-class_name EventBus
+extends Node
+# Global EventBus - Available from project start as autoload
+# Access via: EventBus.signal_name.connect() or EventBus.emit_signal_name()
 
 # Game lifecycle events
 signal game_initialized
 signal game_loaded
 signal game_reset(reset_type: DataStructures.GameLayer)
 signal game_paused(paused: bool)
+signal save_request
+signal save_completed
 
 # Card events
-signal card_drawn(card: DataStructures.Card, flipped: bool)
-signal card_calculated(card: DataStructures.Card, result: DataStructures.CardCalculationResult)
-signal deck_shuffled(safely: bool)
-signal deck_modified(operation: DataStructures.DeckOperation, card: DataStructures.Card)
+signal card_drawn(card: Card, flipped: bool)
+signal card_calculated(card: Card, result: CardCalculationResult)
+signal request_shuffle(safely: bool)
+signal shuffle_completed(safely: bool)
+signal deck_modified(operation: DataStructures.DeckOperation, card: Card)
 signal clear_card
+signal pack_complete
 
 # UI events
 signal currency_updated(amount: int, currency_type: DataStructures.CurrencyType)
-signal suit_display_updated(suit: DataStructures.SuitType)
-signal tooltip_requested(tooltip_data: DataStructures.TooltipData)
-signal upgrade_purchased(upgrade: DataStructures.UpgradeData)
-signal floating_text_requested(text: String)
+signal request_buff_update(suit: DataStructures.SuitType, display_data: Dictionary)
+signal tooltip_requested(object: Variant, layer: DataStructures.GameLayer)
+signal upgrade_purchased(upgrade: UpgradeData)
+signal floating_text_requested(number: float)
+signal show_revealed_cards(cards: Array)
 
 # Audio events
 signal sfx_requested(sfx_type: DataStructures.SFXType)
@@ -30,14 +36,20 @@ signal suit_choice_requested(include_majors: bool)
 signal suit_chosen(suit: DataStructures.SuitType)
 signal skip_choice_requested
 signal skip_chosen(skipped: bool)
+signal gamble_choice_requested
+signal gamble_chosen(gamble: float)
 
 # Animation events
-signal card_animation_started(card: DataStructures.Card, animation_type: DataStructures.AnimationType)
-signal card_animation_finished(card: DataStructures.Card)
+signal card_animation_started(card: Card, animation_type: DataStructures.AnimationType)
+signal card_animation_finished(card: Card)
+signal major_card_animation_requested(flipped: bool)
+signal request_vfx(vfx_type: DataStructures.VFXType)
 
 # Emit methods
 func emit_game_initialized():
+	print("EventBus: Emitting game_initialized signal")
 	game_initialized.emit()
+	print("EventBus: game_initialized signal emitted")
 
 func emit_game_loaded():
 	game_loaded.emit()
@@ -48,35 +60,54 @@ func emit_game_reset(reset_type: DataStructures.GameLayer):
 func emit_game_paused(paused: bool):
 	game_paused.emit(paused)
 
-func emit_card_drawn(card: DataStructures.Card, flipped: bool):
+func emit_save_request():
+	save_request.emit()
+
+func emit_save_completed():
+	save_completed.emit()
+
+func emit_card_drawn(card: Card, flipped: bool):
 	card_drawn.emit(card, flipped)
 
-func emit_card_calculated(card: DataStructures.Card, result: DataStructures.CardCalculationResult):
+func emit_card_calculated(card: Card, result: CardCalculationResult):
 	card_calculated.emit(card, result)
 
-func emit_deck_shuffled(safely: bool):
-	deck_shuffled.emit(safely)
+func emit_request_shuffle(safely: bool):
+	request_shuffle.emit(safely)
 
-func emit_deck_modified(operation: DataStructures.DeckOperation, card: DataStructures.Card = null):
+func emit_shuffle_completed(safely: bool):
+	shuffle_completed.emit(safely)
+
+func emit_deck_modified(operation: DataStructures.DeckOperation, card: Card = null):
 	deck_modified.emit(operation, card)
+
+func emit_shuffle_requested(safely: bool = false):
+	request_shuffle.emit(safely)
 
 func emit_clear_card():
 	clear_card.emit()
 
+func emit_pack_complete():
+	pack_complete.emit()
+
+func emit_show_revealed_cards(cards: Array):
+	show_revealed_cards.emit(cards)
+
 func emit_currency_updated(amount: int, currency_type: DataStructures.CurrencyType):
 	currency_updated.emit(amount, currency_type)
 
-func emit_suit_display_updated(suit: DataStructures.SuitType):
-	suit_display_updated.emit(suit)
+func emit_request_buff_update(suit: DataStructures.SuitType, display_data: Dictionary):
+	request_buff_update.emit(suit, display_data)
 
-func emit_tooltip_requested(tooltip_data: DataStructures.TooltipData):
-	tooltip_requested.emit(tooltip_data)
+## Object for tooltip depends on prestige layer
+func emit_tooltip_requested(object: Variant, layer: DataStructures.GameLayer):
+	tooltip_requested.emit(object, layer)
 
-func emit_upgrade_purchased(upgrade: Upgrade):
+func emit_upgrade_purchased(upgrade: UpgradeData):
 	upgrade_purchased.emit(upgrade)
 
-func emit_floating_text_requested(text: String):
-	floating_text_requested.emit(text)
+func emit_floating_text_requested(num: float):
+	floating_text_requested.emit(num)
 
 func emit_sfx_requested(sfx_type: DataStructures.SFXType):
 	sfx_requested.emit(sfx_type)
@@ -96,8 +127,20 @@ func emit_skip_choice_requested():
 func emit_skip_chosen(skipped: bool):
 	skip_chosen.emit(skipped)
 
-func emit_card_animation_started(card: DataStructures.Card, animation_type: DataStructures.AnimationType):
+func emit_gamble_choice_requested():
+	gamble_choice_requested.emit()
+
+func emit_gamble_chosen(gamble: float):
+	gamble_chosen.emit(gamble)
+
+func emit_card_animation_started(card: Card, animation_type: DataStructures.AnimationType):
 	card_animation_started.emit(card, animation_type)
 
-func emit_card_animation_finished(card: DataStructures.Card):
-	card_animation_finished.emit(card) 
+func emit_card_animation_finished(card: Card):
+	card_animation_finished.emit(card)
+
+func emit_major_card_animation_requested(flipped: bool):
+	major_card_animation_requested.emit(flipped)
+
+func emit_request_vfx(vfx_type: DataStructures.VFXType):
+	request_vfx.emit(vfx_type)
