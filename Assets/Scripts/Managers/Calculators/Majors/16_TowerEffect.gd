@@ -21,7 +21,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	else:
 		card_state = DataStructures.CardState.POSITIVE if !flipped else DataStructures.CardState.NEGATIVE
 		game_state.deck_manager.add_card(517)
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func get_value(value: int = 0) -> int:

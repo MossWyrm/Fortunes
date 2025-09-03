@@ -22,7 +22,7 @@ func apply(_card: Card, flipped: bool) -> int:
             var cards_needed = target_count - current_count
             for i in range(cards_needed):
                 game_state.deck_manager.add_card_by_suit(suit)
-    EventBus.emit_major_card_animation_requested(flipped)
+    
     return 0
 
 # Helpers

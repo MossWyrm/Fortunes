@@ -12,12 +12,6 @@ static func is_valid(obj: Variant, context: String = "") -> bool:
 
 
 #region Game State Helpers
-# Quick check if EventBus is available (with graceful handling)
-static func has_event_bus() -> bool:
-	if not EventBus:
-		return false
-	return true
-
 static func has_game_state() -> bool:
 	return GameManager != null and GameManager.game_state != null
 

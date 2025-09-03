@@ -1,6 +1,9 @@
 extends Panel
 class_name buff_display
 
+## Buff display component
+## Shows buff icon, charge count, and handles tooltip display.
+
 signal initialization_complete
 
 var label: Label
@@ -22,9 +25,8 @@ func _ready() -> void:
 	add_child(hold_timer)
 	hold_timer.connect("timeout", Callable(self, "_on_hold_timer_timeout"))
 	
-	# Wait one frame to ensure everything is properly initialized
 	await get_tree().process_frame
-	# Signal that initialization is complete
+
 	initialization_complete.emit()
 
 func set_texture(texture: Texture2D) -> void:
@@ -57,8 +59,8 @@ func set_tooltip_card(card: Card) -> void:
 	_tooltip_card = card
 
 func show_tooltip() -> void:
-	if _tooltip_card and ValidationUtils.has_event_bus():
-		EventBus.emit_tooltip_requested(_tooltip_card, DataStructures.GameLayer.DECK)
+	if _tooltip_card:
+		EventBus.emit_tooltip_requested(_tooltip_card, DataStructures.GameLayer.DECK, true)
 
 func _on_press(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_click"):

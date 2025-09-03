@@ -4,20 +4,15 @@ class_name TouchGestureDetector
 ## Touch Gesture Detection Utility
 ## Distinguishes between intentional taps and scroll gestures for mobile-friendly UI
 
-#region Gesture Detection State
 var initial_touch_position: Vector2
 var has_moved_significantly: bool = false
 var movement_threshold: float = 20.0  # Pixels of movement to consider it a scroll
 var is_tracking: bool = false
-#endregion
 
-#region Configuration
 ## Set the movement threshold (pixels) for distinguishing taps from drags
 func set_movement_threshold(threshold: float) -> void:
 	movement_threshold = threshold
-#endregion
 
-#region Gesture Processing
 ## Call this with input events to track gestures
 ## Returns a GestureResult indicating what type of gesture occurred
 func process_input(event: InputEvent) -> GestureResult:
@@ -56,9 +51,7 @@ func is_intentional_tap() -> bool:
 ## Check if significant movement has been detected
 func is_dragging() -> bool:
 	return is_tracking and has_moved_significantly
-#endregion
 
-#region Private Methods
 func _start_tracking(position: Vector2) -> void:
 	initial_touch_position = position
 	has_moved_significantly = false
@@ -74,9 +67,7 @@ func _update_movement(current_position: Vector2) -> void:
 
 func _stop_tracking() -> void:
 	is_tracking = false
-#endregion
 
-#region Result Class
 ## Result object returned by gesture detection
 class GestureResult:
 	enum GestureType {
@@ -90,4 +81,3 @@ class GestureResult:
 	var gesture_type: GestureType = GestureType.NONE
 	var position: Vector2 = Vector2.ZERO
 	var was_intentional_tap: bool = false
-#endregion

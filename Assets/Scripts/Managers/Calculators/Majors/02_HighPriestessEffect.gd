@@ -2,6 +2,7 @@ extends MajorEffectBase
 class_name HighPriestessEffect
 
 """
+TODO: This requires more thought
 === The High Priestess (Modified Effect) ===
 Shows the next X cards in the deck (X = MajorStats.high_priestess).
 Upright: Sets all their values to the highest among them.
@@ -36,7 +37,5 @@ func apply(_card: Card, flipped: bool) -> int:
 		if c != chosen["card"]:
 			c.copy_from(chosen["card"])
 			print("High Priestess: Copied card ", chosen["card"].id, " to card ", c.id)
-	# Animation event
-	if EventBus:
-		EventBus.emit_major_card_animation_requested(flipped)
+		
 	return 0

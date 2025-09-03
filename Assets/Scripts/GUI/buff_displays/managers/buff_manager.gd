@@ -4,18 +4,16 @@ class_name BuffManager
 ## Base class for managing buff displays
 
 var displays: Dictionary[String, buff_display]
-var major_displays: Dictionary[int, buff_display] # Can store buff_display or major_display_box
+var major_displays: Dictionary[int, buff_display]
 var buff_scene: PackedScene = preload("res://Assets/Scenes/buff_display.tscn")
 var major_buff_scene: PackedScene = preload("res://Assets/Scenes/buff_display_major.tscn")
 var _initialization_complete: bool = false
 
 
 func update_display(_dictionary: Dictionary) -> void:
-	# Safety check: Don't update if displays aren't initialized yet
 	if not _initialization_complete:
-		print("BuffManager: Displays not initialized yet, skipping update")
+		DebugManager.print_ui_displays("Buff Icons not initialized yet, skipping update")
 		return
-	
 	# Override this method in subclasses for actual display logic
 	pass
 
@@ -37,29 +35,21 @@ func create_icon(suit, type_or_id):
 	)
 	return result
 
-
 func _create_new_icon(texture: Texture2D, major: bool = false, tooltip_card: Card = null):
 	var display
 	if major:
 		display = major_buff_scene.instantiate()
-		add_child(display)
-		# Wait for the display to signal it's ready for configuration
-		await display.initialization_complete
-		display.set_texture(texture)
-		display.set_text("")
-		display.set_panel_color(Color.WHITE)
 	else:
 		display = buff_scene.instantiate()
-		add_child(display)
-		# Wait for the display to signal it's ready for configuration
-		await display.initialization_complete
-		display.set_texture(texture)
-		display.set_text("")
-		display.set_panel_color(Color.WHITE)
-		if tooltip_card != null:
+	add_child(display)
+	await display.initialization_complete
+	display.set_texture(texture)
+	display.set_text("")
+	display.set_panel_color(Color.WHITE)
+	if tooltip_card != null:
 			display.set_tooltip_card(tooltip_card)
+	display.name = Tools.get_card_title(tooltip_card)
 	return display
-
 
 ## Sets the display state for a buff_display or major_display_box icon.
 func set_display(buff, visible: bool, charges: float = 0, color: Color = Color.WHITE, is_positive: bool = true, texture: Texture2D = null) -> void:
@@ -74,7 +64,7 @@ func set_display(buff, visible: bool, charges: float = 0, color: Color = Color.W
 			string_to_show = str(int(charges))
 		else:
 			string_to_show = "%0.2f" % [charges]
-		buff.set_text(string_to_show if charges > 0 else "")
+		buff.set_text(string_to_show if charges != 0 else "")
 		buff.set_panel_color(color)
 	elif buff.has_method("set_value") and buff.has_method("set_panel_color"):
 		buff.visible = visible

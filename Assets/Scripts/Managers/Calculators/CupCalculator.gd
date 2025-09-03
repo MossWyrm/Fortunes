@@ -143,7 +143,11 @@ func _king(value: int, flipped: bool) -> int:
 
 ### --- Utility ---
 func get_display_state() -> Dictionary:
-	return _cups.duplicate()
+	var dict: Dictionary = {
+		"cups": _cups.duplicate(),
+		"page_size_mod": _page_size_mod
+	}
+	return dict
 
 func get_state_backup() -> Dictionary:
 	return {

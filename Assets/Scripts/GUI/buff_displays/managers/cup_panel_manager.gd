@@ -7,7 +7,7 @@ func _init_icons():
 	var suit = DataStructures.SuitType.CUPS
 	if not displays.has("page"):
 		displays["page"] = await create_icon(suit, DataStructures.BuffType.PAGE)
-	_mark_initialization_complete()  # Signal that initialization is done
+	_mark_initialization_complete()
 
 func update_display(dictionary: Dictionary) -> void:
 	"""
@@ -26,12 +26,11 @@ func update_display(dictionary: Dictionary) -> void:
 	var cups = dictionary.get("cups", {})
 	var cup_keys = cups.keys()
 	var num_cups = cup_keys.size()
-
 	# Hide any extra displays
 	for key in displays.keys():
 		if key.begins_with("cup_"):
 			var idx = int(key.substr(4))
-			if idx >= num_cups:
+			if idx +1 >= num_cups:
 				displays[key].hide()
 
 	# Show or create displays for each cup
@@ -39,7 +38,7 @@ func update_display(dictionary: Dictionary) -> void:
 		var key = "cup_%s" % [str(idx)]
 		if not displays.has(key):
 			displays[key] = await create_icon(DataStructures.SuitType.CUPS, DataStructures.BuffType.BASIC)
-		set_display(displays[key], cups[idx] != 0, cups[idx])
+		set_display(displays[key], true, cups[idx])
 
 	# Show a page icon if a page modifier is present and nonzero
 	if dictionary.has("page_size_mod") and dictionary["page_size_mod"] != 0:

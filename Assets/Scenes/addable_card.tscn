@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://tj1kcj0cga3l" path="res://Assets/Sprites/LargeTarot/FrontMajor.png" id="1_ieex4"]
 [ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="1_m0yrc"]
-[ext_resource type="Script" uid="uid://bypglyhxe7qya" path="res://Assets/Scripts/GUI/Cards/addable_card.gd" id="2_q2geq"]
+[ext_resource type="Script" uid="uid://bypglyhxe7qya" path="res://Assets/Scripts/GUI/MainDisplay/addable_card.gd" id="2_q2geq"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
 

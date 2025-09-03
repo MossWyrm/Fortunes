@@ -23,5 +23,5 @@ func apply(_card: Card, flipped: bool) -> int:
 			game_state.deck_manager.add_card(518)
 		for i in game_state.stats.major_stats.sun_moon:
 			game_state.deck_manager.add_card(519)
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0

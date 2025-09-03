@@ -1,6 +1,9 @@
 extends Control
 class_name FloatingTextSpawn
 
+## Floating text spawn manager
+## Spawns floating text instances with positive or negative colors based on value.
+
 @export var colPos: Color
 @export var colNeg: Color
 

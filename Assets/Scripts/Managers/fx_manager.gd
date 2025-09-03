@@ -5,58 +5,47 @@ class_name FXManager
 ## Manages visual feedback particles like success and failure effects.
 ## Integrates with the EventBus system to respond to game events.
 
-#region Node References
 @onready var success_particle: CPUParticles2D = $Success
 @onready var failure_particle: CPUParticles2D = $Failure
-#endregion
 
-#region Constants
 const CARD_SIZE: Vector2 = Vector2(GameConstants.CARD_ART_WIDTH, GameConstants.CARD_ART_HEIGHT) / 2
-const CARD_POSITION: Vector2 = Vector2(124, 153) + (CARD_SIZE / 2)
 const PARTICLE_SIZE_MULTIPLIER: float = 1.1
-#endregion
+const SUCCESS_DEFAULT_DURATION: float = 2.0
+const FAILURE_DEFAULT_DURATION: float = 2.0
+var screen_centre: Vector2:
+	get:
+		return get_viewport().get_visible_rect().size / 2
 
-#region Initialization
 func _ready() -> void:
 	_connect_signals()
 
-# Connect to event bus signals
 func _connect_signals() -> void:
 	EventBus.request_vfx.connect(_on_particle_effect_requested)
 
-# Cleanup on exit
-func _exit_tree() -> void:
-	_disconnect_signals()
-
-# Disconnect signals to prevent memory leaks
-func _disconnect_signals() -> void:
-	EventBus.request_vfx.disconnect(_on_particle_effect_requested)
-#endregion
-
-#region Event Handlers
 # Handle particle effect requests from event bus
-func _on_particle_effect_requested(particle_type: DataStructures.VFXType) -> void:
+func _on_particle_effect_requested(particle_type: DataStructures.VFXType, animation_duration: float = -1) -> void:
 	match particle_type:
 		DataStructures.VFXType.CARD_SUCCESS:
-			emit_success()
+			emit_success(animation_duration)
 		DataStructures.VFXType.CARD_FAILURE:
-			emit_failure()
+			emit_failure(animation_duration)
 		_:
 			push_warning(DescriptionFormatter.format_warning_message("FXManager", "Unknown particle type requested: " + str(particle_type)))
-#endregion
 
 #region Particle Emission
 # Emit success particle effect
-func emit_success() -> void:
+func emit_success(animation_duration: float) -> void:
 	if success_particle:
-		_setup_particle_bounds(success_particle, CARD_POSITION, CARD_SIZE * PARTICLE_SIZE_MULTIPLIER)
+		_setup_particle_bounds(success_particle, screen_centre, CARD_SIZE * PARTICLE_SIZE_MULTIPLIER)
 		success_particle.emitting = true
+		success_particle.speed_scale = (1 / (animation_duration / SUCCESS_DEFAULT_DURATION)) if animation_duration > 0 else 1.0
 
 # Emit failure particle effect
-func emit_failure() -> void:
+func emit_failure(animation_duration: float) -> void:
 	if failure_particle:
-		_setup_particle_bounds(failure_particle, CARD_POSITION, CARD_SIZE * PARTICLE_SIZE_MULTIPLIER)
+		_setup_particle_bounds(failure_particle, screen_centre, CARD_SIZE * PARTICLE_SIZE_MULTIPLIER)
 		failure_particle.emitting = true
+		failure_particle.speed_scale = (1 / (animation_duration / FAILURE_DEFAULT_DURATION)) if animation_duration > 0 else 1.0
 
 # Configure particle bounds and position
 func _setup_particle_bounds(particle: CPUParticles2D, pos: Vector2, size: Vector2) -> void:

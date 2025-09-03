@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c61ilfuu65xuh" path="res://Assets/Scripts/GUI/Upgrades/UpgradesController.gd" id="1_rtjnf"]
 [ext_resource type="PackedScene" uid="uid://ct6d58kf4xqwl" path="res://Assets/upgrade_button.tscn" id="3_1sf28"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="3_msc5d"]
-[ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://Assets/Scripts/GUI/Upgrades/upgrades_select_button.gd" id="4_scdj4"]
+[ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://Assets/Scripts/GUI/Upgrades/UpgradesSelectNavButton.gd" id="4_scdj4"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="7_wjnne"]
 
 [sub_resource type="Animation" id="Animation_qxwfb"]

@@ -51,8 +51,6 @@ func update_currency(card_value, currency_type: DataStructures.CurrencyType) -> 
 	match currency_type:
 		DataStructures.CurrencyType.CLAIRVOYANCE:
 			var target_value = 0 if _clairvoyance + card_value < 0 else _clairvoyance + card_value
-			print(target_value)
-			print(_clairvoyance)
 			_update_currency_animated(
 				clairvoyance_display,
 				_clairvoyance,

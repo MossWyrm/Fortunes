@@ -1,42 +1,40 @@
-[gd_scene load_steps=112 format=4 uid="uid://cn8b6yho4nfbk"]
+[gd_scene load_steps=74 format=4 uid="uid://cn8b6yho4nfbk"]
 
 [ext_resource type="Script" uid="uid://dagjoq58uj3xk" path="res://Assets/Scripts/GUI/Tutorial/tutorial_manager.gd" id="2_4kbup"]
 [ext_resource type="Script" uid="uid://dy8gfv5loxe5b" path="res://Assets/Scripts/Managers/CurrencyManager.gd" id="2_7j5dx"]
 [ext_resource type="Script" uid="uid://do2wlvnh5rn4x" path="res://Assets/Scripts/Managers/prestige_manager.gd" id="3_721gu"]
-[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="3_ya55p"]
-[ext_resource type="Script" uid="uid://b28i4rtb3jkcv" path="res://Assets/Scenes/SetFullscreen.gd" id="4_0a5o6"]
 [ext_resource type="Script" uid="uid://bhoqrg2cj7rk5" path="res://Assets/Scripts/Utils/auto_draw.gd" id="4_3pnir"]
-[ext_resource type="Script" uid="uid://btnx848pb21df" path="res://Assets/Scripts/GUI/Cards/DrawCard.gd" id="5_knim0"]
-[ext_resource type="Script" uid="uid://i2fcilpq4vmw" path="res://Assets/Scripts/GUI/Components/currency_display.gd" id="6_vbw1f"]
+[ext_resource type="Script" uid="uid://i2fcilpq4vmw" path="res://Assets/Scripts/GUI/MainDisplay/CurrencyDisplay.gd" id="6_vbw1f"]
 [ext_resource type="Script" uid="uid://bh4c4870hlw82" path="res://Assets/Scripts/Managers/fx_manager.gd" id="7_4kbup"]
 [ext_resource type="Script" uid="uid://d4f6bxpuo8jri" path="res://Assets/Scripts/GUI/buff_displays/managers/cup_panel_manager.gd" id="7_gp1iq"]
-[ext_resource type="Script" uid="uid://bv8hm8wvg8qas" path="res://Assets/Scripts/GUI/Components/UpdateSuitDisplays.gd" id="7_njn3m"]
+[ext_resource type="Script" uid="uid://bv8hm8wvg8qas" path="res://Assets/Scripts/GUI/MainDisplay/BuffDisplayManager.gd" id="7_njn3m"]
 [ext_resource type="Texture2D" uid="uid://cp6ej6xmb3bg7" path="res://Assets/Sprites/GameBackground.png" id="8_4kbup"]
 [ext_resource type="Texture2D" uid="uid://et5fyeub635y" path="res://Assets/Sprites/LargeTarot/CardBack.png" id="10_kgmhe"]
 [ext_resource type="Script" uid="uid://doexfs08c30kt" path="res://Assets/Scripts/GUI/buff_displays/managers/wand_panel_manager.gd" id="10_oapdq"]
-[ext_resource type="Script" uid="uid://dotqtg04h1aem" path="res://Assets/Scripts/Utils/add_remove.gd" id="11_4kbup"]
+[ext_resource type="Script" uid="uid://dotqtg04h1aem" path="res://Assets/Scripts/Utils/card_animations.gd" id="11_4kbup"]
 [ext_resource type="Script" uid="uid://bl8j1vce5hdam" path="res://Assets/Scripts/GUI/Components/floating_text_spawn.gd" id="13_0qmqn"]
 [ext_resource type="Script" uid="uid://duxbysx8f11ww" path="res://Assets/Scripts/GUI/buff_displays/managers/pentacles_panel_manager.gd" id="13_ajfjt"]
+[ext_resource type="Script" uid="uid://brfjbude6wue5" path="res://Assets/Scripts/main_card_animator.gd" id="14_4kbup"]
 [ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="14_mhdow"]
 [ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="15_4kbup"]
 [ext_resource type="Texture2D" uid="uid://bkdc5l7xv6x34" path="res://Assets/Sprites/LargeTarot/Pentacles.png" id="15_721gu"]
+[ext_resource type="Script" uid="uid://eo21fyfxupt" path="res://Assets/Scripts/GUI/MainDisplay/CardTooltipTrigger.gd" id="15_fqjcf"]
 [ext_resource type="Script" uid="uid://bnlwsofoau3lr" path="res://Assets/Scripts/GUI/buff_displays/managers/swords_panel_manager.gd" id="16_biycs"]
 [ext_resource type="Script" uid="uid://cnuc7hur2ads3" path="res://Assets/Scripts/GUI/buff_displays/managers/majors_panel_manager.gd" id="17_7rtng"]
-[ext_resource type="Script" uid="uid://cx6i3e4vy6sgp" path="res://Assets/Scripts/GUI/Cards/Card Display Panel.gd" id="17_vdpkn"]
 [ext_resource type="LabelSettings" uid="uid://cd0fq6xk2c8xp" path="res://Assets/Themes/Fonts/Label Settings/CardTextDisplayFont.tres" id="19_iqb4k"]
 [ext_resource type="PackedScene" uid="uid://cmd65qh0ndrgw" path="res://Assets/Scenes/Upgrades.tscn" id="19_kbho8"]
-[ext_resource type="Script" uid="uid://cfuu5x5q7hcrw" path="res://Assets/Scripts/GUI/Debug/DEBUG_MoneyButton.gd" id="19_pdf0n"]
 [ext_resource type="Script" uid="uid://bfrk3wjayh24" path="res://Assets/Scripts/GUI/Dialogs/suit_choices.gd" id="20_i4h8h"]
 [ext_resource type="Texture2D" uid="uid://cbg7c4ljxrn4a" path="res://Assets/Sprites/Scroll.png" id="20_w0f3l"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="21_7rtng"]
-[ext_resource type="Script" uid="uid://bw6vg3odn186h" path="res://Assets/Scripts/GUI/Debug/DEBUG_major_draw.gd" id="24_7j5dx"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="24_7rtng"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="26_7rtng"]
 [ext_resource type="Script" uid="uid://bceuv1lv1yuf2" path="res://Assets/Scripts/GUI/Dialogs/skip_choice.gd" id="27_721gu"]
 [ext_resource type="Script" uid="uid://cbon5cdhm8gju" path="res://Assets/Scripts/GUI/Dialogs/gamble_choice.gd" id="28_fqjcf"]
-[ext_resource type="Script" uid="uid://bdq7syjg7t8rl" path="res://Assets/Scripts/GUI/Debug/DEBUG_reset_game.gd" id="28_mhdow"]
 [ext_resource type="PackedScene" uid="uid://48yhm7rt4c5e" path="res://Assets/Scenes/Deck_Creator.tscn" id="28_v5en1"]
+[ext_resource type="PackedScene" uid="uid://cgaqrtbxnflix" path="res://Assets/Scenes/Navigation.tscn" id="33_4kbup"]
 [ext_resource type="PackedScene" uid="uid://bbiq3lfelkb8y" path="res://Assets/Scenes/Card_Tooltip.tscn" id="38_mhdow"]
+[ext_resource type="Script" uid="uid://bvbtryn3txm7l" path="res://Assets/Scripts/GUI/Debug/debug_menu.gd" id="39_721gu"]
+[ext_resource type="Script" uid="uid://6aia2obpnka5" path="res://Assets/Scripts/GUI/Debug/open_debug_menu.gd" id="39_fqjcf"]
 [ext_resource type="Texture2D" uid="uid://s8u1vr3kpunw" path="res://Assets/Sprites/single_pixel.png" id="40_721gu"]
 [ext_resource type="PackedScene" uid="uid://c4vfw1w3gddk3" path="res://Assets/Scenes/Tutorial.tscn" id="42_fqjcf"]
 
@@ -45,7 +43,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Background:position")
+tracks/0/path = NodePath("Background/BackgroundSprite:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -57,7 +55,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Background:rotation")
+tracks/1/path = NodePath("Background/BackgroundSprite:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
@@ -74,7 +72,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Background:position")
+tracks/0/path = NodePath("Background/BackgroundSprite:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -86,7 +84,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Background:rotation")
+tracks/1/path = NodePath("Background/BackgroundSprite:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
@@ -101,1289 +99,6 @@ _data = {
 &"RESET": SubResource("Animation_3pnir"),
 &"background": SubResource("Animation_721gu")
 }
-
-[sub_resource type="Animation" id="Animation_nrsi6"]
-resource_name = "CardDrawBad"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.233333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1), Vector2(1.09, 1.09), Vector2(1, 1)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.6),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"finish_draw_animation"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Scroll:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Scroll:scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Scroll/MarginContainer/card_text:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.0333333),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Scroll/MarginContainer/card_text:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Scroll:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("CardBack:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("CardFront:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0.2),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("CardFront/MASK/ColorOverlay:color")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(0.68, 0, 0.147333, 0), Color(0.68, 0, 0.147333, 0.905882), Color(0.68, 0, 0.147333, 0)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("CardFront/MASK/ColorOverlay:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
-}
-
-[sub_resource type="Animation" id="Animation_8a86o"]
-resource_name = "CardDrawGood"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.233333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1), Vector2(1.09, 1.09), Vector2(1, 1)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.6),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"finish_draw_animation"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Scroll:scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Scroll:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Scroll/MarginContainer/card_text:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Scroll/MarginContainer/card_text:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Scroll:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("CardBack:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("CardFront:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0.2),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("CardFront/MASK/ColorOverlay:color")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(0, 0.76, 0.354667, 0), Color(0, 0.65, 0.303333, 0.627451), Color(0, 0.76, 0.354667, 0)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("CardFront/MASK/ColorOverlay:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
-}
-
-[sub_resource type="Animation" id="Animation_gtkb7"]
-resource_name = "MajorBad"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 2),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.2, 1.2)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("CardFront:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 2),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.936449, 0.000658597, 0.0225196, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.8),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"card_cleared"
-}]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("CardFront:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CardBack:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("MajorTextDisplay:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("MajorTextDisplay:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="Animation" id="Animation_7rtng"]
-resource_name = "MajorDraw"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.233333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1), Vector2(1.09, 1.09), Vector2(1, 1)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.6),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"finish_draw_animation"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CardBack:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("CardFront:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.2),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CardFront:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("MajorTextDisplay:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("MajorTextDisplay:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.2, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("MajorTextDisplay:scale")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 1), Vector2(1, 1)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("CardFront/MASK/ColorOverlay:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, false]
-}
-
-[sub_resource type="Animation" id="Animation_7j5dx"]
-resource_name = "MajorGood"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 2),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.2, 1.2)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("CardFront:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 2),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.21218, 0.799484, 7.70092e-07, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.8),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"card_cleared"
-}]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("CardFront:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CardBack:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("MajorTextDisplay:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("MajorTextDisplay:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="Animation" id="Animation_i4h8h"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.219374, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Scroll:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Scroll:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Scroll:scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Scroll/MarginContainer/card_text:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Scroll/MarginContainer/card_text:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("CardBack:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(-0.0333333),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("CardFront:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("CardFront:scale")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("MajorTextDisplay:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("CardFront:material:shader_parameter/burn_amount")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("CardFront/FaceImage:material:shader_parameter/burn_amount")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("MajorTextDisplay:modulate")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath("CardFront/MASK/ColorOverlay:color")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/14/type = "value"
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/path = NodePath("CardFront:rotation")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/15/type = "value"
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/path = NodePath("CardFront/MASK/ColorOverlay:visible")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_lpfco"]
-resource_name = "ReturnCard"
-length = 0.51
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 2),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"card_cleared"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Scroll:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Scroll:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CardFront:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("CardBack:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("CardFront:material:shader_parameter/burn_amount")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.51),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 0.0]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("CardFront/FaceImage:material:shader_parameter/burn_amount")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.51),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 0.0]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("MajorTextDisplay:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.51),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("MajorTextDisplay:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0.51),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_fqjcf"]
-resource_name = "SkipCard"
-length = 0.52
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardBack:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 2),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.1, 0.1)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"card_cleared"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Scroll:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Scroll:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CardFront:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("CardBack:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("CardFront:material:shader_parameter/burn_amount")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.51),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 0.0]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("CardFront/FaceImage:material:shader_parameter/burn_amount")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.51),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 0.0]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("MajorTextDisplay:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.51),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("MajorTextDisplay:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0.51),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("CardFront:rotation")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.51),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 12.5664, 0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_skv5p"]
-_data = {
-&"CardDrawBad": SubResource("Animation_nrsi6"),
-&"CardDrawGood": SubResource("Animation_8a86o"),
-&"MajorBad": SubResource("Animation_gtkb7"),
-&"MajorDraw": SubResource("Animation_7rtng"),
-&"MajorGood": SubResource("Animation_7j5dx"),
-&"RESET": SubResource("Animation_i4h8h"),
-&"ReturnCard": SubResource("Animation_lpfco"),
-&"SkipCard": SubResource("Animation_fqjcf")
-}
-
-[sub_resource type="Animation" id="Animation_pg5xu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardFront/FaceImage/Shine:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront/FaceImage/Shine:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(112, -353)]
-}
-
-[sub_resource type="Animation" id="Animation_kgmhe"]
-resource_name = "sparkle"
-length = 1.5
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardFront/FaceImage/Shine:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(112, -353), Vector2(748.889, 83)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardFront/FaceImage/Shine:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.03333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_t40wn"]
-_data = {
-&"RESET": SubResource("Animation_pg5xu"),
-&"sparkle": SubResource("Animation_kgmhe")
-}
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kgmhe"]
-width = 143
-height = 243
-noise = SubResource("FastNoiseLite_gtkb7")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pnir"]
-resource_local_to_scene = true
-shader = ExtResource("15_4kbup")
-shader_parameter/using_atlas = false
-shader_parameter/sprite_size = Vector2(0, 0)
-shader_parameter/atlas_size = Vector2(0, 0)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
-shader_parameter/burn_amount = 0.0
-shader_parameter/burn_color = Color(0.00392157, 0.596078, 0.133333, 1)
-shader_parameter/distortion_edge = 0.13
-shader_parameter/warp_factor = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqjcf"]
-resource_local_to_scene = true
-shader = ExtResource("15_4kbup")
-shader_parameter/using_atlas = true
-shader_parameter/sprite_size = Vector2(400, 699)
-shader_parameter/atlas_size = Vector2(5600, 699)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
-shader_parameter/burn_amount = 0.0
-shader_parameter/burn_color = Color(0.8, 0.4, 0.2, 1)
-shader_parameter/distortion_edge = 0.13
-shader_parameter/warp_factor = 0.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7rtng"]
-atlas = ExtResource("15_721gu")
-region = Rect2(0, 0, 400, 699)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7rtng"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_7j5dx"]
-font_size = 72
-font_color = Color(0.862745, 0.662745, 0.0862745, 1)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7j5dx"]
-atlas = ExtResource("21_7rtng")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gtkb7"]
-atlas = ExtResource("21_7rtng")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kgmhe"]
-atlas = ExtResource("21_7rtng")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pg5xu"]
-atlas = ExtResource("21_7rtng")
-region = Rect2(0, 192, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t40wn"]
-atlas = ExtResource("21_7rtng")
-region = Rect2(0, 256, 64, 64)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j5dx"]
-bg_color = Color(0.588235, 0, 0.00784314, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gtkb7"]
-bg_color = Color(0.0627451, 0.321569, 0, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80ed3"]
-bg_color = Color(0.0627451, 0.321569, 0, 0.101961)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iimxx"]
-bg_color = Color(0.0627451, 0.321569, 0, 0.498039)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwusr"]
-bg_color = Color(0.0627451, 0.321569, 0, 0.74902)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4kbup"]
 atlas = ExtResource("24_7rtng")
@@ -1959,72 +674,101 @@ font = SubResource("FontFile_2aecg")
 font_size = 80
 font_color = Color(0.854902, 0.858824, 0.87451, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kupbj"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1hk8p"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kgmhe"]
+width = 143
+height = 243
+noise = SubResource("FastNoiseLite_gtkb7")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pt21i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pnir"]
+resource_local_to_scene = true
+shader = ExtResource("15_4kbup")
+shader_parameter/using_atlas = false
+shader_parameter/sprite_size = Vector2(0, 0)
+shader_parameter/atlas_size = Vector2(0, 0)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.00392157, 0.596078, 0.133333, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05dm0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqjcf"]
+resource_local_to_scene = true
+shader = ExtResource("15_4kbup")
+shader_parameter/using_atlas = true
+shader_parameter/sprite_size = Vector2(400, 699)
+shader_parameter/atlas_size = Vector2(5600, 699)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.8, 0.4, 0.2, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2v6g5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rtng"]
+atlas = ExtResource("15_721gu")
+region = Rect2(0, 0, 400, 699)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cnwco"]
-atlas = ExtResource("24_7rtng")
-region = Rect2(128, 128, 64, 64)
-margin = Rect2(0, -1, 0, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7j5dx"]
+atlas = ExtResource("21_7rtng")
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cnwco"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtkb7"]
+atlas = ExtResource("21_7rtng")
+region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3lqa"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgmhe"]
+atlas = ExtResource("21_7rtng")
+region = Rect2(0, 128, 64, 64)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w4f0y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pg5xu"]
+atlas = ExtResource("21_7rtng")
+region = Rect2(0, 192, 64, 64)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e7y0p"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t40wn"]
+atlas = ExtResource("21_7rtng")
+region = Rect2(0, 256, 64, 64)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbipf"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ti8a1"]
-atlas = ExtResource("24_7rtng")
-region = Rect2(256, 128, 64, 64)
-margin = Rect2(0, -1, 0, 0)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fkcst"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rimof"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iiurs"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ouggr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b1lwg"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3lqa"]
-atlas = ExtResource("24_7rtng")
-region = Rect2(192, 128, 64, 64)
-margin = Rect2(0, -1, 0, 0)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ti8a1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nxbax"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hshu0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_41ttk"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pnir"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j5dx"]
 bg_color = Color(0.588235, 0, 0.00784314, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqjcf"]
-bg_color = Color(0.0862745, 0.419608, 0.00784314, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gtkb7"]
+bg_color = Color(0.0627451, 0.321569, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80ed3"]
+bg_color = Color(0.0627451, 0.321569, 0, 0.101961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iimxx"]
+bg_color = Color(0.0627451, 0.321569, 0, 0.498039)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwusr"]
+bg_color = Color(0.0627451, 0.321569, 0, 0.74902)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7rtng"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7j5dx"]
+font_size = 72
+font_color = Color(0.862745, 0.662745, 0.0862745, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fqjcf"]
 atlas = ExtResource("24_7rtng")
@@ -2059,33 +803,42 @@ script = ExtResource("4_3pnir")
 
 [node name="CurrencyManager" type="Node" parent="." node_paths=PackedStringArray("clairvoyance_display", "packs_display")]
 script = ExtResource("2_7j5dx")
-clairvoyance_display = NodePath("../DisplayMaster/CardDrawZone/CurrencyDisplay/Clairvoyance")
-packs_display = NodePath("../DisplayMaster/CardDrawZone/CurrencyDisplay/Packs")
+clairvoyance_display = NodePath("../GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Clairvoyance")
+packs_display = NodePath("../GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Packs")
 
-[node name="DisplayMaster" type="Control" parent="."]
+[node name="GameplayArea" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("26_7rtng")
-script = ExtResource("4_0a5o6")
 
-[node name="BackgroundAnimation" type="AnimationPlayer" parent="DisplayMaster"]
+[node name="Background" type="Control" parent="GameplayArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundSprite" type="Sprite2D" parent="GameplayArea/Background"]
+modulate = Color(0.599199, 0.599199, 0.599199, 1)
+position = Vector2(596, 27)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4kbup")
+
+[node name="BackgroundAnimation" type="AnimationPlayer" parent="GameplayArea/Background"]
+root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_80ed3")
 }
 autoplay = "background"
 speed_scale = 0.15
 
-[node name="Background" type="Sprite2D" parent="DisplayMaster"]
-modulate = Color(0.599199, 0.599199, 0.599199, 1)
-position = Vector2(596, 27)
-scale = Vector2(3, 3)
-texture = ExtResource("8_4kbup")
-
-[node name="CardDrawZone" type="TextureRect" parent="DisplayMaster"]
+[node name="CardDrawZone" type="Control" parent="GameplayArea"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2093,35 +846,175 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="DisplayOrganizer" type="VBoxContainer" parent="GameplayArea/CardDrawZone"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CurrencyDisplay" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Clairvoyance" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay" node_paths=PackedStringArray("currency_text")]
+layout_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("6_vbw1f")
+currency_text = NodePath("currency_text")
+
+[node name="TextureRect" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Clairvoyance"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+texture = SubResource("AtlasTexture_4kbup")
 expand_mode = 1
+stretch_mode = 5
 
-[node name="DisplayArea" type="Control" parent="DisplayMaster/CardDrawZone"]
+[node name="currency_text" type="Label" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Clairvoyance"]
 texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1.45M"
+label_settings = SubResource("LabelSettings_ucels")
+vertical_alignment = 1
+
+[node name="Packs" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay" node_paths=PackedStringArray("currency_text")]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("6_vbw1f")
+currency_text = NodePath("currency_text")
+
+[node name="TextureRect" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Packs"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+texture = SubResource("AtlasTexture_721gu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="currency_text" type="Label" parent="GameplayArea/CardDrawZone/DisplayOrganizer/CurrencyDisplay/Packs"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1.45M"
+label_settings = SubResource("LabelSettings_fqjcf")
+vertical_alignment = 1
+
+[node name="MainCardDisplay" type="Control" parent="GameplayArea/CardDrawZone/DisplayOrganizer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+
+[node name="BaseBuffs" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="SuitBuffs" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs" node_paths=PackedStringArray("cup_display", "wand_display", "pentacles_display", "swords_display", "majors_display")]
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
+alignment = 1
+script = ExtResource("7_njn3m")
+cup_display = NodePath("CupBuffDisplayer")
+wand_display = NodePath("WandBuffDisplay")
+pentacles_display = NodePath("PentaclesBuffsDisplay")
+swords_display = NodePath("SwordsBuffsDisplay")
+majors_display = NodePath("../../MajorBuffs/MajorBuffs")
 
-[node name="CardDisplay" type="Control" parent="DisplayMaster/CardDrawZone/DisplayArea"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -423.0
-offset_right = 200.0
-offset_bottom = 276.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("17_vdpkn")
-default_card_texture = ExtResource("10_kgmhe")
+[node name="CupBuffDisplayer" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+script = ExtResource("7_gp1iq")
 
-[node name="Add_Remove" type="Control" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
+[node name="Separator" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.862745, 0.662745, 0.0862745, 1)
+
+[node name="WandBuffDisplay" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+script = ExtResource("10_oapdq")
+
+[node name="Separator2" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.862745, 0.662745, 0.0862745, 1)
+
+[node name="PentaclesBuffsDisplay" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+script = ExtResource("13_ajfjt")
+
+[node name="Separator3" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.862745, 0.662745, 0.0862745, 1)
+
+[node name="SwordsBuffsDisplay" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/BaseBuffs/SuitBuffs"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+script = ExtResource("16_biycs")
+
+[node name="CenterCard" type="Control" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.5
+mouse_filter = 1
+script = ExtResource("15_fqjcf")
+
+[node name="MainCardAnimator" type="Node" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
+unique_name_in_owner = true
+script = ExtResource("14_4kbup")
+
+[node name="DeckTop" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2129,82 +1022,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(200, 349)
-script = ExtResource("11_4kbup")
-
-[node name="TargetPoint" type="Marker2D" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/Add_Remove"]
-position = Vector2(512, 254)
-
-[node name="StartPoint" type="Marker2D" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/Add_Remove"]
-position = Vector2(200, 349)
-
-[node name="CardFlipAnimations" type="AnimationPlayer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-libraries = {
-&"": SubResource("AnimationLibrary_skv5p")
-}
-
-[node name="Sparkling" type="AnimationPlayer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-libraries = {
-&"": SubResource("AnimationLibrary_t40wn")
-}
-
-[node name="DeckTop" type="TextureRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -349.5
-offset_right = 200.0
-offset_bottom = 349.5
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(140, 240)
 texture = ExtResource("10_kgmhe")
 stretch_mode = 5
 
-[node name="CardBack" type="TextureRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
+[node name="CardBack" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
 visible = false
-z_index = 2
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -349.5
-offset_right = 200.0
-offset_bottom = 349.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.219374, 1)
 pivot_offset = Vector2(200, 349)
 texture = ExtResource("10_kgmhe")
+stretch_mode = 5
 
-[node name="CardFront" type="TextureRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-visible = false
-z_index = 2
+[node name="CardFront" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_3pnir")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -349.5
-offset_right = 200.0
-offset_bottom = 349.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(200, 349)
+pivot_offset = Vector2(200.5, 363.5)
 texture = ExtResource("14_mhdow")
 stretch_mode = 5
 
-[node name="FaceImage" type="TextureRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/CardFront"]
+[node name="FaceImage" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/CardFront"]
 clip_children = 2
 material = SubResource("ShaderMaterial_fqjcf")
 layout_mode = 1
@@ -2213,12 +1059,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(200, 363)
 texture = SubResource("AtlasTexture_7rtng")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Shine" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/CardFront/FaceImage"]
-visible = false
+[node name="Shine" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/CardFront/FaceImage"]
 layout_mode = 0
 offset_left = 112.0
 offset_top = -353.0
@@ -2228,16 +1074,19 @@ rotation = 0.523599
 mouse_filter = 2
 color = Color(1, 1, 1, 0.560784)
 
-[node name="MASK" type="TextureRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/CardFront"]
+[node name="MASK" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/CardFront"]
 clip_children = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("14_mhdow")
+stretch_mode = 5
 
-[node name="ColorOverlay" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/CardFront/MASK"]
-visible = false
+[node name="ColorOverlay" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/CardFront/MASK"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2247,99 +1096,237 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="SuitBuffs" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay" node_paths=PackedStringArray("cup_display", "wand_display", "pentacles_display", "swords_display", "majors_display")]
+[node name="ExtraCardAnimations" type="Control" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.05
-anchor_right = -0.05
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -63.0
-offset_right = 1.0
-grow_horizontal = 0
+grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-alignment = 1
-script = ExtResource("7_njn3m")
-cup_display = NodePath("CupBuffDisplayer")
-wand_display = NodePath("WandBuffDisplay")
-pentacles_display = NodePath("PentaclesBuffsDisplay")
-swords_display = NodePath("SwordsBuffsDisplay")
-majors_display = NodePath("../MajorBuffs")
+pivot_offset = Vector2(200, 349)
+mouse_filter = 1
+script = ExtResource("11_4kbup")
 
-[node name="CupBuffDisplayer" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-layout_direction = 3
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-alignment = 1
-script = ExtResource("7_gp1iq")
+[node name="MidPoint" type="Marker2D" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ExtraCardAnimations"]
+position = Vector2(462, 274)
 
-[node name="Separator" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-custom_minimum_size = Vector2(0, 2)
-layout_mode = 2
-color = Color(0.862745, 0.662745, 0.0862745, 1)
+[node name="CenterPoint" type="Marker2D" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ExtraCardAnimations"]
+position = Vector2(200.5, 426)
 
-[node name="WandBuffDisplay" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-layout_direction = 3
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-alignment = 1
-script = ExtResource("10_oapdq")
+[node name="ChoiceMenus" type="Control" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
 
-[node name="Separator2" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-custom_minimum_size = Vector2(0, 2)
-layout_mode = 2
-color = Color(0.862745, 0.662745, 0.0862745, 1)
-
-[node name="PentaclesBuffsDisplay" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-layout_direction = 3
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/separation = 2
-alignment = 1
-script = ExtResource("13_ajfjt")
-
-[node name="Separator3" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-custom_minimum_size = Vector2(0, 2)
-layout_mode = 2
-color = Color(0.862745, 0.662745, 0.0862745, 1)
-
-[node name="SwordsBuffsDisplay" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitBuffs"]
-layout_direction = 3
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-alignment = 1
-script = ExtResource("16_biycs")
-
-[node name="MajorBuffs" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-custom_minimum_size = Vector2(64, 0)
+[node name="SuitChoice" type="PanelContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus"]
+visible = false
+z_index = 2
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 1.05
-anchor_right = 1.05
+anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 3.05176e-05
-offset_right = 64.0
+offset_top = -200.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("20_i4h8h")
+
+[node name="Panel" type="Panel" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer"]
+layout_mode = 2
+
+[node name="Cups" type="TextureButton" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_7j5dx")
+stretch_mode = 5
+
+[node name="Wands" type="TextureButton" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_gtkb7")
+stretch_mode = 5
+
+[node name="Pentacles" type="TextureButton" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_kgmhe")
+stretch_mode = 5
+
+[node name="Swords" type="TextureButton" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_pg5xu")
+stretch_mode = 5
+
+[node name="Majors" type="TextureButton" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SuitChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_t40wn")
+stretch_mode = 5
+
+[node name="SkipChoice" type="PanelContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus"]
+visible = false
+z_index = 2
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -152.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("27_721gu")
+
+[node name="Panel" type="Panel" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SkipChoice"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SkipChoice"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SkipChoice/MarginContainer"]
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SkipChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_7j5dx")
+text = "SKIP"
+
+[node name="ContinueButton" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/SkipChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gtkb7")
+text = "PLAY"
+
+[node name="GambleChoice" type="PanelContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus"]
+visible = false
+z_index = 2
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -152.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("28_fqjcf")
+
+[node name="Panel" type="Panel" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer"]
+layout_mode = 2
+
+[node name="Skip" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_7j5dx")
+text = "SKIP"
+
+[node name="10" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_80ed3")
+text = "10%"
+
+[node name="25" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_iimxx")
+text = "25%
+"
+
+[node name="50" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_kwusr")
+text = "50%
+"
+
+[node name="100" type="Button" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/GambleChoice/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gtkb7")
+text = "100%"
+
+[node name="MajorBuffs" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="MajorBuffs" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/MajorBuffs"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 15
 script = ExtResource("17_7rtng")
 
-[node name="Scroll" type="Sprite2D" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-visible = false
-position = Vector2(214, 753)
-texture = ExtResource("20_w0f3l")
+[node name="CardTextDisplays" type="Control" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/Scroll"]
+[node name="Scroll" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -50.0
-offset_right = -300.0
-offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(324, 50)
+texture = ExtResource("20_w0f3l")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/Scroll"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 50
@@ -2347,8 +1334,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 10
 
-[node name="card_text" type="Label" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/Scroll/MarginContainer"]
-visible = false
+[node name="card_text" type="Label" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/Scroll/MarginContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "This is Example Text and is just for testing"
@@ -2357,34 +1343,31 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="MajorTextDisplay" type="PanelContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
+[node name="MajorTextDisplay" type="PanelContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays"]
 visible = false
+modulate = Color(1, 1, 1, 0.18)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = 10.0
-offset_right = 300.0
 grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1e-05, 1)
 pivot_offset = Vector2(300, 37)
 theme_override_styles/panel = SubResource("StyleBoxEmpty_7rtng")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/MajorTextDisplay"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/MajorTextDisplay"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/MajorTextDisplay/VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/MajorTextDisplay/VBoxContainer"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 color = Color(0.862745, 0.662745, 0.0862745, 1)
 
-[node name="card_text" type="Label" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/MajorTextDisplay/VBoxContainer"]
+[node name="card_text" type="Label" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/MajorTextDisplay/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0.862745, 0.662745, 0.0862745, 1)
@@ -2395,240 +1378,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="ColorRect2" type="ColorRect" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/MajorTextDisplay/VBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/CardTextDisplays/MajorTextDisplay/VBoxContainer"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 color = Color(0.862745, 0.662745, 0.0862745, 1)
 
-[node name="SuitChoice" type="PanelContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-visible = false
-z_index = 2
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -56.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("20_i4h8h")
-
-[node name="Panel" type="Panel" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice"]
+[node name="Navigation" parent="GameplayArea/CardDrawZone/DisplayOrganizer" instance=ExtResource("33_4kbup")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer"]
-layout_mode = 2
-
-[node name="Cups" type="TextureButton" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-texture_normal = SubResource("AtlasTexture_7j5dx")
-stretch_mode = 5
-
-[node name="Wands" type="TextureButton" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-texture_normal = SubResource("AtlasTexture_gtkb7")
-stretch_mode = 5
-
-[node name="Pentacles" type="TextureButton" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-texture_normal = SubResource("AtlasTexture_kgmhe")
-stretch_mode = 5
-
-[node name="Swords" type="TextureButton" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-texture_normal = SubResource("AtlasTexture_pg5xu")
-stretch_mode = 5
-
-[node name="Majors" type="TextureButton" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SuitChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-texture_normal = SubResource("AtlasTexture_t40wn")
-stretch_mode = 5
-
-[node name="SkipChoice" type="PanelContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-visible = false
-z_index = 2
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -56.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("27_721gu")
-
-[node name="Panel" type="Panel" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SkipChoice"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SkipChoice"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SkipChoice/MarginContainer"]
-layout_mode = 2
-
-[node name="SkipButton" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SkipChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_7j5dx")
-text = "SKIP"
-
-[node name="ContinueButton" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/SkipChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_gtkb7")
-text = "PLAY"
-
-[node name="GambleChoice" type="PanelContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay"]
-visible = false
-z_index = 2
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -56.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("28_fqjcf")
-
-[node name="Panel" type="Panel" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer"]
-layout_mode = 2
-
-[node name="Skip" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_7j5dx")
-text = "SKIP"
-
-[node name="10" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_80ed3")
-text = "10%"
-
-[node name="25" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_iimxx")
-text = "25%
-"
-
-[node name="50" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_kwusr")
-text = "50%
-"
-
-[node name="100" type="Button" parent="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay/GambleChoice/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_gtkb7")
-text = "100%"
-
-[node name="CurrencyDisplay" type="HBoxContainer" parent="DisplayMaster/CardDrawZone"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.04
-anchor_right = 0.5
-anchor_bottom = 0.04
-grow_horizontal = 2
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="Clairvoyance" type="HBoxContainer" parent="DisplayMaster/CardDrawZone/CurrencyDisplay" node_paths=PackedStringArray("currency_text")]
-layout_mode = 2
-theme_override_constants/separation = 20
-script = ExtResource("6_vbw1f")
-currency_text = NodePath("currency_text")
-
-[node name="TextureRect" type="TextureRect" parent="DisplayMaster/CardDrawZone/CurrencyDisplay/Clairvoyance"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-texture = SubResource("AtlasTexture_4kbup")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="currency_text" type="Label" parent="DisplayMaster/CardDrawZone/CurrencyDisplay/Clairvoyance"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-text = "1.45M"
-label_settings = SubResource("LabelSettings_ucels")
-vertical_alignment = 1
-
-[node name="Packs" type="HBoxContainer" parent="DisplayMaster/CardDrawZone/CurrencyDisplay" node_paths=PackedStringArray("currency_text")]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 20
-script = ExtResource("6_vbw1f")
-currency_text = NodePath("currency_text")
-
-[node name="TextureRect" type="TextureRect" parent="DisplayMaster/CardDrawZone/CurrencyDisplay/Packs"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-texture = SubResource("AtlasTexture_721gu")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="currency_text" type="Label" parent="DisplayMaster/CardDrawZone/CurrencyDisplay/Packs"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-text = "1.45M"
-label_settings = SubResource("LabelSettings_fqjcf")
-vertical_alignment = 1
-
-[node name="FloatingTextSpawn" type="Control" parent="DisplayMaster"]
+[node name="FloatingTextSpawn" type="Control" parent="GameplayArea"]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -2646,224 +1404,7 @@ script = ExtResource("13_0qmqn")
 colPos = Color(0.862745, 0.662745, 0.0862745, 1)
 colNeg = Color(0.858824, 0.164706, 0.0862745, 1)
 
-[node name="Navigation" type="Control" parent="DisplayMaster"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="DisplayMaster/Navigation"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="HBoxNav" type="HBoxContainer" parent="DisplayMaster/Navigation/MarginContainer"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="creatorPanelButton" type="Button" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav"]
-custom_minimum_size = Vector2(150, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_kupbj")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_1hk8p")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_pt21i")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_05dm0")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_2v6g5")
-shortcut_in_tooltip = false
-text = "
-"
-autowrap_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav/creatorPanelButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_cnwco")
-stretch_mode = 5
-
-[node name="DrawCardButton" type="Button" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav"]
-texture_filter = 1
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 48
-theme_override_styles/focus = SubResource("StyleBoxEmpty_cnwco")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_f3lqa")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_w4f0y")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_e7y0p")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_sbipf")
-autowrap_mode = 2
-script = ExtResource("5_knim0")
-
-[node name="TextureRect" type="TextureRect" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav/DrawCardButton"]
-clip_children = 2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_ti8a1")
-stretch_mode = 5
-
-[node name="DisableOverlay" type="ColorRect" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav/DrawCardButton/TextureRect"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.415686)
-
-[node name="upgradePanelButton" type="Button" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav"]
-custom_minimum_size = Vector2(150, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_fkcst")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_rimof")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_iiurs")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_ouggr")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_b1lwg")
-shortcut_in_tooltip = false
-
-[node name="TextureRect" type="TextureRect" parent="DisplayMaster/Navigation/MarginContainer/HBoxNav/upgradePanelButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_f3lqa")
-stretch_mode = 5
-
-[node name="AutoDrawButton" type="Button" parent="DisplayMaster/Navigation"]
-visible = false
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 29.0
-offset_top = -117.0
-offset_right = 77.0
-offset_bottom = -69.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 6
-size_flags_vertical = 0
-focus_mode = 0
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_ti8a1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_nxbax")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_hshu0")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_41ttk")
-text = "Auto"
-
-[node name="Inactive" type="Panel" parent="DisplayMaster/Navigation/AutoDrawButton"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_3pnir")
-
-[node name="Active" type="Panel" parent="DisplayMaster/Navigation/AutoDrawButton"]
-visible = false
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_fqjcf")
-
-[node name="DEBUG" type="HBoxContainer" parent="DisplayMaster/Navigation"]
-layout_mode = 0
-offset_left = 257.0
-offset_top = -218.0
-offset_right = 629.0
-offset_bottom = -178.0
-alignment = 2
-
-[node name="DEBUG_MoneyButton" type="Button" parent="DisplayMaster/Navigation/DEBUG"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ya55p")
-text = " +1K "
-script = ExtResource("19_pdf0n")
-
-[node name="DEBUG_MoneyButton2" type="Button" parent="DisplayMaster/Navigation/DEBUG"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ya55p")
-text = " +10M "
-script = ExtResource("19_pdf0n")
-money_to_give = 10000000
-
-[node name="DEBUG_MoneyButton3" type="Button" parent="DisplayMaster/Navigation/DEBUG"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ya55p")
-text = " +10B "
-script = ExtResource("19_pdf0n")
-money_to_give = 10000000000
-
-[node name="DEBUG_MajorDraw" type="Button" parent="DisplayMaster/Navigation/DEBUG"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ya55p")
-text = " Draw Major "
-script = ExtResource("24_7j5dx")
-
-[node name="DEBUG_Reset_Game" type="Button" parent="DisplayMaster/Navigation/DEBUG"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_ya55p")
-theme_override_font_sizes/font_size = 32
-text = " Reset "
-script = ExtResource("28_mhdow")
-
-[node name="Upgrades" parent="DisplayMaster" instance=ExtResource("19_kbho8")]
-visible = false
-z_index = 10
-layout_mode = 1
-
-[node name="DeckCreator" parent="DisplayMaster" instance=ExtResource("28_v5en1")]
-visible = false
-z_index = 10
-layout_mode = 1
-
-[node name="CardTooltip" parent="DisplayMaster" instance=ExtResource("38_mhdow")]
-visible = false
-layout_mode = 1
-
-[node name="TutorialButton" type="TextureButton" parent="DisplayMaster"]
+[node name="TutorialButton" type="TextureButton" parent="GameplayArea"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -2876,6 +1417,78 @@ grow_horizontal = 0
 texture_normal = SubResource("AtlasTexture_fqjcf")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="TutorialNode" parent="." instance=ExtResource("42_fqjcf")]
+visible = false
+
+[node name="DeckCreator" parent="." instance=ExtResource("28_v5en1")]
+visible = false
+z_index = 10
+
+[node name="Upgrades" parent="." instance=ExtResource("19_kbho8")]
+visible = false
+z_index = 10
+
+[node name="TooltipDisplay" parent="." instance=ExtResource("38_mhdow")]
+visible = false
+
+[node name="MenuBar" type="MenuBar" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("39_fqjcf")
+
+[node name="DebugMenu" type="PopupMenu" parent="MenuBar"]
+transparent_bg = false
+size = Vector2i(70, 35)
+transparent = false
+mouse_passthrough = true
+hide_on_checkable_item_selection = false
+allow_search = false
+script = ExtResource("39_721gu")
+
+[node name="MoneyMenu" type="PopupMenu" parent="MenuBar/DebugMenu"]
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Clairvoyance" type="PopupMenu" parent="MenuBar/DebugMenu/MoneyMenu"]
+
+[node name="Packs" type="PopupMenu" parent="MenuBar/DebugMenu/MoneyMenu"]
+
+[node name="CardMenu" type="PopupMenu" parent="MenuBar/DebugMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Cups" type="PopupMenu" parent="MenuBar/DebugMenu/CardMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Wands" type="PopupMenu" parent="MenuBar/DebugMenu/CardMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Pentacles" type="PopupMenu" parent="MenuBar/DebugMenu/CardMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Swords" type="PopupMenu" parent="MenuBar/DebugMenu/CardMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="Majors" type="PopupMenu" parent="MenuBar/DebugMenu/CardMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
+
+[node name="ResetMenu" type="PopupMenu" parent="MenuBar/DebugMenu"]
+auto_translate_mode = 1
+hide_on_checkable_item_selection = false
+allow_search = false
 
 [node name="FX_Manager" type="Node" parent="."]
 script = ExtResource("7_4kbup")
@@ -2898,8 +1511,8 @@ initial_velocity_min = 200.0
 initial_velocity_max = 400.0
 angle_min = 25.0
 angle_max = 25.0
-scale_amount_min = 3.0
-scale_amount_max = 5.0
+scale_amount_min = 5.0
+scale_amount_max = 15.0
 color_ramp = SubResource("Gradient_721gu")
 color_initial_ramp = SubResource("Gradient_fqjcf")
 
@@ -2921,15 +1534,9 @@ initial_velocity_min = 150.0
 initial_velocity_max = 250.0
 angle_min = 25.0
 angle_max = 25.0
-scale_amount_min = 3.0
-scale_amount_max = 5.0
+scale_amount_min = 5.0
+scale_amount_max = 15.0
 color_ramp = SubResource("Gradient_3pnir")
 color_initial_ramp = SubResource("Gradient_80ed3")
 
-[node name="TutorialNode" parent="." instance=ExtResource("42_fqjcf")]
-visible = false
-
-[connection signal="gui_input" from="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay" to="DisplayMaster/CardDrawZone/DisplayArea/CardDisplay" method="press_and_hold"]
-[connection signal="pressed" from="DisplayMaster/Navigation/MarginContainer/HBoxNav/creatorPanelButton" to="DisplayMaster/DeckCreator" method="show"]
-[connection signal="pressed" from="DisplayMaster/Navigation/MarginContainer/HBoxNav/upgradePanelButton" to="DisplayMaster/Upgrades" method="show"]
-[connection signal="pressed" from="DisplayMaster/TutorialButton" to="TutorialNode" method="show"]
+[connection signal="pressed" from="GameplayArea/TutorialButton" to="TutorialNode" method="show"]

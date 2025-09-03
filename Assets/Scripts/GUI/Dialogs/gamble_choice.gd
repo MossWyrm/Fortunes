@@ -1,16 +1,14 @@
 extends Control
-## Gamble choice dialog component
-##
+
+## Gamble choice UI component
 ## Provides UI for players to choose gambling percentages for card effects.
 ## Integrates with the new EventBus architecture for gamble handling.
 
-#region Node References
 @onready var skip_button: Button = $MarginContainer/HBoxContainer/Skip
 @onready var button_10: Button = $"MarginContainer/HBoxContainer/10"
 @onready var button_25: Button = $"MarginContainer/HBoxContainer/25"
 @onready var button_50: Button = $"MarginContainer/HBoxContainer/50"
 @onready var button_100: Button = $"MarginContainer/HBoxContainer/100"
-#endregion
 
 #region Initialization
 func _ready() -> void:
@@ -37,21 +35,6 @@ func _connect_event_bus_signals() -> void:
 # Initialize dialog state
 func _initialize_dialog() -> void:
 	hide()  # Start hidden
-
-# Cleanup on exit
-func _exit_tree() -> void:
-	_disconnect_signals()
-
-# Disconnect signals to prevent memory leaks
-func _disconnect_signals() -> void:
-	skip_button.pressed.disconnect(_choose_gamble_value.bind(GameConstants.PROGRESS_CLAMP_MIN))
-	button_10.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_TEN_PERCENT))
-	button_25.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_QUARTER_PERCENT))
-	button_50.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_HALF_PERCENT))
-	button_100.pressed.disconnect(_choose_gamble_value.bind(GameConstants.GAMBLE_FULL_PERCENT))
-	
-	if EventBus.gamble_choice_requested.is_connected(_on_gamble_choice_requested):
-		EventBus.gamble_choice_requested.disconnect(_on_gamble_choice_requested)
 #endregion
 
 #region Gamble Logic
@@ -71,8 +54,7 @@ func _choose_gamble_value(gamble_percent: float) -> void:
 
 # Emit the gamble result through EventBus
 func _emit_gamble_result(gamble_percent: float) -> void:
-	if ValidationUtils.has_event_bus():
-		EventBus.emit_gamble_chosen(gamble_percent)
+	EventBus.emit_gamble_chosen(gamble_percent)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:
@@ -81,6 +63,5 @@ func _hide_dialog() -> void:
 
 # Pause or resume game drawing
 func _set_game_paused(is_paused: bool) -> void:
-	if ValidationUtils.has_event_bus():
-		EventBus.emit_game_paused(is_paused)
+	EventBus.emit_game_paused(is_paused)
 #endregion

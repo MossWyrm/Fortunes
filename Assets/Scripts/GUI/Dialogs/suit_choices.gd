@@ -1,16 +1,14 @@
 extends Control
-## Suit choice dialog component
-##
+
+## Suit choice UI component
 ## Provides UI for players to choose between different card suits.
 ## Integrates with the new EventBus architecture for suit selection.
 
-#region Node References
 @onready var cups_button: TextureButton = $MarginContainer/HBoxContainer/Cups
 @onready var wands_button: TextureButton = $MarginContainer/HBoxContainer/Wands
 @onready var pentacles_button: TextureButton = $MarginContainer/HBoxContainer/Pentacles
 @onready var swords_button: TextureButton = $MarginContainer/HBoxContainer/Swords
 @onready var majors_button: TextureButton = $MarginContainer/HBoxContainer/Majors
-#endregion
 
 #region Initialization
 func _ready() -> void:
@@ -34,24 +32,8 @@ func _connect_button_signals() -> void:
 func _connect_event_bus_signals() -> void:
 	EventBus.suit_choice_requested.connect(_on_suit_choice_requested)
 
-# Initialize dialog state
 func _initialize_dialog() -> void:
-	hide()  # Start hidden
-
-# Cleanup on exit
-func _exit_tree() -> void:
-	_disconnect_signals()
-
-# Disconnect signals to prevent memory leaks
-func _disconnect_signals() -> void:
-	cups_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.CUPS))
-	wands_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.WANDS))
-	pentacles_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.PENTACLES))
-	swords_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.SWORDS))
-	majors_button.pressed.disconnect(_choose_suit.bind(DataStructures.SuitType.MAJOR))
-	
-	if EventBus.suit_choice_requested.is_connected(_on_suit_choice_requested):
-		EventBus.suit_choice_requested.disconnect(_on_suit_choice_requested)
+	hide()
 #endregion
 
 #region Suit Choice Logic
@@ -72,8 +54,7 @@ func _choose_suit(chosen_suit: DataStructures.SuitType) -> void:
 
 # Emit the suit choice result through EventBus
 func _emit_suit_result(chosen_suit: DataStructures.SuitType) -> void:
-	if ValidationUtils.has_event_bus():
-		EventBus.emit_suit_chosen(chosen_suit)
+	EventBus.emit_suit_chosen(chosen_suit)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:
@@ -82,6 +63,5 @@ func _hide_dialog() -> void:
 
 # Pause or resume game drawing
 func _set_game_paused(is_paused: bool) -> void:
-	if ValidationUtils.has_event_bus():
-		EventBus.emit_game_paused(is_paused)
+	EventBus.emit_game_paused(is_paused)
 #endregion

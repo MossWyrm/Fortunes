@@ -27,7 +27,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	var charges_mult = int(pow(float(game_state.stats.major_stats.moon), float(moon_effect.moons_drawn))) if moon_effect.moons_drawn > 0 else 1
 	var new_charges = game_state.stats.major_stats.star * charges_mult
 	star_value += new_charges
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func get_value(_additional_val: int = 0) -> int:

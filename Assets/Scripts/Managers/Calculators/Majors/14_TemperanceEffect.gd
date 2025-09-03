@@ -14,7 +14,7 @@ func apply(_card: Card, flipped: bool) -> int:
 		card_state = DataStructures.CardState.NEGATIVE
 	else:
 		card_state = DataStructures.CardState.POSITIVE
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func get_value(value: int = 0) -> int:

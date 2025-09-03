@@ -12,10 +12,9 @@ Always triggers a major card animation.
 var empress_collection: Array[int] = []
 
 func apply(_card: Card, flipped: bool) -> int:
-    # Set the Empress card_state using the generic major card_state system and shared enum
     var set_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
     card_state = set_state
-    EventBus.emit_major_card_animation_requested(flipped)
+    
     return 0
 
 func update(value: int) -> void:
@@ -36,7 +35,6 @@ func get_value(_additional_val: int = 0) -> int:
 func reset() -> void:
     card_state = DataStructures.CardState.INACTIVE
     empress_collection.clear()
-
 
 func get_state_backup() -> Dictionary:
     return {

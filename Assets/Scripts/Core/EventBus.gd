@@ -1,6 +1,6 @@
 extends Node
-# Global EventBus - Available from project start as autoload
-# Access via: EventBus.signal_name.connect() or EventBus.emit_signal_name()
+## Global EventBus - Available from project start as autoload
+## Access via: EventBus.signal_name.connect() or EventBus.emit_signal_name()
 
 # Game lifecycle events
 signal game_initialized
@@ -22,7 +22,7 @@ signal pack_complete
 # UI events
 signal currency_updated(amount: int, currency_type: DataStructures.CurrencyType)
 signal request_buff_update(suit: DataStructures.SuitType, display_data: Dictionary)
-signal tooltip_requested(object: Variant, layer: DataStructures.GameLayer)
+signal tooltip_requested(object: Variant, layer: DataStructures.GameLayer, as_buff: bool)
 signal upgrade_purchased(upgrade: UpgradeData)
 signal floating_text_requested(number: float)
 signal show_revealed_cards(cards: Array)
@@ -32,6 +32,8 @@ signal sfx_requested(sfx_type: DataStructures.SFXType)
 signal music_requested(music_type: DataStructures.MusicType)
 
 # Choice events
+signal player_input_requested
+signal player_input_received
 signal suit_choice_requested(include_majors: bool)
 signal suit_chosen(suit: DataStructures.SuitType)
 signal skip_choice_requested
@@ -40,16 +42,15 @@ signal gamble_choice_requested
 signal gamble_chosen(gamble: float)
 
 # Animation events
-signal card_animation_started(card: Card, animation_type: DataStructures.AnimationType)
-signal card_animation_finished(card: Card)
-signal major_card_animation_requested(flipped: bool)
-signal request_vfx(vfx_type: DataStructures.VFXType)
+signal card_animation_finished()
+signal request_vfx(vfx_type: DataStructures.VFXType, animation_duration: float)
 
-# Emit methods
+#region Emit Wrappers
+
 func emit_game_initialized():
-	print("EventBus: Emitting game_initialized signal")
+	DebugManager.print_system_general("Emitting game_initialized signal")
 	game_initialized.emit()
-	print("EventBus: game_initialized signal emitted")
+	DebugManager.print_system_general("EventBus: game_initialized signal emitted")
 
 func emit_game_loaded():
 	game_loaded.emit()
@@ -100,8 +101,8 @@ func emit_request_buff_update(suit: DataStructures.SuitType, display_data: Dicti
 	request_buff_update.emit(suit, display_data)
 
 ## Object for tooltip depends on prestige layer
-func emit_tooltip_requested(object: Variant, layer: DataStructures.GameLayer):
-	tooltip_requested.emit(object, layer)
+func emit_tooltip_requested(object: Variant, layer: DataStructures.GameLayer, as_buff: bool = false):
+	tooltip_requested.emit(object, layer, as_buff)
 
 func emit_upgrade_purchased(upgrade: UpgradeData):
 	upgrade_purchased.emit(upgrade)
@@ -117,30 +118,31 @@ func emit_music_requested(music_type: DataStructures.MusicType):
 
 func emit_suit_choice_requested(include_majors: bool):
 	suit_choice_requested.emit(include_majors)
+	player_input_requested.emit()
 
 func emit_suit_chosen(suit: DataStructures.SuitType):
 	suit_chosen.emit(suit)
+	player_input_received.emit()
 
 func emit_skip_choice_requested():
 	skip_choice_requested.emit()
+	player_input_requested.emit()
 
 func emit_skip_chosen(skipped: bool):
 	skip_chosen.emit(skipped)
+	player_input_received.emit()
 
 func emit_gamble_choice_requested():
 	gamble_choice_requested.emit()
+	player_input_requested.emit()
 
 func emit_gamble_chosen(gamble: float):
 	gamble_chosen.emit(gamble)
+	player_input_received.emit()
 
-func emit_card_animation_started(card: Card, animation_type: DataStructures.AnimationType):
-	card_animation_started.emit(card, animation_type)
+func emit_card_animation_finished():
+	card_animation_finished.emit()
 
-func emit_card_animation_finished(card: Card):
-	card_animation_finished.emit(card)
-
-func emit_major_card_animation_requested(flipped: bool):
-	major_card_animation_requested.emit(flipped)
-
-func emit_request_vfx(vfx_type: DataStructures.VFXType):
-	request_vfx.emit(vfx_type)
+func emit_request_vfx(vfx_type: DataStructures.VFXType, animation_duration: float = -1):
+	request_vfx.emit(vfx_type, animation_duration)
+#endregion

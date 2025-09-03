@@ -11,11 +11,11 @@ var awaiting_check := false
 var wheel_suit : DataStructures.SuitType = DataStructures.SuitType.NONE
 var charges: int = 0
 
-func apply(_card: Card, flipped: bool) -> int:
+func apply(_card: Card, _flipped: bool) -> int:
     EventBus.emit_choose_suit()
     awaiting_check = true
     wheel_suit = await EventBus.chosen_suit
-    EventBus.emit_major_card_animation_requested(flipped)
+    
     return 0
 
 # Called when a card is drawn to check for a match and apply bonus/penalty

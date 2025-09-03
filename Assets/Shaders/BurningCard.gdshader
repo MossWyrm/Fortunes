@@ -32,5 +32,6 @@ void fragment() {
 	float transition = pow(distortion, 20.0);
 	float warp = 1.0 - warp_factor + pow(distortion, 2.0) * warp_factor;
 	vec4 color = texture(TEXTURE, UV* warp).rgba;
+	color.a = COLOR.a;
 	COLOR = vec4(mix(color * (burn_color*4.0), color, transition) * mask);
 }

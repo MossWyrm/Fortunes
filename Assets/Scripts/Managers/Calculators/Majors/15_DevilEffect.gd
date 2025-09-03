@@ -23,7 +23,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	if game_state.deck_manager.active_deck.size() >= game_state.stats.major_stats.devil:
 		game_state.deck_manager.add_card(516)
 
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func forced() -> bool:

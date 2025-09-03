@@ -18,6 +18,7 @@ var autosave_timer: Timer
 
 #region Initialization
 func _ready():
+	EventBus.game_reset.connect(_on_game_reset)
 	_setup_save_writer()
 	_setup_autosave_timer()
 	_connect_to_game_manager()
@@ -38,9 +39,9 @@ func _connect_to_game_manager():
 	
 	if game_manager and enable_autosave:
 		autosave_timer.start()
-		print("AutoSaveNode: Connected to GameManager, autosave started")
+		DebugManager.print_system_general("AutoSaveNode: Connected to GameManager, autosave started")
 	else:
-		print("AutoSaveNode: GameManager not found, autosave disabled")
+		DebugManager.print_system_general("AutoSaveNode: GameManager not found, autosave disabled", DebugManager.DebugLevel.WARNING)
 #endregion
 
 #region Save Operations
@@ -49,12 +50,12 @@ func _on_autosave_timeout():
 
 func perform_autosave():
 	if not game_manager or not game_manager.is_game_ready():
-		print("AutoSaveNode: Game not ready for save")
+		DebugManager.print_system_general("AutoSaveNode: Game not ready for save", DebugManager.DebugLevel.WARNING)
 		return
 	
 	var game_state = game_manager.get_game_state()
 	if not game_state:
-		print("AutoSaveNode: No game state available")
+		DebugManager.print_system_general("AutoSaveNode: No game state available", DebugManager.DebugLevel.WARNING)
 		return
 	
 	# Collect save data from all systems
@@ -68,46 +69,46 @@ func perform_autosave():
 	
 	# Write to file
 	if save_writer.write_savegame(save_data):
-		print("AutoSaveNode: Game saved successfully")
+		DebugManager.print_system_general("AutoSaveNode: Game saved successfully")
 		_emit_save_completed()
 	else:
-		print("AutoSaveNode: Save failed")
+		DebugManager.print_system_general("AutoSaveNode: Save failed", DebugManager.DebugLevel.ERROR)
 
 # Load game data from file
 func load_game() -> bool:
 	if not save_writer.save_exists():
-		print("AutoSaveNode: No save file found")
+		DebugManager.print_system_general("AutoSaveNode: No save file found", DebugManager.DebugLevel.WARNING)
 		return false
 	
 	var save_data = save_writer.load_savegame()
 	if not save_data:
-		print("AutoSaveNode: Failed to load save data")
+		DebugManager.print_system_general("AutoSaveNode: Failed to load save data", DebugManager.DebugLevel.ERROR)
 		return false
 	
 	if not game_manager or not game_manager.is_game_ready():
-		print("AutoSaveNode: Game not ready for load")
+		DebugManager.print_system_general("AutoSaveNode: Game not ready for load", DebugManager.DebugLevel.WARNING)
 		return false
 	
 	var game_state = game_manager.get_game_state()
 	if not game_state:
-		print("AutoSaveNode: No game state available for loading")
+		DebugManager.print_system_general("AutoSaveNode: No game state available for loading", DebugManager.DebugLevel.WARNING)
 		return false
 	
 	# Load data into all systems
 	if save_data.has("stats") and game_state.stats:
-		print("AutoSaveNode: Loading stats data...")
+		DebugManager.print_system_general("AutoSaveNode: Loading stats data...")
 		game_state.stats.load(save_data["stats"])
-		print("AutoSaveNode: Stats loaded, clairvoyance:", game_state.stats.clairvoyance)
-	
+		DebugManager.print_system_general("AutoSaveNode: Stats loaded, clairvoyance:", game_state.stats.clairvoyance)
+
 	if save_data.has("deck") and game_state.deck_manager:
-		print("AutoSaveNode: Loading deck data...")
+		DebugManager.print_system_general("AutoSaveNode: Loading deck data...")
 		game_state.deck_manager.load(save_data["deck"])
 	
 	if save_data.has("upgrades") and game_state.upgrade_manager:
-		print("AutoSaveNode: Loading upgrades data...")
+		DebugManager.print_system_general("AutoSaveNode: Loading upgrades data...")
 		game_state.upgrade_manager.load(save_data["upgrades"])
-	
-	print("AutoSaveNode: Game loaded successfully")
+
+	DebugManager.print_system_general("AutoSaveNode: Game loaded successfully")
 	_emit_game_loaded()
 	return true
 
@@ -128,7 +129,7 @@ func save_now():
 # Check if save file exists
 func has_save_file() -> bool:
 	if not save_writer:
-		push_warning("AutoSaveNode: save_writer not initialized yet")
+		DebugManager.print_system_general("AutoSaveNode: save_writer not initialized yet", DebugManager.DebugLevel.WARNING)
 		return false
 	return save_writer.save_exists()
 
@@ -141,3 +142,9 @@ func set_autosave_enabled(enabled: bool):
 		else:
 			autosave_timer.stop()
 #endregion
+
+func _on_game_reset(game_layer: DataStructures.GameLayer) -> void:
+	if game_layer >= DataStructures.GameLayer.ALL:
+		save_writer.clear_save()
+		DebugManager.print_system_general("AutoSaveNode: Save data cleared on game reset")
+		save_now()  # Immediately save fresh state

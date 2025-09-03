@@ -1,5 +1,7 @@
 extends Node
 
+## Floating text component
+
 @export var text_display: Label
 
 func update_text(value, color : Color) -> void:

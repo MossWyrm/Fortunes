@@ -13,7 +13,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	var set_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
 	card_state = set_state
 	chariot_tracker.clear()
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func update(value: int) -> void:
@@ -28,13 +28,13 @@ func trigger() -> void:
 	var currency = 0
 	match card_state:
 		DataStructures.CardState.POSITIVE:
-			currency = get_chariot_value()
+			currency = get_value()
 		DataStructures.CardState.NEGATIVE:
-			currency = -get_chariot_value()
+			currency = -get_value()
 	EventBus.emit_currency_updated(currency, DataStructures.CurrencyType.CLAIRVOYANCE)
 	card_state = DataStructures.CardState.INACTIVE
 
-func get_chariot_value() -> int:
+func get_value(_additional_val: int = 0) -> int:
 	var output = chariot_tracker.reduce(func(accum,number): return accum * number, 0)
 	return output
 

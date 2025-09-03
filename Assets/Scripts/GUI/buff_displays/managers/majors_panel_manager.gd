@@ -10,8 +10,8 @@ func _ready() -> void:
 func _init_icons():
 	var suit = DataStructures.SuitType.MAJOR
 	for value in DataStructures.MAJOR_ID.values():
-		if not major_displays.has(value+1):
-			major_displays[value+1] = await create_icon(suit, value+1)
+		if not major_displays.has(value):
+			major_displays[value] = await create_icon(suit, value)
 	_mark_initialization_complete()
 
 func update_display(dictionary: Dictionary) -> void:
@@ -21,7 +21,7 @@ func update_display(dictionary: Dictionary) -> void:
 	"""
 	Expects a dictionary of the form:
 	{
-		<major_id>: [<state: DataStructures.CardState>, <value: int>, ...],
+		<major_id>: {"card_state" : DataStructures.CardState, "value" : int},
 		...
 	}
 	- Displays a buff icon for each major arcana, using its unique ID.
@@ -31,16 +31,15 @@ func update_display(dictionary: Dictionary) -> void:
 	if not _initialization_complete:
 		return
 	for key in dictionary.keys():
-		var arr = dictionary[key]
-		var state = arr[0]
-		var value = 0
-		if arr.size() > 1:
-			value = arr[1]
+		var state = dictionary[key]["card_state"]
+		var value = dictionary[key]["value"]
 		var is_positive = state == DataStructures.CardState.POSITIVE
+		var panel_color = DataStructures.core_color.GOOD if is_positive else DataStructures.core_color.BAD
 		set_display(
 			major_displays[key],
 			state != DataStructures.CardState.INACTIVE,
 			value,
-			Color.WHITE, # Not used by major_display_box
+			panel_color, 
 			is_positive
 		)
+		DebugManager.print_ui_displays("Updated major display for ID: %d. State: %s, Value: %d" % [key, state, value])

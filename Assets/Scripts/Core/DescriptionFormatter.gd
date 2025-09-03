@@ -4,11 +4,9 @@ class_name DescriptionFormatter
 ## Card Description Formatting Utility
 ## Centralizes the repetitive string building patterns for card descriptions
 
-#region Color Tags
 const GOOD_COLOR: String = "[color=#e7c45a]"
 const BAD_COLOR: String = "[color=#ce151e]"
 const END_COLOR_TAG: String = "[/color]"
-#endregion
 
 ## Creates the common "Add/Remove" pattern
 static func add_remove_text(item: String) -> String:
@@ -82,8 +80,3 @@ static func multiplier_text(multiplier: String, context: String = "") -> String:
 ## Creates conditional effect text
 static func conditional_effect_text(condition: String, good_effect: String, bad_effect: String) -> String:
 	return condition + " " + GOOD_COLOR + good_effect + END_COLOR_TAG + " / " + BAD_COLOR + bad_effect + END_COLOR_TAG
-
-## Example usage for common card patterns:
-## DescriptionFormatter.add_remove_text("1 Cup bank")
-## DescriptionFormatter.value_effect_text("5", "5", "to your total") 
-## DescriptionFormatter.multiplier_text("2", "the next 3 cards")

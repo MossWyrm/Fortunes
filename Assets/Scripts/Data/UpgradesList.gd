@@ -75,7 +75,7 @@ var general_upgrade_values: Dictionary = {
 		"Increase the chance for a positive orientation by 0.5%",
 		100.0,
 		"inversion_chance_modifier",
-		0.5,
+		0.005,
 		DataStructures.GrowthType.SUPERLINEAR,
 		4
 	),
@@ -389,11 +389,20 @@ var sword_upgrade_values: Dictionary = {
 
 #region Major Upgrades
 var major_upgrade_values: Dictionary = {
-	major_quant = _upgrade_growth(
+	major_quant_deck = _upgrade_growth(
 		"Many Majors",
-		"Increase the amount of Major Arcana you can have in your deck by 1.",
+		"Increase the total amount of Major Arcana you can have in your deck by 1.",
 		100000.0,
-		"major_stats.quantity",
+		"major_stats.quantity_per_deck",
+		1.0,
+		DataStructures.GrowthType.SUPERLINEAR,
+		5.0
+	),
+	major_quant_card = _upgrade_growth(
+		"Carbon Copies",
+		"Increase the copies of each individual major you can take by 1.",
+		100000.0,
+		"major_stats.quantity_per_card",
 		1.0,
 		DataStructures.GrowthType.SUPERLINEAR,
 		5.0

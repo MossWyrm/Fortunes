@@ -1,8 +1,7 @@
 extends RefCounted
 class_name DataStructures
 
-# Core enums
-
+# enums
 enum SuitType { CUPS, WANDS, PENTACLES, SWORDS, MAJOR, NONE }
 enum CurrencyType { CLAIRVOYANCE, PACK }
 enum GameLayer { DECK, PACK, BONES, POUCH, ALL }
@@ -44,13 +43,21 @@ enum MAJOR_ID {
 	WORLD
 }
 
+
+static var CUPS_COLOR: Color = Color.html("#1169be") #Color for cups suit
+static var WANDS_COLOR: Color = Color.html("#509600") #Color for wands suit
+static var PENTACLES_COLOR: Color = Color.html("#ce151e") #Color for pentacles suit
+static var SWORDS_COLOR: Color = Color.html("#e2bc10") #Color for swords suit
+static var MAJOR_COLOR: Color = Color.html("#a863da") #Color for major arcana
+static var GOOD_COLOR: Color = Color.html("#007c1bff") #Color for good effects
+static var BAD_COLOR: Color = Color.html("#b70003") #Color for bad effects
 # Core colors for suits and effects
 static var core_color: Dictionary = {
-	CUPS = Color(0.06666667, 0.4117647, 0.74509805),
-	WANDS = Color(0.3137255, 0.5882353, 0.0),
-	PENTACLES = Color(0.80784315, 0.08235294, 0.11764706),
-	SWORDS = Color(0.8862745, 0.7372549, 0.0627451),
-	MAJOR = Color(0.65882355, 0.3882353, 0.85490197),
-	GOOD = Color(0.90588236, 0.76862746, 0.35686275),
-	BAD = Color(0.7176471, 0.0, 0.011764706)
+	CUPS = CUPS_COLOR,
+	WANDS = WANDS_COLOR,
+	PENTACLES = PENTACLES_COLOR,
+	SWORDS = SWORDS_COLOR,
+	MAJOR = MAJOR_COLOR,
+	GOOD = GOOD_COLOR,
+	BAD = BAD_COLOR
 }

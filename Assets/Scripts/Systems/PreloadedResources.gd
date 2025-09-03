@@ -17,7 +17,7 @@ func get_card_texture(card: Card) -> Dictionary[String, Texture2D]:
 	var output: Dictionary[String,Texture2D] = {}
 	output["background"] = suit_backgrounds[card.suit]
 	output["overlay"] = _get_overlay(card)
-	output["numeral"] = get_numeral(card.id)
+	output["numeral"] = get_numeral(card.id - 1) if card.suit == DataStructures.SuitType.MAJOR else null
 
 	return output
 
@@ -45,15 +45,12 @@ func _get_overlay(card: Card) -> Texture2D:
 func get_numeral(id_num: int) -> Texture2D:
 	if _premade_numerals.keys().has(id_num):
 		return _premade_numerals[id_num]
-	if id_num > GameConstants.MAJOR_CARD_THRESHOLD:
-		var index: int          = id_num % GameConstants.SUIT_CARD_COUNT
-		var atlas: AtlasTexture = AtlasTexture.new()
-		atlas.atlas = numerals
-		atlas.region = Rect2((index-1)*64,0,64,64)
-		_premade_numerals[id_num] = atlas
-		return atlas
-	else:
-		return null
+	var index: int          = id_num % GameConstants.SUIT_CARD_COUNT
+	var atlas: AtlasTexture = AtlasTexture.new()
+	atlas.atlas = numerals
+	atlas.region = Rect2((index)*64,0,64,64)
+	_premade_numerals[id_num] = atlas
+	return atlas
 		
 func get_buff_icon(suit: DataStructures.SuitType, type_or_id) -> Texture2D:
 	if _premade_buffs.is_empty():

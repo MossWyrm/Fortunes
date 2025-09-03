@@ -1,13 +1,11 @@
 extends Control
-## Skip choice dialog component
-##
+
+## Skip choice UI component
 ## Provides UI for players to choose whether to skip or continue with card effects.
 ## Integrates with the new EventBus architecture for choice handling.
 
-#region Node References
 @onready var skip_button: Button = $MarginContainer/HBoxContainer/SkipButton
 @onready var continue_button: Button = $MarginContainer/HBoxContainer/ContinueButton
-#endregion
 
 #region Initialization
 func _ready() -> void:
@@ -32,20 +30,6 @@ func _connect_event_bus_signals() -> void:
 # Initialize dialog state
 func _initialize_dialog() -> void:
 	hide()  # Start hidden
-
-# Cleanup on exit
-func _exit_tree() -> void:
-	_disconnect_signals()
-
-# Disconnect signals to prevent memory leaks
-func _disconnect_signals() -> void:
-	if skip_button.pressed.is_connected(_on_skip_selected):
-		skip_button.pressed.disconnect(_on_skip_selected)
-	if continue_button.pressed.is_connected(_on_continue_selected):
-		continue_button.pressed.disconnect(_on_continue_selected)
-	
-	if EventBus.skip_choice_requested.is_connected(_on_skip_choice_requested):
-		EventBus.skip_choice_requested.disconnect(_on_skip_choice_requested)
 #endregion
 
 #region Choice Logic
@@ -73,8 +57,7 @@ func _make_choice(should_skip: bool) -> void:
 
 # Emit the choice result through EventBus
 func _emit_choice_result(should_skip: bool) -> void:
-	if ValidationUtils.has_event_bus():
-		EventBus.emit_skip_chosen(should_skip)
+	EventBus.emit_skip_chosen(should_skip)
 
 # Hide the dialog and resume game
 func _hide_dialog() -> void:

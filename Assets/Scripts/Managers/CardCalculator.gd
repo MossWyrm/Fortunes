@@ -14,7 +14,7 @@ var sword_calculator: SwordCalculator
 var major_calculator: MajorCalculator
 
 # === Node References ===
-var display_state_manager: DisplayStateManager
+var display_state_manager: BuffDisplayManager
 
 # === Setup & Lifecycle ===
 func set_game_state(state: GameState):
@@ -22,25 +22,16 @@ func set_game_state(state: GameState):
 	_connect_signals()
 
 func _connect_signals():
-	print("CardCalculator: Connecting to EventBus autoload...")
+	DebugManager.print_card_drawing("CardCalculator: Connecting to EventBus autoload...")
 	# Direct connection to autoload EventBus - no timing issues!
 	EventBus.game_initialized.connect(_on_game_initialized)
 	EventBus.card_drawn.connect(_on_card_drawn)
 	EventBus.shuffle_completed.connect(_on_shuffle_completed)
-	print("CardCalculator: Signal connections completed")
-
-
-func _exit_tree():
-	_disconnect_signals()
-
-func _disconnect_signals():
-	if EventBus:
-		EventBus.game_initialized.disconnect(_on_game_initialized)
-		EventBus.card_drawn.disconnect(_on_card_drawn)
-		EventBus.shuffle_completed.disconnect(_on_shuffle_completed)
+	EventBus.game_reset.connect(_on_game_reset)
+	DebugManager.print_card_drawing("CardCalculator: Signal connections completed")
 
 func _on_game_initialized():
-	print("CardCalculator: Game initialized")
+	DebugManager.print_card_drawing("CardCalculator: Game initialized")
 	_setup_calculators()
 	_update_suit_displays()
 
@@ -57,7 +48,7 @@ func _setup_calculators():
 	sword_calculator.set_game_state(game_state)
 	major_calculator.set_game_state(game_state)
 
-func set_display_state_manager(manager: DisplayStateManager):
+func set_display_state_manager(manager: BuffDisplayManager):
 	display_state_manager = manager
 
 # === Event Handlers ===
@@ -199,3 +190,8 @@ func restore_state_backup(backup: Dictionary):
 	pentacle_calculator.restore_state_backup(backup["pentacle_state"])
 	sword_calculator.restore_state_backup(backup["sword_state"])
 	major_calculator.restore_state_backup(backup["CardState"])
+
+func _on_game_reset(game_layer: DataStructures.GameLayer) -> void:
+	if game_layer >= DataStructures.GameLayer.DECK:
+		_setup_calculators()
+		_update_suit_displays()

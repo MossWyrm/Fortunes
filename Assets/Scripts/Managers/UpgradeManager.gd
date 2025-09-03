@@ -321,12 +321,12 @@ func _on_upgrade_purchased(_upgrade: UpgradeData):
 ## Resets purchased upgrades based on game layer reset type
 func reset(reset_type: DataStructures.GameLayer):
 	if reset_type >= DataStructures.GameLayer.DECK:
-		var deck_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return get_upgrade(x).type <= UpgradeData.UpgradeType.GENERAL)
+		var deck_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return false if get_upgrade(x)== null else get_upgrade(x).type <= UpgradeData.UpgradeType.GENERAL)
 		for upgrade_id in deck_upgrades:
 			purchased_upgrades[upgrade_id] = 0
 
 	if reset_type >= DataStructures.GameLayer.PACK:
-		var pack_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return get_upgrade(x).type == UpgradeData.UpgradeType.PACK)
+		var pack_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return false if get_upgrade(x)== null else get_upgrade(x).type == UpgradeData.UpgradeType.PACK)
 		for upgrade_id in pack_upgrades:
 			purchased_upgrades[upgrade_id] = 0
 

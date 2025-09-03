@@ -12,7 +12,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	# Set the Emperor card_state using the generic major card_state system and shared enum
 	var set_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
 	card_state = set_state
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 # Returns the Emperor's effect value based on card_state.

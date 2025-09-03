@@ -18,36 +18,38 @@ func apply(_card: Card, _flipped: bool) -> int:
 
 # Called to shuffle or reset the effect. Used for deck shuffling or effect resets.
 func shuffle(_safely: bool = false) -> void:
-	print("shuffle not implemented for %s" % self.name)
+	DebugManager.print_card_management("MajorEffect: shuffle not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
 	pass
 
 
 # Called to update the internal card_state or mechanisms of the effect.
 func update(_value: int) -> void:
-	print("update not implemented for %s" % self.name)
+	DebugManager.print_card_management("MajorEffect: update not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
 	pass
 
 
 # Called to retrieve a value from the effect (e.g., for scoring or display).
 func get_value(_additional_val: int = 0) -> int:
-	print("get_value not implemented for %s" % self.name)
+	DebugManager.print_card_management("MajorEffect: get_value not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
 	return 0
 
 
 # Called to trigger the effect outside of drawing (e.g., by another card or event).
 func trigger() -> void:
-	print("trigger not implemented for %s" % self.name)
+	DebugManager.print_card_management("MajorEffect: trigger not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
 	pass
 
 
 # Returns true if the effect is currently active.
-func active() -> bool:
+func is_active() -> bool:
 	return card_state != DataStructures.CardState.INACTIVE
-
 
 # Resets the effect to its default card_state.
 func reset() -> void:
 	card_state = DataStructures.CardState.INACTIVE
+
+func get_display_data() -> Dictionary:
+	return {"card_state": card_state, "value": get_value()}
 
 # Returns a dictionary representing the effect's card_state for backup
 func get_state_backup() -> Dictionary:

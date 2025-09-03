@@ -47,8 +47,9 @@ func calculate_base_value(_card: Card, _flipped: bool) -> int:
     return 0
 
 func calculate_main_value(card: Card, base_value: int, flipped: bool) -> int:
-    if major_effects.has(card.value):
-        await get_major_effect(card.value).apply(card, flipped)
+    var major_id = card.id - GameConstants.MAJOR_CARD_THRESHOLD - 1
+    if major_effects.has(major_id):
+        await get_major_effect(major_id).apply(card, flipped)
     return base_value
 
 # === Effect Accessors ===
@@ -67,6 +68,7 @@ func get_display_state() -> Dictionary:
         if effect.has_method("is_active") and effect.is_active():
             if effect.has_method("get_display_data"):
                 display[id] = effect.get_display_data()
+    DebugManager.print_ui_displays("UpdateSuitDisplays: Getting display state: %s"%[display], DebugManager.DebugLevel.INFO)
     return display
 
 # === State Management ===
@@ -102,19 +104,19 @@ func wheel_update(suit: DataStructures.SuitType) -> void:
     get_major_effect(DataStructures.MAJOR_ID.WHEEL_OF_FORTUNE).update(suit)
 
 func wheel_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.WHEEL_OF_FORTUNE).active()
+    return get_major_effect(DataStructures.MAJOR_ID.WHEEL_OF_FORTUNE).is_active()
 
 func wheel_value(value: int) -> int:
     return get_major_effect(DataStructures.MAJOR_ID.WHEEL_OF_FORTUNE).get_value(value)
 
 func temperance_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.TEMPERANCE).active()
+    return get_major_effect(DataStructures.MAJOR_ID.TEMPERANCE).is_active()
 
 func temperance_value(value: int) -> int:
     return get_major_effect(DataStructures.MAJOR_ID.TEMPERANCE).get_value(value)
 
 func devil_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.DEVIL).active()
+    return get_major_effect(DataStructures.MAJOR_ID.DEVIL).is_active()
 
 func devil_use() -> void:
     get_major_effect(DataStructures.MAJOR_ID.DEVIL).use()
@@ -123,19 +125,19 @@ func devil_forced() -> bool:
     return get_major_effect(DataStructures.MAJOR_ID.DEVIL).forced()
 
 func tower_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.TOWER).active()
+    return get_major_effect(DataStructures.MAJOR_ID.TOWER).is_active()
 
 func tower_value(value:int) -> int:
     return get_major_effect(DataStructures.MAJOR_ID.TOWER).get_value(value)
 
 func star_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.STAR).active()
+    return get_major_effect(DataStructures.MAJOR_ID.STAR).is_active()
 
 func star_value(value: int) -> int:
     return get_major_effect(DataStructures.MAJOR_ID.STAR).get_value(value)
 
 func judgement_active() -> bool:
-    return get_major_effect(DataStructures.MAJOR_ID.JUDGEMENT).active()
+    return get_major_effect(DataStructures.MAJOR_ID.JUDGEMENT).is_active()
 
 func judgement_value(value: int) -> int:
     return get_major_effect(DataStructures.MAJOR_ID.JUDGEMENT).get_value(value)

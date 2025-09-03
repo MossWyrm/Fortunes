@@ -20,7 +20,7 @@ func apply(_card: Card, flipped: bool) -> int:
 	else:
 		powers_of_ten += 1
 	card_state = DataStructures.CardState.POSITIVE if powers_of_ten > 0 else DataStructures.CardState.NEGATIVE if powers_of_ten <= 0 else DataStructures.CardState.INACTIVE
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func get_value(value: int = 0) -> int:

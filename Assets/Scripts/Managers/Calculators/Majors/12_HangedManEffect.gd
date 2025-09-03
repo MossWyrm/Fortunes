@@ -21,5 +21,5 @@ func apply(_card: Card, flipped: bool) -> int:
         game_state.stats.clairvoyance += chosen_gamble * game_state.stats.major_stats.hanged_man - chosen_gamble
         EventBus.emit_currency_updated((chosen_gamble * game_state.stats.major_stats.hanged_man) - chosen_gamble, DataStructures.CurrencyType.CLAIRVOYANCE)
         EventBus.emit_request_vfx(DataStructures.VFXType.CARD_SUCCESS)
-    EventBus.emit_major_card_animation_requested(flipped)
+    
     return 0

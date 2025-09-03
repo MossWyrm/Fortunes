@@ -18,12 +18,15 @@ func apply(_card: Card, flipped: bool) -> int:
 	else:
 		moons_drawn += 1
 		card_state = DataStructures.CardState.POSITIVE
-	EventBus.emit_major_card_animation_requested(flipped)
+	
 	return 0
 
 func reset() -> void:
 	moons_drawn = 0
 	card_state = DataStructures.CardState.INACTIVE
+
+func get_value(_additional_val: int = 0) -> int:
+	return moons_drawn
 
 func get_state_backup() -> Dictionary:
 	return {

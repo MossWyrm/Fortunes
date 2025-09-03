@@ -6,13 +6,13 @@ class_name AutoDraw
 ## Integrates with the EventBus system and provides visual feedback through UI.
 
 #region Node References
-@onready var auto_draw_button_active_overlay: Node = $/root/Main/DisplayMaster/Navigation/AutoDrawButton/Active
-@onready var draw_card_button: Button = $/root/Main/DisplayMaster/Navigation/MarginContainer/HBoxNav/DrawCardButton
+@onready var auto_draw_button: Button = $/root/Main/GameplayArea/CardDrawZone/DisplayOrganizer/Navigation/AutoDrawButton
+@onready var auto_draw_button_active_overlay: Node = auto_draw_button.get_node("Active")
+@onready var draw_card_button: Button = $/root/Main/GameplayArea/CardDrawZone/DisplayOrganizer/Navigation/MarginContainer/HBoxNav/DrawCardButton
 #endregion
 
 #region Properties
 var auto_draw_enabled: bool = false
-var auto_draw_button: Button
 var auto_draw_timer: float = 0.0
 #endregion
 
@@ -23,7 +23,6 @@ func _ready() -> void:
 
 # Setup auto draw button reference
 func _setup_auto_draw_button() -> void:
-	auto_draw_button = $/root/Main/DisplayMaster/Navigation/AutoDrawButton
 	if auto_draw_button:
 		auto_draw_button.pressed.connect(_on_auto_draw_toggled)
 	else:
@@ -33,20 +32,6 @@ func _setup_auto_draw_button() -> void:
 func _connect_signals() -> void:
 	EventBus.game_reset.connect(_on_game_reset)
 	EventBus.game_paused.connect(_on_game_paused)
-
-# Cleanup on exit
-func _exit_tree() -> void:
-	_disconnect_signals()
-
-# Disconnect all signals safely
-func _disconnect_signals() -> void:
-	if auto_draw_button and auto_draw_button.pressed.is_connected(_on_auto_draw_toggled):
-		auto_draw_button.pressed.disconnect(_on_auto_draw_toggled)
-	
-	if EventBus.game_reset.is_connected(_on_game_reset):
-		EventBus.game_reset.disconnect(_on_game_reset)
-	if EventBus.game_paused.is_connected(_on_game_paused):
-		EventBus.game_paused.disconnect(_on_game_paused)
 #endregion
 
 #endregion

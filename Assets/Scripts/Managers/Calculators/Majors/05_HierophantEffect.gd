@@ -19,7 +19,7 @@ func apply(_card: Card, flipped: bool) -> int:
     var next_card = game_state.deck_manager.peek_card(0)
     if next_card:
         next_card_suit = next_card.suit
-    EventBus.emit_major_card_animation_requested(flipped)
+    
     return 0
 
 # Optionally, add a method to check the stored suit for bonus/penalty logic
