@@ -12,7 +12,8 @@ class_name DeckCreatorNavigator
 @export var majors_panel: ScrollContainer
 @export var buttons: Array[DeckCreatorNavButton] = []
 
-var panels: Array[ScrollContainer] = []
+var panels: Dictionary[DataStructures.SuitType, ScrollContainer] = {}
+var deck_creator: DeckCreator
 
 #region Initialization
 func _ready() -> void:
@@ -23,18 +24,18 @@ func _initialize_panels() -> void:
 	panels.clear()
 	
 	if cups_panel:
-		panels.append(cups_panel)
+		panels[DataStructures.SuitType.CUPS] = cups_panel
 	if wands_panel:
-		panels.append(wands_panel)
+		panels[DataStructures.SuitType.WANDS] = wands_panel
 	if pentacles_panel:
-		panels.append(pentacles_panel)
+		panels[DataStructures.SuitType.PENTACLES] = pentacles_panel
 	if swords_panel:
-		panels.append(swords_panel)
+		panels[DataStructures.SuitType.SWORDS] = swords_panel
 	if majors_panel:
-		panels.append(majors_panel)
-	
+		panels[DataStructures.SuitType.MAJOR] = majors_panel
+
 	if panels.size() != 5:
-		push_warning("DeckCreatorNavigator: Expected 5 panels, found %d" % panels.size())
+		DebugManager.print_ui_displays("DeckCreatorNavigator: Expected 5 panels, found %d" % panels.size(), DebugManager.DebugLevel.WARNING)
 #endregion
 
 #region Panel Navigation
@@ -49,6 +50,7 @@ func open_panel(texture_button: TextureButton, panel_number: int) -> void:
 
 # Switch visibility to the specified panel
 func _switch_to_panel(target_panel: int) -> void:
+	deck_creator.currently_active_suit = DataStructures.SuitType.values()[target_panel]
 	for i in panels.size():
 		var panel = panels[i]
 		if panel:

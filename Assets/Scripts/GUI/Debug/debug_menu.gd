@@ -7,6 +7,7 @@ func _ready():
 	_create_money_menu()
 	_create_draw_card_menu()
 	_create_reset_menu()
+	_create_shuffle_menu()
 	
 func _create_money_menu():
 	add_submenu_item("Currency", "MoneyMenu")
@@ -50,6 +51,16 @@ func _create_reset_menu():
 	reset_menu.add_item("Packs", DataStructures.GameLayer.PACK)
 	reset_menu.id_pressed.connect(_reset_game)
 
+func _create_shuffle_menu():
+	add_submenu_item("Shuffle", "Shuffle")
+	var shuffle_menu = $Shuffle
+	shuffle_menu.add_item("Shuffle Safely", 0)
+	shuffle_menu.add_item("Shuffle Unsafely", 1)
+	shuffle_menu.id_pressed.connect(func(id):
+		var safely = id == 0
+		EventBus.emit_request_shuffle(safely)
+	)
+
 func _add_currency(amount, currency_type: DataStructures.CurrencyType):
 	match currency_type:
 		DataStructures.CurrencyType.CLAIRVOYANCE:
@@ -63,7 +74,7 @@ func _add_currency(amount, currency_type: DataStructures.CurrencyType):
 			else:
 				EventBus.emit_currency_updated(amount, DataStructures.CurrencyType.PACK)
 		_:
-			push_warning("Unknown currency type: " + str(currency_type))
+			DebugManager.print_system_general("Unknown currency type: " + str(currency_type), DebugManager.DebugLevel.WARNING)
 
 func _add_cards_to_menu(card_menu: PopupMenu, suit_type: DataStructures.SuitType):
 	var cards = GameManager.game_state.deck_manager.get_all_cards()

@@ -1,5 +1,6 @@
 class_name WandStats
 
+# Base integer values (keep existing for compatibility)
 var basic_value: int = GameConfig.DEFAULT_WAND_BASIC_VALUE
 var basic_max_quantity: int = GameConfig.DEFAULT_WAND_BASIC_MAX_QUANTITY
 var face_max_quantity: int = GameConfig.DEFAULT_WAND_FACE_MAX_QUANTITY
@@ -7,6 +8,12 @@ var page_modifier: int = GameConfig.DEFAULT_WAND_PAGE_MODIFIER
 var knight_modifier: int = GameConfig.DEFAULT_WAND_KNIGHT_MODIFIER
 var queen_modifier: int = GameConfig.DEFAULT_WAND_QUEEN_MODIFIER
 var king_modifier: int = GameConfig.DEFAULT_WAND_KING_MODIFIER
+
+# New multiplicative values for late-game scaling
+var basic_value_multiplier: float = 1.0
+var knight_multiplier: float = 1.0
+var queen_multiplier: float = 1.0
+var king_multiplier: float = 1.0
 
 func reset():
     basic_value = GameConfig.DEFAULT_WAND_BASIC_VALUE
@@ -16,6 +23,12 @@ func reset():
     knight_modifier = GameConfig.DEFAULT_WAND_KNIGHT_MODIFIER
     queen_modifier = GameConfig.DEFAULT_WAND_QUEEN_MODIFIER
     king_modifier = GameConfig.DEFAULT_WAND_KING_MODIFIER
+    
+    # Reset new multiplier values
+    basic_value_multiplier = 1.0
+    knight_multiplier = 1.0
+    queen_multiplier = 1.0
+    king_multiplier = 1.0
 
 func save() -> Dictionary:
     return {

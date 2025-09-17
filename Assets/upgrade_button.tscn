@@ -14,6 +14,7 @@ clip_children = 2
 offset_right = 212.0
 offset_bottom = 168.0
 size_flags_horizontal = 3
+mouse_filter = 1
 theme = ExtResource("1_5t7si")
 script = ExtResource("2_3dngh")
 

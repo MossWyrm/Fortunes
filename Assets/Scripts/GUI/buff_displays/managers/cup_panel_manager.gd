@@ -30,7 +30,7 @@ func update_display(dictionary: Dictionary) -> void:
 	for key in displays.keys():
 		if key.begins_with("cup_"):
 			var idx = int(key.substr(4))
-			if idx +1 >= num_cups:
+			if idx >= num_cups:
 				displays[key].hide()
 
 	# Show or create displays for each cup

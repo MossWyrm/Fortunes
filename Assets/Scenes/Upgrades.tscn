@@ -1,7 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmd65qh0ndrgw"]
+[gd_scene load_steps=16 format=3 uid="uid://cmd65qh0ndrgw"]
 
 [ext_resource type="Script" uid="uid://c61ilfuu65xuh" path="res://Assets/Scripts/GUI/Upgrades/UpgradesController.gd" id="1_rtjnf"]
-[ext_resource type="PackedScene" uid="uid://ct6d58kf4xqwl" path="res://Assets/upgrade_button.tscn" id="3_1sf28"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="3_msc5d"]
 [ext_resource type="Script" uid="uid://helx8sp6ijrr" path="res://Assets/Scripts/GUI/Upgrades/UpgradesSelectNavButton.gd" id="4_scdj4"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="7_wjnne"]
@@ -100,6 +99,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="UpgradePanel" type="Panel" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 1
 theme = ExtResource("3_msc5d")
 
 [node name="UpgradeAnimator" type="AnimationPlayer" parent="MarginContainer/UpgradePanel"]
@@ -114,6 +114,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/UpgradePanel/Control"]
 layout_mode = 1
@@ -134,6 +135,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
+follow_focus = true
 horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay"]
@@ -145,66 +147,10 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="UpgradeButtons" type="GridContainer" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer"]
+[node name="UpgradeButtons" type="VBoxContainer" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-
-[node name="UpgradeButton1" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton2" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton3" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton4" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton5" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton6" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton7" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton8" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton9" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton10" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton11" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton12" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton13" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton14" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton15" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton16" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton17" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
-
-[node name="UpgradeButton18" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox/UpgradeDisplay/MarginContainer/UpgradeButtons" instance=ExtResource("3_1sf28")]
-layout_mode = 2
 
 [node name="Navigation" type="HBoxContainer" parent="MarginContainer/UpgradePanel/Control/MarginContainer/VBox"]
 layout_mode = 2

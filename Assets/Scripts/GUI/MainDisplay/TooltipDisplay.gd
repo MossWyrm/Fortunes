@@ -80,7 +80,7 @@ func _set_card_visuals(card: Card) -> void:
 
 func _set_card_information(card: Card, as_buff: bool = false) -> void:
 	locked_overlay.visible = not card.is_unlocked
-	if as_buff and card.value < GameConstants.FACE_CARD_THRESHOLD and card.suit != DataStructures.SuitType.MAJOR:
+	if as_buff and card.value <= GameConstants.FACE_CARD_THRESHOLD and card.suit != DataStructures.SuitType.MAJOR:
 		card_title.text = "Basic Suit Effect"
 	else:
 		card_title.text = Tools.get_card_title(card)

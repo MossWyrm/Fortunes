@@ -11,6 +11,13 @@ var inversion_chance_modifier: float = 0.0
 var max_deck_size: int = 56
 var min_deck_size: int = 56
 
+# Synergy upgrade stats (for late-game scaling)
+var arcana_synergy_multiplier: float = 1.0
+var cups_base_multiplier: float = 1.0
+var wands_multiplier_bonus: float = 1.0
+var pentacles_protection_bonus: float = 1.0
+var swords_combo_bonus: float = 1.0
+
 # Suit-specific stats
 var cup_stats: CupStats
 var wand_stats: WandStats
@@ -57,6 +64,12 @@ func reset_pack_stats():
 
 func reset_all_stats():
 	tutorial_complete = false
+	# Reset synergy upgrade stats
+	arcana_synergy_multiplier = 1.0
+	cups_base_multiplier = 1.0
+	wands_multiplier_bonus = 1.0
+	pentacles_protection_bonus = 1.0
+	swords_combo_bonus = 1.0
 
 func save() -> Dictionary:
 	return {

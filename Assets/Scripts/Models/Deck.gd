@@ -15,7 +15,7 @@ func add_card(card: Card) -> void:
 
 #region AddCards
 func add_random_card(include_majors: bool) -> Card:
-    var card = deck_manager.get_random_card(include_majors, true)
+    var card = _get_random_card(include_majors, true)
     if card:
         add_card(card)
         return card
@@ -102,6 +102,12 @@ func draw_card() -> Card:
 func has_card(card: Card) -> bool:
     if _find_card(card) != -1:
         return true
+    return false
+
+func has_card_in_suit(suit: DataStructures.SuitType) -> bool:
+    for card in cards:
+        if card.suit == suit:
+            return true
     return false
 
 func get_card_count(card: Card) -> int:

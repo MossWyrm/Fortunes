@@ -12,6 +12,8 @@ func _init_icons():
 		displays["page_positive"] = await create_icon(suit, DataStructures.BuffType.PAGE)
 	if not displays.has("page_negative"):
 		displays["page_negative"] = await create_icon(suit, DataStructures.BuffType.PAGE)
+	if not displays.has("queen"):
+		displays["queen"] = await create_icon(suit, DataStructures.BuffType.QUEEN)
 	if not displays.has("king_positive"):
 		displays["king_positive"] = await create_icon(suit, DataStructures.BuffType.KING)
 	if not displays.has("king_negative"):
@@ -38,5 +40,6 @@ func update_display(dictionary: Dictionary) -> void:
 	set_display(displays["basic"], dictionary.get("combo", 0) > 0, dictionary.get("combo", 0))
 	set_display(displays["page_positive"], dictionary.get("page_positive_charges", 0) > 0, dictionary.get("page_positive_charges", 0), get_panel_color(true))
 	set_display(displays["page_negative"], dictionary.get("page_negative_charges", 0) > 0, dictionary.get("page_negative_charges", 0), get_panel_color(false))
+	set_display(displays["queen"], dictionary.get("combo_value", 0) != 1, abs(dictionary.get("combo_value", 0)), get_panel_color(dictionary.get("combo_value", 0) > 1))
 	set_display(displays["king_positive"], dictionary.get("king_protection", 0) > 0, dictionary.get("king_protection", 0), get_panel_color(true))
 	set_display(displays["king_negative"], dictionary.get("king_destruction", 0) > 0, dictionary.get("king_destruction", 0), get_panel_color(false))

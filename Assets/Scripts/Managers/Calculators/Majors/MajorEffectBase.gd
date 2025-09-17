@@ -18,8 +18,9 @@ func apply(_card: Card, _flipped: bool) -> int:
 
 # Called to shuffle or reset the effect. Used for deck shuffling or effect resets.
 func shuffle(_safely: bool = false) -> void:
-	DebugManager.print_card_management("MajorEffect: shuffle not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
-	pass
+	if _safely:
+		return
+	reset()
 
 
 # Called to update the internal card_state or mechanisms of the effect.
@@ -32,6 +33,13 @@ func update(_value: int) -> void:
 func get_value(_additional_val: int = 0) -> int:
 	DebugManager.print_card_management("MajorEffect: get_value not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
 	return 0
+
+
+# Called to modify a card's value based on this effect's current state.
+# This is separate from get_value() which is used for display/status purposes.
+func modify_card_value(input_value: int) -> int:
+	DebugManager.print_card_management("MajorEffect: modify_card_value not implemented for %s" % self, DebugManager.DebugLevel.VERBOSE)
+	return input_value
 
 
 # Called to trigger the effect outside of drawing (e.g., by another card or event).

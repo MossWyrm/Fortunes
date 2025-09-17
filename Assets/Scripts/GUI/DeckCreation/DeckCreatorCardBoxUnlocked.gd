@@ -47,10 +47,8 @@ func _on_add_card_pressed() -> void:
 func _on_remove_card_pressed() -> void:
 	deck_creator.remove_card_from_deck(stored_card_id)
 
-# Handle card face input for tooltips
-func _on_card_face_gui_input(_event: InputEvent) -> void:
-	if Input.is_action_just_released("ui_click"):
-		deck_creator.show_card_tooltip(stored_card_id)
+# This function is now handled by the main DeckCreatorCardBox script
+# The gui_input signal is connected to the parent, not this script
 #endregion
 
 #region Hover Effects

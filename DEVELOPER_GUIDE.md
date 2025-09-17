@@ -1,313 +1,170 @@
-# 👨‍💻 Developer Guide: Fortunes
 
-A comprehensive guide for developers working on the Fortunes codebase.
+# �️ Fortunes Developer Guide
+
+A modern, modular codebase for a tarot-inspired idle-strategy game. This guide is for contributors, maintainers, and anyone interested in the architecture and best practices behind Fortunes.
+
+---
 
 ## 🏗️ Architecture Overview
 
-Fortunes uses a modern, modular architecture designed for maintainability and scalability. The codebase follows clean architecture principles with clear separation of concerns.
+Fortunes is built for extensibility and maintainability. The project uses:
+- **Modular managers** for deck, upgrades, stats, and calculators
+- **Signal/event-driven** communication (EventBus)
+- **Strict validation** and null-safety patterns
+- **Separation of UI, logic, and data**
 
-### Core Systems
+### Key Systems
 
-#### 🎯 **GameManager** (Systems)
-Central coordinator that initializes and manages all game systems.
+- **GameManager**: Central coordinator, holds game state and references to all managers
+- **DeckManager**: Handles all card/deck logic, including creation, shuffling, and drawing
+- **UpgradeManager**: Manages upgrades, stat boosts, and synergy effects
+- **Stats (GameStats, SuitStats)**: Tracks all player stats, currencies, and multipliers
+- **Calculators**: Suit-specific and major arcana calculators for value/effect computation
+- **EventBus**: Global event system for decoupled communication
+- **ValidationUtils**: Null-safety and validation helpers
+- **DescriptionFormatter**: Consistent UI text formatting
+- **PreloadedResources**: Access the most important resources in instances
+- **Tools**: This is a script for accessing important invormation in a static way
 
-```gdscript
-# Access the game state
-GameManager.game_state.stats.money
-GameManager.game_state.deck_manager.draw_card()
-```
+---
 
-#### 🔧 **Utility Classes**
+## 🎴 Card & Deck System
 
-- **ValidationUtils**: Null-safety validation helpers
-- **SignalManager**: Safe signal connection/disconnection
-- **GameConstants**: Centralized magic numbers
-- **DescriptionFormatter**: Consistent string formatting
-
-```gdscript
-# Always validate before accessing
-if ValidationUtils.has_event_bus():
-    EventBus.emit_something()
-
-# Use constants instead of magic numbers
-if card.rank == GameConstants.CARD_RANK_KING:
-    # Handle king card
-
-# Use formatter for consistent UI text
-var text = DescriptionFormatter.format_deck_count(deck_size, max_size)
-```
-
-## 🎴 Card System
-
-### Card Structure
-
-Every card has:
-- **ID**: Unique identifier
-- **Suit**: CUPS, WANDS, PENTACLES, SWORDS, or MAJOR
-- **Rank/Value**: 1-10 for numbered cards, 11-14 for face cards, 1-22 for majors
-
-### Card ID System
+- **Card**: Has ID, suit (CUPS, WANDS, PENTACLES, SWORDS, MAJOR), rank/value, and effect logic
+- **Card IDs**: Offset by suit, e.g. 101–114 (Cups), 501–522 (Majors)
+- **DeckManager**: Creates, unlocks, and manages all cards and decks
+- **Calculators**: Each suit/major has a dedicated calculator for value/effect computation
 
 ```gdscript
-# Suit offsets (defined in GameConstants)
-SUIT_OFFSET_CUPS = 100      # 101-114
-SUIT_OFFSET_WANDS = 200     # 201-214  
-SUIT_OFFSET_PENTACLES = 300 # 301-314
-SUIT_OFFSET_SWORDS = 400    # 401-414
-MAJOR_CARD_THRESHOLD = 500  # 501-522
-```
-
-### Working with Cards
-
-```gdscript
-# Create cards through DeckManager
-var deck_manager = GameManager.game_state.deck_manager
-var card = deck_manager.draw_card()
-
-# Check card properties
+# Example: Drawing a card
+var card = GameManager.game_state.deck_manager.draw_card()
 if card.suit == DataStructures.SuitType.MAJOR:
-    # Special major arcana logic
-    
-# Calculate card values
-var value = GameConstants.get_card_value_from_id(card.id)
+    # Handle major arcana logic
 ```
 
-## 💰 Currency & Economy
+---
 
-### Currency Types
+## 💰 Currency & Progression
+
+- **Clairvoyance**: Main currency, earned via card effects
+- **Packs**: Meta-progression, earned via resets
+- **Upgrades**: Flat and percentage boosts, synergy multipliers, and late-game scaling
 
 ```gdscript
-# Access currency through GameStats
+# Accessing currencies
 var stats = GameManager.game_state.stats
-var money = stats.money  # Clairvoyance currency
-var prestige_points = stats.prestige_points
+var clairvoyance / packs = stats.clairvoyance / stats.packs
 ```
 
-### Economic Calculations
+---
 
-Card values contribute to money generation through suit-specific calculators:
+## 🎨 UI & Event System
 
-```gdscript
-# Each suit has its own calculator
-Calculators/CupCalculator.gd      # Healing/restoration effects
-Calculators/WandCalculator.gd     # Energy/action effects  
-Calculators/PentacleCalculator.gd # Material/money effects
-Calculators/SwordCalculator.gd    # Conflict/challenge effects
-Calculators/MajorCalculator.gd    # Powerful arcana effects
-```
-
-## 🎨 UI Development
-
-### Event System
-
-Use the EventBus for all UI updates:
+- **EventBus**: All UI updates and cross-system communication use signals/events
+- **Safe UI Patterns**: Always validate GameManager state before accessing
+- **Component Setup**: Wait for GameManager initialization before setup
 
 ```gdscript
-# Listen for events
-SignalManager.safe_connect(
-    EventBus.money_updated,
-    _on_money_changed,
-    "MyComponent money update"
-)
-
-# Emit events
-EventBus.emit_money_updated(new_amount)
-```
-
-### Safe Component Development
-
-Always follow these patterns:
-
-```gdscript
+# Safe UI component example
 extends Control
-class_name MyUIComponent
-
 func _ready():
-    # Wait for GameManager initialization
     if not GameManager.is_initialized:
         await GameManager.initialization_signal
-    _setup_component()
-
-func _setup_component():
-    # Validate before accessing
-    if not ValidationUtils.has_event_bus():
-        push_error("MyUIComponent: EventBus not available")
-        return
-        
-    # Safe signal connections
-    var event_bus = EventBus
-    SignalManager.safe_connect(event_bus.some_signal, _on_signal, "MyUIComponent")
-
-func _exit_tree():
-    _disconnect_signals()
-
-func _disconnect_signals():
-    # Always clean up signals
-    if ValidationUtils.has_event_bus():
-        var event_bus = EventBus
-        SignalManager.safe_disconnect(event_bus.some_signal, _on_signal, "MyUIComponent")
+    # Now safe to access game state
 ```
 
-## 🧪 Testing Patterns
+---
 
-### Manual Testing Tools
+## 🧪 Testing & Debugging
 
-Debug tools are available in the `DEBUG_*` files:
-
-- `DEBUG_MoneyButton.gd` - Add currency for testing
-- `DEBUG_reset_game.gd` - Reset game state
-- `DEBUG_major_draw.gd` - Force major arcana draws
-
-### Validation Testing
+- **DebugManager**: Use this script for all debug logging, using the scene to change functionality
+- **Validation**: Use `ValidationUtils` for all state checks
+- **Dev Tools**: In-game debug overlays and logging for rapid iteration
 
 ```gdscript
-# Test validation utilities
-assert(ValidationUtils.has_stats())
-assert(ValidationUtils.has_deck_manager())
-assert(ValidationUtils.has_event_bus())
+# Example: Debug Money Changed:
+var clairvoyance:
+    set(value):
+        if value != clairvoyance:
+            clairvoyance = value
+            DebugManager.print_card_effects("Clairvoyance updated", DebugManager.DebugLevel.VERBOSE)
 ```
 
-## 🔧 Common Development Tasks
+---
 
-### Adding New Card Effects
+## 🔧 Common Tasks & Patterns
 
-1. Identify the appropriate calculator (Cups/Wands/Pentacles/Swords/Major)
-2. Add effect logic to the calculator
-3. Update UI to reflect new mechanics
-4. Add constants for any magic numbers
+### Adding Card Effects
+1. Add logic to the appropriate calculator (Cups/Wands/Pentacles/Swords/Major)
+2. Update UI and constants as needed
+3. Add/adjust upgrades in UpgradesList.gd
 
-### Creating New UI Components
+### Creating UI Components
+1. Use EventBus for all communication
+2. Use DescriptionFormatter for text
 
-1. Extend from appropriate base class (Control, Button, etc.)
-2. Implement validation patterns
-3. Use EventBus for communication
-4. Add proper signal cleanup in `_exit_tree()`
-5. Use DescriptionFormatter for text
-
-### Adding New Game Mechanics
-
-1. Create manager class in `Assets/Scripts/Managers/`
+### Adding Game Mechanics
+1. Create a new manager in `Assets/Scripts/Managers/`
 2. Register with GameState
-3. Add EventBus signals for communication
-4. Implement save/load functionality
-5. Add validation utilities if needed
+3. Add EventBus signals
+4. Implement save/load and validation
+5. if needed, ensure shuffle integration
 
-## 🚨 Code Quality Guidelines
+---
 
-### Must-Do Patterns
+## 🚨 Code Quality & Best Practices
 
-✅ **Always validate before accessing GameManager state**
-✅ **Use SignalManager for all signal operations**  
-✅ **Implement _exit_tree() cleanup in all components**
-✅ **Use GameConstants instead of magic numbers**
-✅ **Use DescriptionFormatter for UI text**
+**Must-Do:**
+- Always validate before accessing GameManager/game_state
+- Use GameConstants for all magic numbers
+- Use DescriptionFormatter for UI text
 
-### Never-Do Patterns
+**Never-Do:**
+- Never use magic numbers directly
+- Never duplicate string formatting logic
 
-❌ **Never access GameManager.game_state without validation**
-❌ **Never connect signals without SignalManager**
-❌ **Never leave signals connected in _exit_tree()**
-❌ **Never use magic numbers**
-❌ **Never duplicate string formatting logic**
-
-## 🐛 Debugging Tips
-
-### Common Issues
-
-**"Null reference to GameManager.game_state"**
-- Use `ValidationUtils.has_stats()` before accessing
-- Ensure GameManager is initialized before component setup
-
-**"Memory leaks from signals"**
-- Check `_exit_tree()` implementation
-- Use SignalManager for all connections
-
-**"UI not updating"**
-- Verify EventBus signal connections
-- Check if signals are being emitted correctly
-
-### Debug Output
-
-```gdscript
-# Use validation for debug safety
-if ValidationUtils.has_stats():
-    print("Money: ", GameManager.game_state.stats.money)
-else:
-    print("Stats not available")
-```
+---
 
 ## 📁 File Organization
 
 ```
 Assets/Scripts/
-├── Core/                # Core utilities and foundation systems
-├── Managers/           # Game logic and state managers
-├── Systems/            # Global singletons and coordinators
-├── Data/               # Game data and statistics
-├── GUI/                # User interface components
-├── Models/             # Data structures and type definitions
-├── Utils/              # Utility functions and helpers
-└── CardDescriptions/   # Card-specific content
+├── Statics/             # Core utilities and foundation systems, mostly in static form
+├── Managers/            # Game logic, deck, upgrade, and calculator managers
+│   └── Calculators/     # Suit/major-specific calculators
+├── Autoload/            # Global singletons and coordinators
+├── Data/                # Game data, stats, and constants
+├── GUI/                 # User interface and HUD
+├── Models/              # Data structures and type definitions
+├── Utils/               # Utility functions and helpers
+└── CardDescriptions/    # Card-specific content and lore
 ```
 
-## 🎯 Performance Considerations
+---
 
-- ValidationUtils checks are lightweight but avoid in tight loops
+## 🎯 Performance & Advanced Topics
+
+- ValidationUtils is lightweight but avoid in tight loops
 - Use object pooling for frequently created/destroyed objects
 - Cache manager references when possible
-- Disconnect unused signals promptly
-
-## 🔮 Advanced Topics
-
-### Custom Calculators
-
-Each suit calculator extends BaseCalculator and implements:
+- Each calculator extends BaseCalculator and implements custom logic
 
 ```gdscript
+# Custom calculator example
 extends BaseCalculator
 class_name CustomCalculator
-
 func calculate_value(card: Card) -> float:
-    # Your calculation logic
     return base_value * multiplier
-```
-
-### Event Bus Extensions
-
-Add new events to EventBus.gd:
-
-```gdscript
-signal my_custom_event(data: CustomData)
-
-func emit_my_custom_event(data: CustomData):
-    my_custom_event.emit(data)
 ```
 
 ---
 
 ## 📚 Quick Reference
 
-### Essential Imports
-```gdscript
-extends Control  # or appropriate base class
-
-# Core systems automatically available via Systems/ autoloads:
-# - GameManager
-# - ValidationUtils  
-# - SignalManager
-# - GameConstants
-# - DescriptionFormatter
-```
-
-### Common Code Snippets
-
 ```gdscript
 # Safe game state access
 if ValidationUtils.has_stats():
     var money = GameManager.game_state.stats.money
-
-# Safe signal connection
-SignalManager.safe_connect(signal, method, "ComponentName description")
 
 # Using constants
 if card.rank >= GameConstants.CARD_RANK_PAGE:
@@ -316,5 +173,7 @@ if card.rank >= GameConstants.CARD_RANK_PAGE:
 # Formatting text
 var text = DescriptionFormatter.format_deck_count(current, maximum)
 ```
+
+---
 
 Happy coding! May your code be bug-free and your fortunes ever in your favor! 🎴✨

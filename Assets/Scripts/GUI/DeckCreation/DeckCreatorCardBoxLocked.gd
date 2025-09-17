@@ -18,13 +18,14 @@ var hold_delay: float = GameConstants.HOLD_DELAY_DEFAULT
 
 var deck_creator: DeckCreator
 var stored_card_id: int
+var gesture_detector: TouchGestureDetector = TouchGestureDetector.new()
 
 func _ready():
 	unlock_button.gui_input.connect(_on_button_gui_input)
 
 func update(data: DeckCreatorDisplayData, creator: DeckCreator) -> void:
 	if not data:
-		push_error("DeckCreatorCardBoxLocked: Cannot update with null data")
+		DebugManager.print_ui_displays("DeckCreatorCardBoxLocked: Cannot update with null data", DebugManager.DebugLevel.ERROR)
 		return
 	if deck_creator == null:
 		deck_creator = creator
@@ -63,19 +64,29 @@ func _reset_hold_state() -> void:
 	is_holding = false
 	hold_timer = 0.0
 
-# Handle unlock button input for purchase
-func _on_button_gui_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_click"):
-		is_holding = true
-		hold_timer = 0.0
-	
-	if Input.is_action_just_released("ui_click"):
-		# Show tooltip if quick tap or button disabled
-		if _is_early_hold_release() or unlock_button.is_disabled():
-			if deck_creator:
-				deck_creator.show_card_tooltip(stored_card_id)
-		_set_slider_percent(0.0)
-		_reset_hold_state()
+# Handle unlock button input for purchase using gesture detection
+func _on_button_gui_input(event: InputEvent) -> void:
+	var result = gesture_detector.process_input(event)
+	match result.gesture_type:
+		TouchGestureDetector.GestureResult.GestureType.TOUCH_STARTED:
+			# Start hold for purchase if button is enabled
+			if not unlock_button.is_disabled():
+				is_holding = true
+				hold_timer = 0.0
+		
+		TouchGestureDetector.GestureResult.GestureType.TAP_COMPLETED:
+			# Show tooltip on intentional tap or if button disabled
+			if result.was_intentional_tap:
+				if _is_early_hold_release() or unlock_button.is_disabled():
+					if deck_creator:
+						deck_creator.show_card_tooltip(stored_card_id)
+			_set_slider_percent(0.0)
+			_reset_hold_state()
+		
+		TouchGestureDetector.GestureResult.GestureType.DRAG_COMPLETED:
+			# Was scrolling - reset hold state but don't show tooltip
+			_set_slider_percent(0.0)
+			_reset_hold_state()
 
 # Check if this was a quick tap (not a hold)
 func _is_early_hold_release() -> bool:

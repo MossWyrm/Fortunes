@@ -24,7 +24,7 @@ func set_speeds(move_dur: float, fade_dur: float) -> void:
 #region Public Interfaces
 func create_addable(card: Card) -> void:
 	if not card:
-		push_error("AddableCard: Cannot create addable with null card")
+		DebugManager.print_card_management("AddableCard: Cannot create addable with null card", DebugManager.DebugLevel.ERROR)
 		return
 	
 	_setup_card_visuals(card)
@@ -33,7 +33,7 @@ func create_addable(card: Card) -> void:
 
 func create_removable(card: Card) -> void:
 	if not card:
-		push_error("AddableCard: Cannot create removable with null card")
+		DebugManager.print_card_management("AddableCard: Cannot create removable with null card", DebugManager.DebugLevel.ERROR)
 		return
 	
 	_setup_card_visuals(card)
@@ -66,16 +66,16 @@ func _setup_card_visuals(card: Card) -> void:
 			overlay.material.set("shader_parameter/atlas_size", textures["overlay"].atlas.get_size())
 
 func _configure_addable_appearance() -> void:
-	z_index = 3
+	z_index = 0
 	scale = GameConstants.CARD_SCALE_SMALL
 	
-	_set_burn_parameters(GameConstants.BURN_FADE_START, DataStructures.PanelColor.GOOD)
+	_set_burn_parameters(GameConstants.BURN_FADE_START, DataStructures.core_color.GOOD)
 
 func _configure_removable_appearance() -> void:
-	z_index = 2
+	z_index = -1
 	scale = Vector2(0.3, 0.3)
 	
-	_set_burn_parameters(0.0, DataStructures.PanelColor.BAD)
+	_set_burn_parameters(0.0, DataStructures.core_color.BAD)
 
 func _set_burn_parameters(burn_amount: float, burn_color: Color) -> void:
 	if background and background.material:
@@ -129,8 +129,7 @@ func _animate_to_midpoint() -> void:
 func _animate_to_center(center_point: Vector2) -> void:
 	var tween: Tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
 	var half_movement = movement_duration / 2.0
-	
-	tween.tween_property(self, "z_index", 2, 0)
+	z_index = -1
 	tween.parallel().tween_property(self, "scale", Vector2(0.9, 0.9), half_movement)
 	tween.parallel().tween_property(self, "global_position", center_point, half_movement)
 	
@@ -140,7 +139,7 @@ func _animate_to_random_point(random_point: Vector2) -> void:
 	var tween: Tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
 	var half_movement = movement_duration / 2.0
 	
-	tween.tween_property(self, "z_index", 3, 0)
+	z_index = 0
 	tween.parallel().tween_property(self, "scale", Vector2(0.6, 0.6), half_movement)
 	tween.parallel().tween_property(self, "global_position", random_point, half_movement)
 	

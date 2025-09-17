@@ -1,5 +1,6 @@
 class_name CupStats
 
+# Base integer values (keep existing for compatibility)
 var basic_value: int = GameConfig.DEFAULT_CUP_BASIC_VALUE
 var basic_max_quantity: int = GameConfig.DEFAULT_CUP_BASIC_MAX_QUANTITY
 var face_max_quantity: int = GameConfig.DEFAULT_CUP_FACE_MAX_QUANTITY
@@ -8,6 +9,11 @@ var vessel_size: int = GameConfig.DEFAULT_CUP_VESSEL_SIZE
 var page_modifier: float = GameConfig.DEFAULT_CUP_PAGE_MODIFIER
 var knight_modifier: int = GameConfig.DEFAULT_CUP_KNIGHT_MODIFIER
 var queen_modifier: int = GameConfig.DEFAULT_CUP_QUEEN_MODIFIER
+
+# New multiplicative values for late-game scaling
+var basic_value_multiplier: float = 1.0
+var vessel_size_multiplier: float = 1.0
+var page_multiplier: float = 1.0
 
 func reset():
     basic_value = GameConfig.DEFAULT_CUP_BASIC_VALUE
@@ -18,6 +24,11 @@ func reset():
     page_modifier = GameConfig.DEFAULT_CUP_PAGE_MODIFIER
     knight_modifier = GameConfig.DEFAULT_CUP_KNIGHT_MODIFIER
     queen_modifier = GameConfig.DEFAULT_CUP_QUEEN_MODIFIER
+    
+    # Reset new multiplier values
+    basic_value_multiplier = 1.0
+    vessel_size_multiplier = 1.0
+    page_multiplier = 1.0
 
 func save() -> Dictionary:
     return {

@@ -34,7 +34,14 @@ func update_display(dictionary: Dictionary) -> void:
 		var state = dictionary[key]["card_state"]
 		var value = dictionary[key]["value"]
 		var is_positive = state == DataStructures.CardState.POSITIVE
-		var panel_color = DataStructures.core_color.GOOD if is_positive else DataStructures.core_color.BAD
+		var panel_color
+		match state:
+			DataStructures.CardState.POSITIVE:
+				panel_color = DataStructures.core_color.GOOD
+			DataStructures.CardState.NEGATIVE:
+				panel_color = DataStructures.core_color.BAD
+			_:
+				panel_color = Color.WHITE
 		set_display(
 			major_displays[key],
 			state != DataStructures.CardState.INACTIVE,
@@ -42,4 +49,4 @@ func update_display(dictionary: Dictionary) -> void:
 			panel_color, 
 			is_positive
 		)
-		DebugManager.print_ui_displays("Updated major display for ID: %d. State: %s, Value: %d" % [key, state, value])
+		DebugManager.print_ui_displays("Updated major display for ID: %d. State: %s, Value: %d" % [key, state, value], DebugManager.DebugLevel.VERBOSE)

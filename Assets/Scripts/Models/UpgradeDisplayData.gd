@@ -19,10 +19,14 @@ var is_maxed: bool             # Is at max level?
 static func create(upgrade: UpgradeData, manager: UpgradeManager) -> UpgradeDisplayData:
 	var data = UpgradeDisplayData.new()
 	
+
+	
 	# Basic info
 	data.upgrade_id = upgrade.id
-	data.description = upgrade.description
 	data.card_id = upgrade.card_id
+	
+	# Apply suit color formatting to description
+	data.description = DescriptionFormatter.format_suit_colored_description(upgrade.description, upgrade.type, upgrade.effect_value)
 	
 	# Calculate current state
 	var purchase_count = manager.get_purchase_count(upgrade.id)
@@ -30,13 +34,19 @@ static func create(upgrade: UpgradeData, manager: UpgradeManager) -> UpgradeDisp
 	var is_affordable = manager.can_purchase_upgrade(upgrade.id)
 	var maxed = manager.is_max_level(upgrade.id)
 	
-	# Format title with purchase count
+	# Format title with purchase count and suit color
+	var base_title: String
 	if upgrade.max_purchases > 0:
-		data.display_title = "%s [%d/%d]" % [upgrade.name, purchase_count, upgrade.max_purchases]
+		base_title = "%s [%d/%d]" % [upgrade.name, purchase_count, upgrade.max_purchases]
 	elif purchase_count > 0:
-		data.display_title = "%s [%d]" % [upgrade.name, purchase_count]
+		base_title = "%s [%d]" % [upgrade.name, purchase_count]
 	else:
-		data.display_title = upgrade.name
+		base_title = upgrade.name
+	
+	# Apply suit color formatting to title
+	data.display_title = DescriptionFormatter.format_suit_colored_title(base_title, upgrade.type)
+	
+
 	
 	# Format cost and color
 	if maxed:
@@ -48,12 +58,14 @@ static func create(upgrade: UpgradeData, manager: UpgradeManager) -> UpgradeDisp
 	
 	# Load textures
 	data.currency_icon = PreloadedResources.currency_type[upgrade.currency_type]
-	data.card_background = PreloadedResources.get_upgrade_background(upgrade.type if upgrade.type != UpgradeData.UpgradeType.PACK else UpgradeData.UpgradeType.GENERAL)
 	
 	if upgrade.card_id > 0:
 		var textures = PreloadedResources.get_card_texture(GameManager.game_state.deck_manager.get_card(upgrade.card_id))
-		data.card_overlay = textures.get("overlay")
-	
+		if upgrade.type != UpgradeData.UpgradeType.GENERAL:
+			data.card_overlay = textures.get("overlay")
+		data.card_background = textures.get("background")
+	else:
+		data.card_background = PreloadedResources.get_upgrade_background(upgrade.type if upgrade.type != UpgradeData.UpgradeType.PACK else UpgradeData.UpgradeType.GENERAL)
 	# Set states
 	data.is_purchaseable = is_affordable and not maxed
 	data.is_maxed = maxed

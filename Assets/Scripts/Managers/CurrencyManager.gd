@@ -36,7 +36,7 @@ func _ready() -> void:
 		packs_display.show()
 		packs_display.update_text(_packs)
 
-# === Event Handlers ===
+# Handle game loaded event to refresh UI
 func _on_game_loaded() -> void:
 	# Refresh currency displays after loading
 	clairvoyance_display.update_text(_clairvoyance)
@@ -46,7 +46,7 @@ func _on_game_loaded() -> void:
 	else:
 		packs_display.hide()
 
-# === Currency Update Routing ===
+#currency update logic
 func update_currency(card_value, currency_type: DataStructures.CurrencyType) -> void:
 	match currency_type:
 		DataStructures.CurrencyType.CLAIRVOYANCE:
@@ -70,7 +70,7 @@ func update_currency(card_value, currency_type: DataStructures.CurrencyType) -> 
 			)
 			_emit_floating_text(card_value, _packs)
 
-# === Animated Currency Update ===
+#animation logic
 func _update_currency_animated(display, old_value, new_value, set_stat_func):
 	if _tweens.has(display):
 		_tweens[display].kill()
@@ -84,12 +84,12 @@ func _update_currency_animated(display, old_value, new_value, set_stat_func):
 		_tweens.erase(display)
 	)
 
-# === Floating Text Logic ===
+# floating text logic
 func _emit_floating_text(card_value, stat_value):
 	var value = -stat_value if stat_value + card_value <= 0 else card_value
 	EventBus.emit_floating_text_requested(value)
 
-# === Reset Logic ===
+# reset currency on game reset
 func reset(type: DataStructures.GameLayer) -> void:
 	if type >= DataStructures.GameLayer.DECK:
 		_clairvoyance = 0

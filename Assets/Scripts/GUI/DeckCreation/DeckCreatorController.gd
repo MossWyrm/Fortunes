@@ -10,6 +10,7 @@ class_name DeckCreator
 @export var pentacles_panels_display: DeckCreatorCardBoxList
 @export var swords_panels_display: DeckCreatorCardBoxList
 @export var majors_panels_display: DeckCreatorCardBoxList
+@export var navigator: DeckCreatorNavigator
 @export var deck_stats_display: DeckStats
 
 @onready var panel_displays: Dictionary = {
@@ -23,7 +24,15 @@ class_name DeckCreator
 var deck_manager: DeckManager
 var stats: GameStats
 
+var saved_template: Deck
 var template_deck: Deck:
+	get:
+		if template_deck == null:
+			template_deck = deck_manager.template_deck.duplicate()
+		return template_deck
+var currently_active_suit: DataStructures.SuitType = DataStructures.SuitType.CUPS
+
+var deck_manager_template: Deck:
 	get:
 		return deck_manager.template_deck
 var min_deck_size: int:
@@ -47,8 +56,10 @@ func _ready() -> void:
 	stats = GameManager.game_state.stats
 	visibility_changed.connect(refresh_displays)
 	EventBus.currency_updated.connect(_on_currency_updated)
+	visibility_changed.connect(_on_visibility_changed)
 	refresh_displays()
 	GameManager.game_state.nav_manager.creator_panel = self
+	navigator.deck_creator = self
 
 #region Deck Creator Interface
 # Open deck creator UI and refresh displays
@@ -67,7 +78,7 @@ func _update_suits() -> void:
 func _update_deck_stats() -> void:
 	if not ValidationUtils.has_deck_manager():
 		return
-	var deck: Deck = deck_manager.template_deck
+	var deck: Deck = template_deck
 	deck_stats_display.set_deck_stats(deck.size(), min_deck_size, max_deck_size)
 #endregion
 
@@ -164,7 +175,7 @@ func can_add_card(card_id: int) -> bool:
 	var card: Card = deck_manager.get_card(card_id)
 	var count_in_deck = template_deck.get_card_count(card)
 	var max_quantity = _get_card_max_quantity(card, card.suit)
-	if count_in_deck >= max_quantity or template_deck.size() >= max_deck_size:
+	if count_in_deck >= max_quantity:
 		return false
 	var cards_of_suit_in_deck = _count_suit_cards_in_deck(template_deck.cards, card.suit)
 	if card.suit == DataStructures.SuitType.MAJOR and cards_of_suit_in_deck >= stats.major_stats.quantity_per_deck:
@@ -173,11 +184,137 @@ func can_add_card(card_id: int) -> bool:
 
 func can_remove_card(card_id: int) -> bool:
 	var count_in_deck = template_deck.get_card_count(deck_manager.get_card(card_id))
-	return count_in_deck > 0 and template_deck.size() > min_deck_size
+	return count_in_deck > 0
 
 func get_count_in_deck(card_id: int) -> int:
 	return template_deck.get_card_count(deck_manager.get_card(card_id))
 #endregion
 
+#region Bulk Deck Operations
+# Used to empty template deck
+func clear_all_cards() -> void:
+	template_deck.clear()
+	refresh_displays()
+	DebugManager.print_card_management("DeckCreator: Cleared entire deck")
+
+# Used to remove all cards of a specific suit from deck
+func clear_suit(suit: DataStructures.SuitType) -> void:
+	var cards_to_remove: Array[Card] = []
+	for card in template_deck.cards:
+		if card.suit == suit:
+			cards_to_remove.append(card)
+	for card in cards_to_remove:
+		template_deck.remove_card(card)
+	refresh_displays()
+	var suit_name = DataStructures.SuitType.keys()[suit].capitalize()
+	DebugManager.print_card_management("DeckCreator: Cleared all %s cards" % suit_name)
+
+# Used to add one copy of each basic card (1-King) from a suit if possible
+func add_one_of_each_basic_suit(suit: DataStructures.SuitType) -> void:
+	var basic_cards = _get_cards_in_suit(suit)
+	basic_cards.sort_custom(func(x,y): return x.value > y.value)
+	var added_count = 0
+	
+	for card in basic_cards:
+		if can_add_card(card.id):
+			template_deck.add_card(card)
+			added_count += 1
+	
+	refresh_displays()
+	var suit_name = DataStructures.SuitType.keys()[suit].capitalize()
+	DebugManager.print_card_management("DeckCreator: Added %d basic %s cards" % [added_count, suit_name])
+
+# Used to remove one copy of each basic card (1-King) from a suit if possible
+func remove_one_of_each_basic_suit(suit: DataStructures.SuitType) -> void:
+	var basic_cards = _get_cards_in_suit(suit)
+	var removed_count = 0
+	
+	for card in basic_cards:
+		if can_remove_card(card.id) and template_deck.has_card(card):
+			template_deck.remove_card(card)
+			removed_count += 1
+	
+	refresh_displays()
+	var suit_name = DataStructures.SuitType.keys()[suit].capitalize()
+	DebugManager.print_card_management("DeckCreator: Removed %d basic %s cards" % [removed_count, suit_name])
+
+# Used to reset deck to the starter configuration
+func reset_to_default_deck() -> void:
+	if not ValidationUtils.has_deck_manager():
+		return
+	template_deck = deck_manager.starter_deck.duplicate()
+	refresh_displays()
+	DebugManager.print_card_management("DeckCreator: Reset to default starter deck")
+
+# Used to add basic cards to reach minimum deck size
+func auto_fill_to_minimum() -> void:
+	var cards_needed = min_deck_size - template_deck.size()
+	if cards_needed <= 0:
+		return
+	
+	var available_cards: Array[Card] = []
+	for suit in [DataStructures.SuitType.CUPS, DataStructures.SuitType.WANDS, 
+				DataStructures.SuitType.PENTACLES, DataStructures.SuitType.SWORDS]:
+					available_cards.append_array(_get_cards_in_suit(suit))
+	var added_count = 0
+	while added_count < cards_needed or template_deck.size() < min_deck_size:
+		for suit in [DataStructures.SuitType.CUPS, DataStructures.SuitType.WANDS, 
+					DataStructures.SuitType.PENTACLES, DataStructures.SuitType.SWORDS]:
+			var suit_cards = available_cards.filter(func(x): return x.suit == suit)
+			var card: Card = suit_cards[randi() % suit_cards.size()]
+			if can_add_card(card.id):
+				template_deck.add_card(card)
+				added_count += 1
+	refresh_displays()
+	DebugManager.print_card_management("DeckCreator: Auto-filled %d cards to reach minimum" % added_count)
+#endregion
+
+#region Deck Validation
+func is_deck_valid() -> bool:
+	var deck_size = template_deck.size()
+	return deck_size >= min_deck_size and deck_size <= max_deck_size
+
+func get_deck_status_message() -> String:
+	var deck_size = template_deck.size()
+	if deck_size < min_deck_size:
+		var needed = min_deck_size - deck_size
+		return "Add %d more card%s to continue" % [needed, "s" if needed != 1 else ""]
+	elif deck_size > max_deck_size:
+		var excess = deck_size - max_deck_size
+		return "Remove %d card%s to continue" % [excess, "s" if excess != 1 else ""]
+	else:
+		return "Deck is ready!"
+
+func try_close_deck_creator() -> bool:
+	if is_deck_valid():
+		close_deck_creator()
+		return true
+	else:
+		DebugManager.print_card_management("Cannot close: deck size invalid (%d cards)" % template_deck.size())
+		return false
+
+func close_deck_creator() -> void:
+	if template_deck != saved_template:
+		deck_manager_template = template_deck.duplicate()
+		EventBus.emit_request_shuffle(false)
+	hide()
+#endregion
+
+#region Event Handlers
 func _on_currency_updated(_currency = null, _currency_type = null) -> void:
 	refresh_displays()
+
+func _on_visibility_changed() -> void:
+	if visible:
+		saved_template = template_deck.duplicate()
+
+func _on_clear_suit_pressed() -> void:
+	clear_suit(currently_active_suit)
+
+
+func _on_plus_one_of_suit_pressed() -> void:
+	add_one_of_each_basic_suit(currently_active_suit)
+
+func _on_minus_one_of_suit_pressed() -> void:
+	remove_one_of_each_basic_suit(currently_active_suit)
+#endregion

@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://bbg44mhker768"]
 
-[ext_resource type="Script" uid="uid://1oxv074uvk33" path="res://Assets/Scripts/Systems/PreloadedResources.gd" id="1_s7yiu"]
+[ext_resource type="Script" uid="uid://1oxv074uvk33" path="res://Assets/Scripts/Autoload/PreloadedResources.gd" id="1_s7yiu"]
 [ext_resource type="Texture2D" uid="uid://cdjuyvq4cujco" path="res://Assets/Sprites/LargeTarot/FrontCup.png" id="2_r5fok"]
 [ext_resource type="Texture2D" uid="uid://dq4l2yo4ppvpc" path="res://Assets/Sprites/LargeTarot/FrontWand.png" id="3_oo734"]
 [ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="4_f7me7"]

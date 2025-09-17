@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbiq3lfelkb8y"]
+[gd_scene load_steps=22 format=3 uid="uid://bbiq3lfelkb8y"]
 
 [ext_resource type="Script" uid="uid://i143awvk5j84" path="res://Assets/Scripts/GUI/MainDisplay/TooltipDisplay.gd" id="1_7ktwe"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="2_5m3p1"]
@@ -8,6 +8,18 @@
 [ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="6_yvtd2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ktwe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ktwe"]
+bg_color = Color(0.067145, 2.12136e-05, 0.0935432, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.862745, 0.662745, 0.0862745, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgmhe"]
 
@@ -80,20 +92,16 @@ text = "Card Info"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Details" type="Panel" parent="PanelContainer/CardInfo"]
+[node name="Details" type="PanelContainer" parent="PanelContainer/CardInfo"]
 custom_minimum_size = Vector2(598, 623)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.5
 theme = ExtResource("2_5m3p1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ktwe")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/CardInfo/Details"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
@@ -248,10 +256,6 @@ vertical_alignment = 1
 [node name="Close Button" type="Button" parent="PanelContainer/CardInfo/Details"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-offset_left = 528.0
-offset_right = 608.0
-offset_bottom = 80.0
-grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme = ExtResource("2_5m3p1")

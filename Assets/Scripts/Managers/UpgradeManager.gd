@@ -27,17 +27,20 @@ var game_stats: GameStats
 #region Initialization
 ## Sets up the UpgradeManager with game state and initializes all upgrades
 func set_game_state(state: GameState):
+	DebugManager.print_upgrades_system("UpgradeManager: Initializing with game state")
 	if not ValidationUtils.validate_game_state(state):
-		push_error("UpgradeManager: Invalid game state provided")
+		DebugManager.print_upgrades_system("UpgradeManager: Invalid game state provided", DebugManager.DebugLevel.ERROR)
 		return
 	game_state = state
 	game_stats = state.stats
 
 	_connect_events()
 	_initialize_upgrades()
+	DebugManager.print_upgrades_system("UpgradeManager: Initialization complete. %d upgrades loaded" % upgrades.size())
 
 ## Connects to necessary event bus signals
 func _connect_events():
+
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
 	EventBus.game_reset.connect(reset)
 
@@ -51,12 +54,15 @@ func _initialize_upgrades():
 
 ## Creates all upgrades directly from UpgradesList and initializes purchase tracking
 func _create_upgrades_directly():
+
 	var all_upgrade_data = upgrades_list.create_all_upgrades()
 	upgrades = all_upgrade_data
 	
 	# Initialize purchase tracking
 	for upgrade_id in upgrades.keys():
 		purchased_upgrades[upgrade_id] = 0
+	
+	DebugManager.print_upgrades_system("UpgradeManager: Created %d upgrades with purchase tracking initialized" % upgrades.size())
 #endregion
 
 #region Upgrade Access and Queries
@@ -64,12 +70,29 @@ func _create_upgrades_directly():
 func get_upgrade(id: String) -> UpgradeData:
 	return upgrades.get(id)
 
-## Returns all upgrades of a specific type
+## Returns all upgrades of a specific type in definition order (sorted by card_id)
 func get_upgrades_for_type(type: UpgradeData.UpgradeType) -> Dictionary:
-	var result: Dictionary = {}
+	var type_upgrades: Array[UpgradeData] = []
+	
+	# Collect upgrades of the specified type
 	for upgrade in upgrades.values():
 		if upgrade.type == type:
-			result[upgrade.id] = upgrade
+			type_upgrades.append(upgrade)
+	
+	# Sort by card_id to maintain UpgradesList declaration order
+	# Generic upgrades (card_id = 0) come first, then by ascending card_id
+	type_upgrades.sort_custom(func(a: UpgradeData, b: UpgradeData) -> bool:
+		if a.card_id == 0 and b.card_id > 0:
+			return true  # Generic upgrades first
+		if a.card_id > 0 and b.card_id == 0:
+			return false  # Generic upgrades first
+		return a.card_id < b.card_id  # Then by card_id ascending
+	)
+	
+	# Convert back to dictionary maintaining order
+	var result: Dictionary = {}
+	for upgrade in type_upgrades:
+		result[upgrade.id] = upgrade
 	return result
 
 ## Calculates the current cost of an upgrade based on purchase count and growth formula
@@ -83,11 +106,13 @@ func get_upgrade_cost(id: String) -> float:
 func can_purchase_upgrade(id: String) -> bool:
 	var upgrade: UpgradeData = get_upgrade(id)
 	if not upgrade:
+		DebugManager.print_upgrades_system("UpgradeManager: Upgrade '%s' not found" % id, DebugManager.DebugLevel.VERBOSE)
 		return false
 	if upgrade.max_purchases > 0 && get_purchase_count(id) >= upgrade.max_purchases:
+		DebugManager.print_upgrades_system("UpgradeManager: Upgrade '%s' is maxed out (%d/%d)" % [id, get_purchase_count(id), upgrade.max_purchases], DebugManager.DebugLevel.VERBOSE)
 		return false
 	
-	var cost: float   = get_upgrade_cost(id)
+	var cost: float = get_upgrade_cost(id)
 	var currency: int
 	match upgrade.type:
 		UpgradeData.UpgradeType.PACK:
@@ -95,7 +120,8 @@ func can_purchase_upgrade(id: String) -> bool:
 		_:
 			currency = game_state.stats.clairvoyance
 	
-	return currency >= cost
+	var can_afford = currency >= cost
+	return can_afford
 
 ## Checks if an upgrade has reached its maximum purchase level
 func is_max_level(id: String) -> bool:
@@ -108,11 +134,17 @@ func is_max_level(id: String) -> bool:
 #region Purchase and Effect Application
 ## Attempts to purchase an upgrade, deducting currency and applying effects
 func purchase_upgrade(id: String) -> bool:
+	DebugManager.print_upgrades_system("UpgradeManager: Attempting to purchase upgrade '%s'" % id)
+	
 	if not can_purchase_upgrade(id):
+		DebugManager.print_upgrades_system("UpgradeManager: Cannot purchase upgrade '%s' - insufficient funds or maxed out" % id, DebugManager.DebugLevel.WARNING)
 		return false
 	
 	var upgrade: UpgradeData = get_upgrade(id)
 	var cost: float          = get_upgrade_cost(id)
+	var previous_purchases = get_purchase_count(id)
+	
+	DebugManager.print_upgrades_system("UpgradeManager: Purchasing '%s' (%s) for %s, purchase no. %d" % [id, upgrade.name, Tools.get_shorthand(int(cost)), previous_purchases + 1])
 	
 	# Deduct currency (fixed logic)
 	match upgrade.type:
@@ -127,6 +159,8 @@ func purchase_upgrade(id: String) -> bool:
 	# Increment purchase count
 	purchased_upgrades[id] = get_purchase_count(id) + 1
 	
+	DebugManager.print_upgrades_system("UpgradeManager: Successfully purchased '%s'. Now owned %d times" % [id, purchased_upgrades[id]])
+	
 	# Emit event
 	EventBus.emit_upgrade_purchased(upgrade)
 	
@@ -137,25 +171,37 @@ func _apply_upgrade_effect(upgrade: UpgradeData):
 	var stat_path: String   = upgrade.stat_name
 	var effect_value = upgrade.effect_value
 	
+
+	
 	# Navigate to the correct stat object
 	var stat_object: Object   = _get_stat_object(stat_path)
 	var property_name: String = _get_property_name(stat_path)
 	
 	if stat_object and property_name:
 		var current_value = stat_object.get(property_name)
+		var new_value
 		
 		if effect_value is bool:
+			new_value = effect_value
 			stat_object.set(property_name, effect_value)
 		else:
 			match upgrade.operation:
 				UpgradeData.OperationType.ADD:
-					stat_object.set(property_name, current_value + effect_value)
+					new_value = current_value + effect_value
+					stat_object.set(property_name, new_value)
 				UpgradeData.OperationType.SUBTRACT:
-					stat_object.set(property_name, current_value - effect_value)
+					new_value = current_value - effect_value
+					stat_object.set(property_name, new_value)
 				UpgradeData.OperationType.MULTIPLY:
-					stat_object.set(property_name, current_value * effect_value)
+					new_value = current_value * effect_value
+					stat_object.set(property_name, new_value)
 				UpgradeData.OperationType.DIVIDE:
-					stat_object.set(property_name, current_value / effect_value)
+					new_value = current_value / effect_value
+					stat_object.set(property_name, new_value)
+		
+
+	else:
+		DebugManager.print_upgrades_system("UpgradeManager: Failed to apply upgrade effect - invalid stat path '%s'" % stat_path, DebugManager.DebugLevel.ERROR)
 #endregion
 
 #region Utility Functions
@@ -214,24 +260,24 @@ func get_upgrade_progress(id: String) -> Dictionary:
 func debug_upgrade_status(id: String) -> void:
 	var upgrade: UpgradeData = get_upgrade(id)
 	if not upgrade:
-		print("Debug: Upgrade '%s' not found" % id)
+		DebugManager.print_upgrades_system("UpgradeManager: Upgrade '%s' not found" % id, DebugManager.DebugLevel.ERROR)
 		return
 	
 	var progress = get_upgrade_progress(id)
-	print("Debug: Upgrade '%s' (%s)" % [id, upgrade.name])
-	print("  Purchases: %d/%s" % [progress.current_purchases, str(progress.max_purchases) if progress.max_purchases > 0 else "∞"])
-	print("  Cost: %s" % Tools.get_shorthand(int(progress.current_cost)))
-	print("  Can afford: %s" % str(progress.can_afford))
-	print("  Is maxed: %s" % str(progress.is_maxed))
+	DebugManager.print_upgrades_system("UpgradeManager: Upgrade '%s' (%s)" % [id, upgrade.name])
+	DebugManager.print_upgrades_system("  Purchases: %d/%s" % [progress.current_purchases, str(progress.max_purchases) if progress.max_purchases > 0 else "∞"])
+	DebugManager.print_upgrades_system("  Cost: %s" % Tools.get_shorthand(int(progress.current_cost)))
+	DebugManager.print_upgrades_system("  Can afford: %s" % str(progress.can_afford))
+	DebugManager.print_upgrades_system("  Is maxed: %s" % str(progress.is_maxed))
 
 ## Debug function to print all upgrade purchase counts
 func debug_all_purchases() -> void:
 	var all_counts = get_all_purchase_counts()
-	print("Debug: All upgrade purchase counts:")
+	DebugManager.print_upgrades_system("UpgradeManager: All upgrade purchase counts:")
 	for upgrade_id in all_counts.keys():
 		var count = all_counts[upgrade_id]
 		if count > 0:
-			print("  %s: %d" % [upgrade_id, count])
+			DebugManager.print_upgrades_system("  %s: %d" % [upgrade_id, count])
 
 ## Gets comprehensive upgrade statistics for analytics/debugging
 func get_upgrade_statistics() -> Dictionary:
@@ -320,20 +366,31 @@ func _on_upgrade_purchased(_upgrade: UpgradeData):
 #region Reset and Persistence
 ## Resets purchased upgrades based on game layer reset type
 func reset(reset_type: DataStructures.GameLayer):
+	DebugManager.print_upgrades_system("UpgradeManager: Resetting upgrades for layer %s" % str(reset_type))
+	
+	var reset_count = 0
+	
 	if reset_type >= DataStructures.GameLayer.DECK:
 		var deck_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return false if get_upgrade(x)== null else get_upgrade(x).type <= UpgradeData.UpgradeType.GENERAL)
 		for upgrade_id in deck_upgrades:
+			if purchased_upgrades[upgrade_id] > 0:
+				reset_count += 1
 			purchased_upgrades[upgrade_id] = 0
 
 	if reset_type >= DataStructures.GameLayer.PACK:
 		var pack_upgrades: Array = purchased_upgrades.keys().filter(func(x: String): return false if get_upgrade(x)== null else get_upgrade(x).type == UpgradeData.UpgradeType.PACK)
 		for upgrade_id in pack_upgrades:
+			if purchased_upgrades[upgrade_id] > 0:
+				reset_count += 1
 			purchased_upgrades[upgrade_id] = 0
 
 	if reset_type >= DataStructures.GameLayer.ALL:
+		reset_count = purchased_upgrades.keys().filter(func(x: String): return purchased_upgrades[x] > 0).size()
 		purchased_upgrades.clear()
 		for upgrade_id in upgrades.keys():
 			purchased_upgrades[upgrade_id] = 0
+	
+	DebugManager.print_upgrades_system("UpgradeManager: Reset %d purchased upgrades" % reset_count)
 
 ## Saves the current state of purchased upgrades
 func save() -> Dictionary:
@@ -341,5 +398,13 @@ func save() -> Dictionary:
 
 ## Loads purchased upgrade data from a save file
 func load(data: Dictionary):
+	DebugManager.print_upgrades_system("UpgradeManager: Loading %d upgrade entries from save data" % data.size())
 	purchased_upgrades = data.duplicate()
+	
+	var loaded_purchases = 0
+	for upgrade_id in purchased_upgrades.keys():
+		if purchased_upgrades[upgrade_id] > 0:
+			loaded_purchases += 1
+	
+	DebugManager.print_upgrades_system("UpgradeManager: Loaded %d upgrades with purchases" % loaded_purchases)
 #endregion

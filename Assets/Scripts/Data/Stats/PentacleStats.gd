@@ -1,5 +1,6 @@
 class_name PentacleStats
 
+# Base integer values (keep existing for compatibility)
 var basic_value: int = GameConfig.DEFAULT_PENTACLE_BASIC_VALUE
 var basic_max_quantity: int = GameConfig.DEFAULT_PENTACLE_BASIC_MAX_QUANTITY
 var face_max_quantity: int = GameConfig.DEFAULT_PENTACLE_FACE_MAX_QUANTITY
@@ -8,6 +9,10 @@ var knight_uses: int = GameConfig.DEFAULT_PENTACLE_KNIGHT_USES
 var queen_uses: int = GameConfig.DEFAULT_PENTACLE_QUEEN_USES
 var king_uses: int = GameConfig.DEFAULT_PENTACLE_KING_USES
 var king_value: int = GameConfig.DEFAULT_PENTACLE_KING_VALUE
+
+# New multiplicative values for late-game scaling
+var basic_value_multiplier: float = 1.0
+var page_multiplier: float = 1.0
 
 func reset():
     basic_value = GameConfig.DEFAULT_PENTACLE_BASIC_VALUE
@@ -18,6 +23,10 @@ func reset():
     queen_uses = GameConfig.DEFAULT_PENTACLE_QUEEN_USES
     king_uses = GameConfig.DEFAULT_PENTACLE_KING_USES
     king_value = GameConfig.DEFAULT_PENTACLE_KING_VALUE
+    
+    # Reset new multiplier values
+    basic_value_multiplier = 1.0
+    page_multiplier = 1.0
 
 func save() -> Dictionary:
     return {

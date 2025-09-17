@@ -12,6 +12,8 @@ func _init_icons():
 		displays["page"] = await create_icon(suit, DataStructures.BuffType.PAGE)
 	if not displays.has("knight"):
 		displays["knight"] = await create_icon(suit, DataStructures.BuffType.KNIGHT)
+	if not displays.has("queen"):
+		displays["queen"] = await create_icon(suit, DataStructures.BuffType.QUEEN)
 	_mark_initialization_complete() 
 
 func update_display(dictionary: Dictionary) -> void:
@@ -34,3 +36,4 @@ func update_display(dictionary: Dictionary) -> void:
 	set_display(displays["basic"], dictionary.get("value", 0.0) > 0.0, dictionary.get("value", 0.0))
 	set_display(displays["page"], dictionary.get("page_charges", 0) > 0, dictionary.get("page_charges", 0), get_panel_color(dictionary.get("page_positive", false)))
 	set_display(displays["knight"], dictionary.get("knight_charges", 0) > 0, dictionary.get("knight_charges", 0), get_panel_color(dictionary.get("knight_positive", false)))
+	set_display(displays["queen"], dictionary.get("value_buff", 0) != 0, abs(dictionary.get("value_buff", 0)), get_panel_color(dictionary.get("value_buff", 0) > 0))

@@ -26,7 +26,7 @@ func _setup_auto_draw_button() -> void:
 	if auto_draw_button:
 		auto_draw_button.pressed.connect(_on_auto_draw_toggled)
 	else:
-		push_error("AutoDraw: Could not find auto draw button")
+		DebugManager.print_ui_interactions("AutoDraw: Could not find auto draw button", DebugManager.DebugLevel.ERROR)
 
 # Connect to EventBus signals directly
 func _connect_signals() -> void:

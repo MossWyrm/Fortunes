@@ -40,8 +40,8 @@ const SUIT_OFFSET_SWORDS: int = 400
 #endregion
 
 #region Card Cost constants
-const MAJOR_CARD_BASE_COST: int = 100
-const MAJOR_CARD_COST_MULTIPLIER: float = 4
+const MAJOR_CARD_BASE_COST: int = 500
+const MAJOR_CARD_COST_MULTIPLIER: float = 4.6
 #endregion
 
 #region Currency Constants

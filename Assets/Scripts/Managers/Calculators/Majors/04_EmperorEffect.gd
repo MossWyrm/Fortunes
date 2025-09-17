@@ -13,6 +13,11 @@ func apply(_card: Card, flipped: bool) -> int:
 	var set_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
 	card_state = set_state
 	
+	var emperor_value = game_state.stats.major_stats.emperor
+	DebugManager.print_card_effects(str("[EmperorEffect] THE EMPEROR COMMANDS - ", 
+		  "Tyrannical rule (-" if flipped else "Benevolent rule (+", emperor_value, 
+		  " to all cards)"), DebugManager.DebugLevel.INFO)
+	
 	return 0
 
 # Returns the Emperor's effect value based on card_state.
@@ -24,3 +29,6 @@ func get_value(_additional_val: int = 0) -> int:
 			return -game_state.stats.major_stats.emperor
 		_:
 			return 0
+
+func reset() -> void:
+	card_state = DataStructures.CardState.INACTIVE

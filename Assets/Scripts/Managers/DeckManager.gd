@@ -28,6 +28,14 @@ func initialize():
         return
     _create_all_cards()
     _create_starter_deck()
+    
+    # Ensure we start with valid decks
+    if template_deck.is_empty():
+        template_deck = starter_deck.duplicate()
+    if active_deck.is_empty():
+        active_deck = template_deck.duplicate()
+        active_deck.shuffle()
+    
     is_initialized = true
     initialization_signal.emit()
     DebugManager.print_deck_operations("Deck Manager: Initialization complete")
@@ -63,12 +71,45 @@ func _create_suit_cards(suit: DataStructures.SuitType):
 func _create_major_cards():
     DebugManager.print_deck_operations("DeckManager: Creating major arcana cards", DebugManager.DebugLevel.VERBOSE)
     var major_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+    
     for i in range(major_ids.size()):
         var card_id = GameConstants.MAJOR_CARD_THRESHOLD + major_ids[i]
         var card = Card.new(card_id, DataStructures.SuitType.MAJOR)
         card.is_unlocked = false
         all_cards[card_id] = card
-        card.set_cost(int(GameConstants.MAJOR_CARD_BASE_COST * (GameConstants.MAJOR_CARD_COST_MULTIPLIER ** i)))
+        
+        var cost: int
+        var card_number = major_ids[i]  # 1-22
+
+        var foundation_exponent = 2.8
+        var synergy_exponent = 2.5
+        var power_exponent = 4.0
+        var breaking_exponent = 7.0
+        var ultimate_exponent = 28.0
+        
+        if card_number <= 5:
+            # Foundation cards: Early game (500 - ~5K)
+            cost = int(GameConstants.MAJOR_CARD_BASE_COST * pow(foundation_exponent, i))
+        elif card_number <= 10:
+            # Synergy cards: Moderate scaling (3.2K - 102K)
+            var base_foundation = int(GameConstants.MAJOR_CARD_BASE_COST * pow(foundation_exponent, 5))
+            cost = int(base_foundation * pow(synergy_exponent, i - 5))
+        elif card_number <= 15:
+            # Power cards: Strong scaling (409K - 13M)
+            var base_synergy = int(GameConstants.MAJOR_CARD_BASE_COST * pow(synergy_exponent, 5) * pow(foundation_exponent, 5))
+            cost = int(base_synergy * pow(power_exponent, i - 10))
+        elif card_number <= 20:
+            # Breaking cards: Exponential scaling (122M - 38B)
+            var base_power = int(GameConstants.MAJOR_CARD_BASE_COST * pow(foundation_exponent,5)* pow(synergy_exponent, 5) * pow(power_exponent, 5))
+            cost = int(base_power * pow(breaking_exponent, i - 15))
+        else:
+            # Ultimate cards: Universe-breaking scaling (953B - 596T)
+            var base_breaking = int(GameConstants.MAJOR_CARD_BASE_COST * pow(foundation_exponent,5) * pow(synergy_exponent, 5) * pow(power_exponent, 5) * pow(breaking_exponent, 5))
+            cost = int(base_breaking * pow(ultimate_exponent, i - 20))
+
+        card.set_cost(cost)
+
+        DebugManager.print_deck_operations("Major card %d cost: %s" % [card_number, Tools.get_shorthand(cost)], DebugManager.DebugLevel.VERBOSE)
 
 ## Returns the base card ID for a suit.
 func _get_suit_base_id(suit: DataStructures.SuitType) -> int:
@@ -119,9 +160,6 @@ func request_shuffle(safely: bool = false) -> void:
 
 ## Draws a card from the active deck, rebuilding if empty.
 func draw_card() -> Card:
-    if active_deck.is_empty():
-        build_active_deck()
-        _perform_shuffle(false)  # safely = false for manual shuffle
     return active_deck.draw_card()
 
 ## Handles the complete card drawing process including inversion calculation
@@ -135,6 +173,7 @@ func draw_and_emit_card() -> void:
     
     EventBus.emit_card_drawn(card, is_flipped)
     DebugManager.print_deck_operations("DeckManager: Emitted card_drawn for card %d in state %s" % [card.id, is_flipped])
+    _shuffle_check()
 
 func force_draw_card(card_id: int) -> void:
     var card = get_card(card_id)
@@ -144,8 +183,14 @@ func force_draw_card(card_id: int) -> void:
     var is_flipped = randf() > 0.5
     EventBus.emit_card_drawn(card, is_flipped)
     DebugManager.print_deck_operations("DeckManager: Forced card_draw for card %d in state %s" % [card.id, is_flipped])
-
+    _shuffle_check()
     
+func _shuffle_check() -> void:
+    if active_deck.is_empty():
+        DebugManager.print_deck_operations("DeckManager: Active deck empty after draw. Rebuilding and shuffling.", DebugManager.DebugLevel.VERBOSE)
+        build_active_deck()
+        EventBus.emit_request_shuffle(false)
+
 ## Internal method that performs the actual shuffle and notifications
 func _perform_shuffle(safely: bool) -> void:
     active_deck.shuffle()
@@ -184,6 +229,7 @@ func remove_random_card() -> Card:
         DebugManager.print_deck_operations("DeckManager: No card available to remove")
         return null
     var card = active_deck.remove_random_card()
+    _request_remove_animation(card)
     DebugManager.print_deck_operations("DeckManager: Removed random card %d" % card.id, DebugManager.DebugLevel.VERBOSE)
     return card
 
@@ -193,7 +239,9 @@ func remove_random_non_major_card() -> Card:
         DebugManager.print_deck_operations("DeckManager: No card available to remove")
         return null
     var card = active_deck.remove_random_non_major_card()
-    DebugManager.print_deck_operations("DeckManager: Removed random non-major card %d" % card.id, DebugManager.DebugLevel.VERBOSE)
+    if card:
+        _request_remove_animation(card)
+        DebugManager.print_deck_operations("DeckManager: Removed random non-major card %d" % card.id, DebugManager.DebugLevel.VERBOSE)
     return card
 
 ## Removes a specific card by ID from the active deck.
@@ -203,7 +251,9 @@ func remove_card_by_id(card_id: int) -> Card:
         return null
     if active_deck.has_card(get_card(card_id)):
         DebugManager.print_deck_operations("DeckManager: Removed card %d" % card_id, DebugManager.DebugLevel.VERBOSE)
-        return active_deck.remove_card(get_card(card_id))
+        var card = active_deck.remove_card(get_card(card_id))
+        _request_remove_animation(card)
+        return card
     DebugManager.print_deck_operations("DeckManager: Card %d not found in active deck" % card_id, DebugManager.DebugLevel.VERBOSE)
     return null
 
@@ -212,9 +262,13 @@ func remove_random_card_by_suit(suit) -> Card:
     if active_deck.is_empty():
         DebugManager.print_deck_operations("DeckManager: No card available to remove")
         return null
-    var card = active_deck.remove_random_card_by_suit(suit)
-    DebugManager.print_deck_operations("DeckManager: Removed random card of suit %s: %d" % [suit, card.id], DebugManager.DebugLevel.VERBOSE)
-    return card
+    if active_deck.has_card_in_suit(suit):
+        var card = active_deck.remove_random_card_by_suit(suit)
+        _request_remove_animation(card)
+        DebugManager.print_deck_operations("DeckManager: Removed random card of suit %s: %d" % [suit, card.id], DebugManager.DebugLevel.VERBOSE)
+        return card
+    DebugManager.print_deck_operations("DeckManager: No card of suit %s found in active deck" % suit, DebugManager.DebugLevel.VERBOSE)
+    return null
 
 ## Removes a random card from the active deck with value lower than card_value (optionally including majors).
 func remove_lower_than(card_value: int = 0, include_majors: bool = false) -> Card:
@@ -222,24 +276,31 @@ func remove_lower_than(card_value: int = 0, include_majors: bool = false) -> Car
         DebugManager.print_deck_operations("DeckManager: No card available to remove")
         return null
     var card = active_deck.remove_lower_than(card_value, include_majors)
-    DebugManager.print_deck_operations("DeckManager: Removed card lower than %d (include majors: %s): %d" % [card_value, include_majors, card.id if card else "No card found."], DebugManager.DebugLevel.VERBOSE)
-    return card
+    if card:
+        _request_remove_animation(card)
+        DebugManager.print_deck_operations("DeckManager: Removed card lower than %d (include majors: %s): %d" % [card_value, include_majors, card.id if card else "No card found."], DebugManager.DebugLevel.VERBOSE)
+        return card
+    DebugManager.print_deck_operations("DeckManager: No card lower than %d found in active deck (include majors: %s)" % [card_value, include_majors], DebugManager.DebugLevel.VERBOSE)
+    return null
 #endregion
 
 #region Live Deck Additions
 ## Adds a random unlocked card to the active deck.
 func add_random_card() -> Card:
     var card = active_deck.add_random_card(true)
+    _request_add_animation(card)
     return card
 
 ## Adds a random unlocked non-major card to the active deck.
 func add_random_non_major_card() -> Card:
     var card = active_deck.add_random_card(false)
+    _request_add_animation(card)
     return card
 
 ## Adds a random unlocked card of a specific suit to the active deck.
 func add_random_card_by_suit(suit: DataStructures.SuitType) -> Card:
     var card = active_deck.add_random_card_by_suit(suit)
+    _request_add_animation(card)
     return card
 
 ## Adds a specific unlocked card by ID to the active deck.
@@ -247,14 +308,29 @@ func add_card_by_id(card_id: int) -> Card:
     if all_cards.has(card_id) and all_cards[card_id].is_unlocked:
         var card = all_cards[card_id].duplicate()
         active_deck.add_card(card)
+        _request_add_animation(card)
         return card
     return null
 
 ## Adds a random unlocked card with value lower than card_value (optionally including majors) to the active deck.
 func add_lower_than(card_value: int = 0, include_majors: bool = false) -> Card:
     var card = active_deck.add_lower_than(card_value, include_majors)
+    _request_add_animation(card)
     return card
 #endregion
+
+#region helper methods
+func _request_remove_animation(card: Card) -> void:
+    if card:
+        EventBus.emit_request_deck_change_animation(DataStructures.DeckOperation.REMOVE, card)
+
+func _request_add_animation(card: Card) -> void:
+    if card:
+        EventBus.emit_request_deck_change_animation(DataStructures.DeckOperation.ADD, card)
+
+#endregion
+
+
 
 #region Persistence
 ## Saves deck state to a dictionary.

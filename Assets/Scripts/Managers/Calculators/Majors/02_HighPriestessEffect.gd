@@ -2,40 +2,59 @@ extends MajorEffectBase
 class_name HighPriestessEffect
 
 """
-TODO: This requires more thought
-=== The High Priestess (Modified Effect) ===
-Shows the next X cards in the deck (X = MajorStats.high_priestess).
-Upright: Sets all their values to the highest among them.
-Reversed: Sets all their values to the lowest among them.
-Always triggers a major card animation.
+=== The High Priestess (Transformation Effect) ===
+When active, transforms drawn cards through a ghostly ripple animation.
+The player chooses from 3 random cards to replace the original with.
+
+Upright (Positive): Player chooses which card to transform into after seeing the ghostly preview.
+Reversed (Negative): A random card is forced upon the player, shown through immediate transformation.
+
+Uses charges based on MajorStats.high_priestess. Each use consumes one charge.
+Triggers special ghost animation with ripple transformation effects.
 """
+var charges: int = 0
+
+func _init(state: GameState) -> void:
+	super._init(state)
 
 func apply(_card: Card, flipped: bool) -> int:
-	var count = game_state.stats.major_stats.high_priestess
-	var cards = game_state.deck_manager.peek_multiple_cards(count)
-	if cards.is_empty():
-		return 0
-	# Show the cards to the player (UI event, if available)
-	if EventBus:
-		EventBus.emit_show_revealed_cards(cards)
-	# Simulate each card and collect their final_value and card reference
-	var sim_results = []
-	for c in cards:
-		var sim_result = await game_state.card_calculator.simulate_card_logic(c, flipped)
-		sim_results.append({"card": c, "final_value": sim_result["final_value"]})
-	# Find the best/worst card
-	var chosen = sim_results[0]
-	for r in sim_results:
-		if flipped:
-			if r["final_value"] < chosen["final_value"]:
-				chosen = r
-		else:
-			if r["final_value"] > chosen["final_value"]:
-				chosen = r
-	# Make all cards exact copies of the chosen card
-	for c in cards:
-		if c != chosen["card"]:
-			c.copy_from(chosen["card"])
-			print("High Priestess: Copied card ", chosen["card"].id, " to card ", c.id)
-		
+	card_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
+	charges = game_state.stats.major_stats.high_priestess
+
+	DebugManager.print_card_effects(str("[HighPriestessEffect] HIGH PRIESTESS AWAKENS - ", 
+		  "Forced transformation" if flipped else "Chosen transformation", 
+		  ", Charges: ", charges), DebugManager.DebugLevel.INFO)
+
 	return 0
+
+func get_value(_additional_val: int = 0) -> int:
+	return charges
+
+func use() -> Array[Card]:
+	var cards: Array[Card] = []
+	DebugManager.print_card_effects("[HighPriestessEffect] MYSTICAL TRANSFORMATION - Generating options", 
+		  DebugManager.DebugLevel.INFO)
+	
+	while cards.size() < 3:
+		var card = game_state.deck_manager.active_deck._get_random_card(false)
+		if card not in cards:
+			cards.append(card)
+			DebugManager.print_card_effects(str("[HighPriestessEffect] Option ", cards.size(), ": ", 
+				  card.value, " of ", card.suit), DebugManager.DebugLevel.VERBOSE)
+	
+	consume()
+	DebugManager.print_card_effects(str("[HighPriestessEffect] Transformation options ready, charges remaining: ", 
+		  charges), DebugManager.DebugLevel.VERBOSE)
+	return cards
+
+func reset() -> void:
+	charges = 0
+	card_state = DataStructures.CardState.INACTIVE
+
+func consume() -> void:
+	charges -= 1
+	if charges <= 0:
+		card_state = DataStructures.CardState.INACTIVE
+
+func forced() -> bool:
+	return card_state == DataStructures.CardState.NEGATIVE

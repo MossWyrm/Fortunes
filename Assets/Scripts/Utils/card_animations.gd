@@ -5,38 +5,37 @@ class_name card_animations
 ## Manages visual animations for cards being added to or removed from the deck.
 ## Handles timing, positioning, and visual feedback for card transitions.
 
-#region Export Properties
 @export_category("Animation Settings")
 @export var delay_between_cards: float = 0.2
 @export var moving_duration: float = 0.3
 @export var fade_duration: float = 0.6
-#endregion
 
-#region Resources & Node References
 var animatable_obj: PackedScene = preload("res://Assets/Scenes/addable_card.tscn")
 @onready var target_pos: Marker2D = $MidPoint
 @onready var center: Marker2D = $CenterPoint
-#endregion
 
-#region Properties
 var cards_to_add: Array[Card] = []
 var cards_to_remove: Array[Card] = []
 var add_timer: float = 0.0
 var remove_timer: float = 0.0
+
+#region Initialization
+func _ready() -> void:
+	EventBus.request_deck_change_animation.connect(_on_request_deck_change_animation)
 #endregion
 
 #region Public Interface
 # Queue a card for add animation
 func add_card(card: Card) -> void:
 	if not card:
-		push_warning("AddRemove: Attempted to add null card")
+		DebugManager.print_card_animations("CardAnimations: Attempted to add null card", DebugManager.DebugLevel.WARNING)
 		return
 	cards_to_add.append(card)
 
 # Queue a card for remove animation
 func remove_card(card: Card) -> void:
 	if not card:
-		push_warning("AddRemove: Attempted to remove null card")
+		DebugManager.print_card_animations("CardAnimations: Attempted to remove null card", DebugManager.DebugLevel.WARNING)
 		return
 	cards_to_remove.append(card)
 #endregion
@@ -59,7 +58,6 @@ func _process_animation_queues() -> void:
 	if not cards_to_remove.is_empty() and remove_timer <= 0.0:
 		_play_remove_animation()
 #endregion
-#endregion
 
 #region Animation Creation
 # Create and play add card animation
@@ -68,7 +66,7 @@ func _play_add_animation() -> void:
 	var card: Card = cards_to_add.pop_front()
 	
 	if not card:
-		push_warning("AddRemove: Card became null during add animation")
+		DebugManager.print_card_animations("CardAnimations: Card became null during add animation", DebugManager.DebugLevel.WARNING)
 		return
 	
 	var addable: AddableCard = _create_animatable_object()
@@ -81,7 +79,7 @@ func _play_remove_animation() -> void:
 	var card: Card = cards_to_remove.pop_front()
 	
 	if not card:
-		push_warning("AddRemove: Card became null during remove animation")
+		DebugManager.print_card_animations("CardAnimations: Card became null during remove animation", DebugManager.DebugLevel.WARNING)
 		return
 	
 	var addable: AddableCard = _create_animatable_object()
@@ -101,4 +99,16 @@ func _get_random_spawn_point() -> Vector2:
 	spawn_point.x += GameConstants.get_random_spawn_variance()
 	spawn_point.y += randf_range(-175, 175)
 	return spawn_point
+#endregion
+
+#region event handlers
+# Handle requests to animate card additions/removals
+func _on_request_deck_change_animation(operation: DataStructures.DeckOperation, card: Card) -> void:
+	match operation:
+		DataStructures.DeckOperation.ADD:
+			add_card(card)
+		DataStructures.DeckOperation.REMOVE:
+			remove_card(card)
+		_:
+			DebugManager.print_card_animations("CardAnimations: Unsupported operation for deck change animation: %s" % operation)
 #endregion

@@ -30,7 +30,7 @@ func _on_particle_effect_requested(particle_type: DataStructures.VFXType, animat
 		DataStructures.VFXType.CARD_FAILURE:
 			emit_failure(animation_duration)
 		_:
-			push_warning(DescriptionFormatter.format_warning_message("FXManager", "Unknown particle type requested: " + str(particle_type)))
+			DebugManager.print_system_general("FXManager: Unknown particle type requested: " + str(particle_type), DebugManager.DebugLevel.WARNING)
 
 #region Particle Emission
 # Emit success particle effect

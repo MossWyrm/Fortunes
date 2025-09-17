@@ -21,6 +21,12 @@ func restore_state_backup(_backup: Dictionary):
 func shuffle(_safely: bool) -> void:
     pass
 
+# Called by Death effect to reset positive or negative effects
+# Returns the number of effects that were cleared (for count calculation)
+func death_reset(_clear_positive: bool) -> int:
+    # Override in subclasses to handle suit-specific state clearing
+    return 0
+
 ### --- Common Calculator Patterns ---
 
 # Standard value modifier for flipped cards

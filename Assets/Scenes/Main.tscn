@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=4 uid="uid://cn8b6yho4nfbk"]
+[gd_scene load_steps=78 format=4 uid="uid://cn8b6yho4nfbk"]
 
 [ext_resource type="Script" uid="uid://dagjoq58uj3xk" path="res://Assets/Scripts/GUI/Tutorial/tutorial_manager.gd" id="2_4kbup"]
 [ext_resource type="Script" uid="uid://dy8gfv5loxe5b" path="res://Assets/Scripts/Managers/CurrencyManager.gd" id="2_7j5dx"]
@@ -16,22 +16,28 @@
 [ext_resource type="Script" uid="uid://duxbysx8f11ww" path="res://Assets/Scripts/GUI/buff_displays/managers/pentacles_panel_manager.gd" id="13_ajfjt"]
 [ext_resource type="Script" uid="uid://brfjbude6wue5" path="res://Assets/Scripts/main_card_animator.gd" id="14_4kbup"]
 [ext_resource type="Texture2D" uid="uid://jerbywg0ttb8" path="res://Assets/Sprites/LargeTarot/FrontPent.png" id="14_mhdow"]
-[ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="15_4kbup"]
 [ext_resource type="Texture2D" uid="uid://bkdc5l7xv6x34" path="res://Assets/Sprites/LargeTarot/Pentacles.png" id="15_721gu"]
 [ext_resource type="Script" uid="uid://eo21fyfxupt" path="res://Assets/Scripts/GUI/MainDisplay/CardTooltipTrigger.gd" id="15_fqjcf"]
 [ext_resource type="Script" uid="uid://bnlwsofoau3lr" path="res://Assets/Scripts/GUI/buff_displays/managers/swords_panel_manager.gd" id="16_biycs"]
 [ext_resource type="Script" uid="uid://cnuc7hur2ads3" path="res://Assets/Scripts/GUI/buff_displays/managers/majors_panel_manager.gd" id="17_7rtng"]
 [ext_resource type="LabelSettings" uid="uid://cd0fq6xk2c8xp" path="res://Assets/Themes/Fonts/Label Settings/CardTextDisplayFont.tres" id="19_iqb4k"]
 [ext_resource type="PackedScene" uid="uid://cmd65qh0ndrgw" path="res://Assets/Scenes/Upgrades.tscn" id="19_kbho8"]
+[ext_resource type="Material" uid="uid://djb4p0ttthrdy" path="res://Assets/Shaders/OverlayBurn.tres" id="20_3pnir"]
 [ext_resource type="Script" uid="uid://bfrk3wjayh24" path="res://Assets/Scripts/GUI/Dialogs/suit_choices.gd" id="20_i4h8h"]
 [ext_resource type="Texture2D" uid="uid://cbg7c4ljxrn4a" path="res://Assets/Sprites/Scroll.png" id="20_w0f3l"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="21_7rtng"]
+[ext_resource type="Material" uid="uid://rw771v1nsa7j" path="res://Assets/Shaders/BackgroundBurn.tres" id="21_80ed3"]
+[ext_resource type="Material" uid="uid://b5g1mq50fegn3" path="res://Assets/Shaders/GhostBackground.tres" id="22_iimxx"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="24_7rtng"]
+[ext_resource type="Material" uid="uid://6a6h2rvvs8at" path="res://Assets/Shaders/GhostOverlay.tres" id="24_kwusr"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="26_7rtng"]
 [ext_resource type="Script" uid="uid://bceuv1lv1yuf2" path="res://Assets/Scripts/GUI/Dialogs/skip_choice.gd" id="27_721gu"]
 [ext_resource type="Script" uid="uid://cbon5cdhm8gju" path="res://Assets/Scripts/GUI/Dialogs/gamble_choice.gd" id="28_fqjcf"]
 [ext_resource type="PackedScene" uid="uid://48yhm7rt4c5e" path="res://Assets/Scenes/Deck_Creator.tscn" id="28_v5en1"]
+[ext_resource type="Script" uid="uid://cfonkugrwpyhm" path="res://Assets/Scripts/GUI/Dialogs/card_choice.gd" id="31_kwusr"]
+[ext_resource type="Texture2D" uid="uid://cdjuyvq4cujco" path="res://Assets/Sprites/LargeTarot/FrontCup.png" id="32_dsner"]
 [ext_resource type="PackedScene" uid="uid://cgaqrtbxnflix" path="res://Assets/Scenes/Navigation.tscn" id="33_4kbup"]
+[ext_resource type="Texture2D" uid="uid://diuher65eios8" path="res://Assets/Sprites/LargeTarot/Wands.png" id="33_kupbj"]
 [ext_resource type="PackedScene" uid="uid://bbiq3lfelkb8y" path="res://Assets/Scenes/Card_Tooltip.tscn" id="38_mhdow"]
 [ext_resource type="Script" uid="uid://bvbtryn3txm7l" path="res://Assets/Scripts/GUI/Debug/debug_menu.gd" id="39_721gu"]
 [ext_resource type="Script" uid="uid://6aia2obpnka5" path="res://Assets/Scripts/GUI/Debug/open_debug_menu.gd" id="39_fqjcf"]
@@ -674,37 +680,6 @@ font = SubResource("FontFile_2aecg")
 font_size = 80
 font_color = Color(0.854902, 0.858824, 0.87451, 1)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kgmhe"]
-width = 143
-height = 243
-noise = SubResource("FastNoiseLite_gtkb7")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pnir"]
-resource_local_to_scene = true
-shader = ExtResource("15_4kbup")
-shader_parameter/using_atlas = false
-shader_parameter/sprite_size = Vector2(0, 0)
-shader_parameter/atlas_size = Vector2(0, 0)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
-shader_parameter/burn_amount = 0.0
-shader_parameter/burn_color = Color(0.00392157, 0.596078, 0.133333, 1)
-shader_parameter/distortion_edge = 0.13
-shader_parameter/warp_factor = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqjcf"]
-resource_local_to_scene = true
-shader = ExtResource("15_4kbup")
-shader_parameter/using_atlas = true
-shader_parameter/sprite_size = Vector2(400, 699)
-shader_parameter/atlas_size = Vector2(5600, 699)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
-shader_parameter/burn_amount = 0.0
-shader_parameter/burn_color = Color(0.8, 0.4, 0.2, 1)
-shader_parameter/distortion_edge = 0.13
-shader_parameter/warp_factor = 0.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_7rtng"]
 atlas = ExtResource("15_721gu")
 region = Rect2(0, 0, 400, 699)
@@ -764,6 +739,12 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1hk8p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pt21i"]
+atlas = ExtResource("33_kupbj")
+region = Rect2(0, 0, 400, 699)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7rtng"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7j5dx"]
@@ -817,6 +798,7 @@ mouse_filter = 1
 theme = ExtResource("26_7rtng")
 
 [node name="Background" type="Control" parent="GameplayArea"]
+z_index = -5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1013,6 +995,10 @@ script = ExtResource("15_fqjcf")
 [node name="MainCardAnimator" type="Node" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
 unique_name_in_owner = true
 script = ExtResource("14_4kbup")
+burn_overlay = ExtResource("20_3pnir")
+burn_front = ExtResource("21_80ed3")
+ghost_overlay = ExtResource("24_kwusr")
+ghost_front = ExtResource("22_iimxx")
 
 [node name="DeckTop" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
 layout_mode = 1
@@ -1038,8 +1024,7 @@ texture = ExtResource("10_kgmhe")
 stretch_mode = 5
 
 [node name="CardFront" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard"]
-modulate = Color(1, 1, 1, 0)
-material = SubResource("ShaderMaterial_3pnir")
+material = ExtResource("22_iimxx")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1052,7 +1037,7 @@ stretch_mode = 5
 
 [node name="FaceImage" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/CardFront"]
 clip_children = 2
-material = SubResource("ShaderMaterial_fqjcf")
+material = ExtResource("24_kwusr")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1292,6 +1277,90 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_gtkb7")
 text = "100%"
 
+[node name="CardChoice" type="PanelContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus"]
+visible = false
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.2
+anchor_top = 1.0
+anchor_right = 1.2
+anchor_bottom = 1.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1hk8p")
+script = ExtResource("31_kwusr")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="Choice1" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer"]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+texture = ExtResource("32_dsner")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Overlay" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer/Choice1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_pt21i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Choice2" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer"]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+texture = ExtResource("32_dsner")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Overlay" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer/Choice2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_pt21i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Choice3" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer"]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+texture = ExtResource("32_dsner")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Overlay" type="TextureRect" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice/HBoxContainer/Choice3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_pt21i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel" type="Panel" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer/CenterCard/ChoiceMenus/CardChoice"]
+visible = false
+layout_mode = 2
+
 [node name="MajorBuffs" type="MarginContainer" parent="GameplayArea/CardDrawZone/DisplayOrganizer/MainCardDisplay/MarginContainer/VBoxContainer/HBoxContainer"]
 z_index = 1
 layout_mode = 2
@@ -1489,6 +1558,8 @@ allow_search = false
 auto_translate_mode = 1
 hide_on_checkable_item_selection = false
 allow_search = false
+
+[node name="Shuffle" type="PopupMenu" parent="MenuBar/DebugMenu"]
 
 [node name="FX_Manager" type="Node" parent="."]
 script = ExtResource("7_4kbup")

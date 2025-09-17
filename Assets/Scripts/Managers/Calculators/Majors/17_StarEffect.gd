@@ -4,9 +4,10 @@ class_name StarEffect
 """
 === The Star ===
 When drawn:
-- Adds charges to Star based on major_star * (major_moon ^ moons_drawn) if moons_drawn > 0, else major_star.
-- Sets card_state to POSITIVE if Moon is not NEGATIVE, else NEGATIVE.
-- In post-calc, adds the number of charges to the value if Star is active and (if flipped, only if stars_work_on_bad is true).
+- Adds flat star_stat to accumulated star_value (or subtracts if inverted)
+- Creates exponential scaling when combined with Moon/Sun: (star_value)^(1 + moons_drawn + sun_amplifier)
+- Upright: +star_stat to star_value, Inverted: -star_stat to star_value
+- Exponential bonus applies to every card drawn while Star is active
 - Always triggers a major card animation.
 """
 
@@ -14,33 +15,74 @@ var star_value: int = 0
 var works_on_negative: bool = false
 var moons_drawn: int:
 	get:
-		return major_calc.get_major_effect_by_name(DataStructures.MAJOR_ID.MOON).moons_drawn
+		return major_calc.get_major_effect(DataStructures.MAJOR_ID.MOON).moons_drawn
 
 func apply(_card: Card, flipped: bool) -> int:
-	# Use MajorCalculator's card_state and charge system for Star and Moon
-	var moon_effect: MoonEffect = game_state.major_calculator.get_major_effect(DataStructures.MAJOR_ID.MOON)
-	if flipped && works_on_negative:
-		card_state = DataStructures.CardState.NEGATIVE
+	# Set card state based on orientation
+	card_state = DataStructures.CardState.NEGATIVE if flipped else DataStructures.CardState.POSITIVE
+	
+	# Simplified formula: each Star adds/subtracts flat star_stat
+	var star_change = game_state.stats.major_stats.star
+	if flipped:
+		star_value -= star_change  # Fallen Star reduces power
+		DebugManager.print_card_effects(str("[StarEffect] FALLEN STAR - Star value: ", star_value + star_change, 
+			  " → ", star_value), DebugManager.DebugLevel.INFO)
 	else:
-		card_state = DataStructures.CardState.POSITIVE
-	# Calculate charges using moons_drawn and stats
-	var charges_mult = int(pow(float(game_state.stats.major_stats.moon), float(moon_effect.moons_drawn))) if moon_effect.moons_drawn > 0 else 1
-	var new_charges = game_state.stats.major_stats.star * charges_mult
-	star_value += new_charges
+		star_value += star_change  # Rising Star increases power
+		DebugManager.print_card_effects(str("[StarEffect] RISING STAR - Star value: ", star_value - star_change, 
+			  " → ", star_value), DebugManager.DebugLevel.INFO)
+	
+	# Log celestial synergy details
+	var moon_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.MOON)
+	var sun_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.SUN)
+	var moon_contrib = moon_effect.get_moon_exponent_contribution() if moon_effect else 0
+	var sun_contrib = sun_effect.get_sun_amplifier() if sun_effect else 0
+	
+	DebugManager.print_card_effects(str("[StarEffect] Celestial synergy - Moon contrib: ", moon_contrib, 
+		  ", Sun contrib: ", sun_contrib, ", Total exponent: ", 1 + moon_contrib + sun_contrib), 
+		  DebugManager.DebugLevel.VERBOSE)
 	
 	return 0
 
 func get_value(_additional_val: int = 0) -> int:
-	var value_modifier: int = 0
-	if moons_drawn > 0:
-		value_modifier = int(pow(float(game_state.stats.major_stats.moon), float(moons_drawn)))
-	else:
-		value_modifier = star_value
+	# Return the current power being applied to each card
 	if card_state == DataStructures.CardState.INACTIVE:
-		return _additional_val
-	if _additional_val > 0:
-		return value_modifier + _additional_val
-	return _additional_val - value_modifier
+		return 0
+	
+	var moon_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.MOON)
+	var sun_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.SUN)
+	
+	var moon_contrib = moon_effect.get_moon_exponent_contribution() if moon_effect else 0
+	var sun_contrib = sun_effect.get_sun_amplifier() if sun_effect else 0
+	
+	var exponent = 1 + moon_contrib + sun_contrib
+	return int(pow(float(star_value), float(exponent)))
+
+func apply_star_to_card(input_val: int) -> int:
+	if card_state == DataStructures.CardState.INACTIVE:
+		return input_val
+	
+	# Get contributions from each celestial effect
+	var moon_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.MOON)
+	var sun_effect = major_calc.get_major_effect(DataStructures.MAJOR_ID.SUN)
+	
+	var moon_contrib = moon_effect.get_moon_exponent_contribution() if moon_effect else 0
+	var sun_contrib = sun_effect.get_sun_amplifier() if sun_effect else 0
+	
+	# Your intended formula: (star_accum)^(1 + moon_contrib + sun_contrib)
+	var exponent = 1 + moon_contrib + sun_contrib
+	var value_modifier = int(pow(float(star_value), float(exponent)))
+	
+	var result: int
+	if input_val > 0:
+		result = value_modifier + input_val
+	else:
+		result = input_val - value_modifier
+	
+	DebugManager.print_card_effects(str("[StarEffect] Celestial formula: ", star_value, "^", exponent, 
+		  " = ", value_modifier, ", Input: ", input_val, " → ", result), DebugManager.DebugLevel.VERBOSE)
+	
+	return result
 
 func reset() -> void:
 	card_state = DataStructures.CardState.INACTIVE

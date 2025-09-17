@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://48yhm7rt4c5e"]
+[gd_scene load_steps=22 format=3 uid="uid://48yhm7rt4c5e"]
 
 [ext_resource type="Script" uid="uid://b4xmcphinbaxj" path="res://Assets/Scripts/GUI/DeckCreation/DeckCreatorController.gd" id="1_fmist"]
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="2_as34j"]
@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="6_7kyly"]
 [ext_resource type="Script" uid="uid://bbsyiyc451vpy" path="res://Assets/Scripts/GUI/DeckCreation/DeckCreatorNavButton.gd" id="7_6abn4"]
 [ext_resource type="Script" uid="uid://c6u75gyfv2xt8" path="res://Assets/Scripts/GUI/DeckCreation/DeckStats.gd" id="8_3vd47"]
-[ext_resource type="LabelSettings" uid="uid://pblainpmvicg" path="res://Assets/Themes/carddisplayboxbutton/DeckSizeLabel1.tres" id="10_32v8y"]
+[ext_resource type="FontFile" uid="uid://2weueoihtanc" path="res://Assets/Themes/Fonts/Alkhemikal by jeti.ttf" id="11_7kyly"]
 [ext_resource type="LabelSettings" uid="uid://rx8lcpfywhlh" path="res://Assets/Themes/carddisplayboxbutton/DeckSizeLabel2.tres" id="11_iud42"]
 [ext_resource type="LabelSettings" uid="uid://c324jpvtb2fqe" path="res://Assets/Themes/carddisplayboxbutton/DeckSizeLabel3.tres" id="12_n03km"]
 
@@ -74,7 +74,12 @@ region = Rect2(0, 192, 64, 64)
 atlas = ExtResource("6_7kyly")
 region = Rect2(0, 256, 64, 64)
 
-[node name="DeckCreator" type="Control" node_paths=PackedStringArray("cups_panels_display", "wands_panels_display", "pentacles_panels_display", "swords_panels_display", "majors_panels_display", "deck_stats_display")]
+[sub_resource type="LabelSettings" id="LabelSettings_ludmm"]
+font = ExtResource("11_7kyly")
+font_size = 60
+font_color = Color(0.941176, 0.901961, 0.854902, 1)
+
+[node name="DeckCreator" type="Control" node_paths=PackedStringArray("cups_panels_display", "wands_panels_display", "pentacles_panels_display", "swords_panels_display", "majors_panels_display", "navigator", "deck_stats_display")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,6 +92,7 @@ wands_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContain
 pentacles_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/PentaclesScrollBox")
 swords_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/SwordsScrollBox")
 majors_panels_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays/MajorsScrollBox")
+navigator = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/SuitDisplays")
 deck_stats_display = NodePath("MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -909,43 +915,106 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="DeckDetails" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("current_deck_size", "minimum_deck_size", "maximum_deck_size")]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.67
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ClearDeck" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Clear
+ALL"
+
+[node name="ClearSuit" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Clear
+SUIT"
+
+[node name="ResetDeck" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Reset"
+
+[node name="AutoFill" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Auto-Fill
+"
+
+[node name="+1 Suit" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "+1 Suit"
+
+[node name="-1 Suit" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "-1 Suit"
+
+[node name="DeckDetails" type="PanelContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("current_deck_size", "minimum_deck_size", "maximum_deck_size", "status_message", "close_button")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("8_3vd47")
-current_deck_size = NodePath("HBoxContainer/DeckStats/Current")
-minimum_deck_size = NodePath("HBoxContainer/DeckStats/Minimum")
-maximum_deck_size = NodePath("HBoxContainer/DeckStats/Maximum")
+current_deck_size = NodePath("HBoxContainer/HBoxContainer/Current")
+minimum_deck_size = NodePath("HBoxContainer/HBoxContainer/Minimum")
+maximum_deck_size = NodePath("HBoxContainer/HBoxContainer/Maximum")
+status_message = NodePath("HBoxContainer/Status")
+close_button = NodePath("HBoxContainer/creatorPanelButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
-[node name="DeckStats" type="VBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Current" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
+[node name="Minimum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Current:"
-label_settings = ExtResource("10_32v8y")
-vertical_alignment = 1
-
-[node name="Minimum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
-layout_mode = 2
-text = "Minimum:"
+text = "MIN
+53"
 label_settings = ExtResource("11_iud42")
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Maximum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/DeckStats"]
+[node name="Maximum" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Maximum:"
+text = "MAX
+58"
 label_settings = ExtResource("12_n03km")
+horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Current" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "55"
+label_settings = SubResource("LabelSettings_ludmm")
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 6.95
+text = "Information Goes Here"
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="creatorPanelButton" type="Button" parent="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(158, 50)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
@@ -954,4 +1023,10 @@ theme_override_font_sizes/font_size = 40
 text = "X"
 
 [connection signal="visibility_changed" from="." to="." method="open_creator_menus"]
-[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/creatorPanelButton" to="." method="hide"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/ClearDeck" to="." method="clear_all_cards"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/ClearSuit" to="." method="_on_clear_suit_pressed"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/ResetDeck" to="." method="reset_to_default_deck"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/AutoFill" to="." method="auto_fill_to_minimum"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/+1 Suit" to="." method="_on_plus_one_of_suit_pressed"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/-1 Suit" to="." method="_on_minus_one_of_suit_pressed"]
+[connection signal="pressed" from="MarginContainer/DeckCreationPanel/MarginContainer/VBoxContainer/DeckDetails/HBoxContainer/creatorPanelButton" to="." method="try_close_deck_creator"]

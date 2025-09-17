@@ -55,7 +55,7 @@ func _ensure_buff_managers_ready() -> void:
 		var i = 0
 		while i < managers_to_wait.size():
 			if managers_to_wait[i]._initialization_complete:
-				DebugManager.print_ui_displays("UpdateSuitDisplays: BuffManager " + managers_to_wait[i].name + " initialization complete", DebugManager.DebugLevel.INFO)
+				DebugManager.print_ui_displays("UpdateSuitDisplays: BuffManager " + managers_to_wait[i].name + " initialization complete", DebugManager.DebugLevel.VERBOSE)
 				managers_to_wait.remove_at(i)
 			else:
 				i += 1
@@ -65,17 +65,14 @@ func _ensure_buff_managers_ready() -> void:
 # Connect to event bus signals
 func _connect_signals() -> void:
 	EventBus.request_buff_update.connect(_on_suit_displays_update_requested)
-
-# Send reference to card calculator
-func _on_game_initialized():
-	if ValidationUtils.has_card_calculator():
-		GameManager.game_state.card_calculator.set_display_state_manager(self)
+	DebugManager.print_ui_displays("UpdateSuitDisplays: Signals connected.")
+	GameManager.game_state.card_calculator._update_suit_displays()
 #endregion
 
 #region Event Handlers
 # Handle display update requests
 func _on_suit_displays_update_requested(suit: DataStructures.SuitType, display_data: Dictionary) -> void:
-	DebugManager.print_ui_displays("UpdateSuitDisplays: Received update request for suit %s with data: %s" % [suit, display_data], DebugManager.DebugLevel.INFO)
+	DebugManager.print_ui_displays("UpdateSuitDisplays: Received update request for suit %s with data: %s" % [suit, display_data], DebugManager.DebugLevel.VERBOSE)
 	match suit:
 		DataStructures.SuitType.CUPS:
 			if cup_display:
@@ -93,5 +90,5 @@ func _on_suit_displays_update_requested(suit: DataStructures.SuitType, display_d
 			if majors_display:
 				majors_display.update_display(display_data)
 		_:
-			push_warning("UpdateSuitDisplays: Unknown suit type %s" % suit)
+			DebugManager.print_ui_displays("UpdateSuitDisplays: Unknown suit type %s" % suit, DebugManager.DebugLevel.WARNING)
 #endregion

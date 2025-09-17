@@ -9,27 +9,52 @@ Always triggers a major card animation.
 """
 
 func apply(_card: Card, flipped: bool) -> int:
-    
     var count = game_state.stats.major_stats.lovers
+    var active_deck = game_state.deck_manager.active_deck
+    
+    DebugManager.print_card_effects(str("[LoversEffect] THE LOVERS - ", 
+          "Breaking bonds (removing duplicates)" if flipped else "Creating bonds (adding cards)", 
+          ", Target count: ", count), DebugManager.DebugLevel.INFO)
+    
     if flipped:
-        var cards = _get_duplicates(game_state.deck_manager.active_deck)
+        # Reversed: Remove random duplicate cards from the deck
+        var duplicates = _get_duplicates(active_deck)
+        DebugManager.print_card_effects(str("[LoversEffect] Found ", duplicates.size(), " duplicate cards"), 
+              DebugManager.DebugLevel.VERBOSE)
+        
+        var removed_count = 0
         for i in range(count):
-            if cards.size() <= 0:
+            if duplicates.size() <= 0:
                 break
-            game_state.deck_manager.remove_card(DataStructures.SuitType.NONE, cards.pop_at(randi() % cards.size()))
+            var card_to_remove = duplicates.pop_at(randi() % duplicates.size())
+            game_state.deck_manager.remove_card_by_id(card_to_remove.id)
+            removed_count += 1
+            DebugManager.print_card_effects(str("[LoversEffect] Removed duplicate: ", card_to_remove.id), 
+                  DebugManager.DebugLevel.VERBOSE)
+        
+        DebugManager.print_card_effects(str("[LoversEffect] Bonds broken - removed ", removed_count, " duplicates"), 
+              DebugManager.DebugLevel.INFO)
     else:
-        var deck = game_state.deck_manager.get_deck_list()
+        # Upright: Add random cards to the deck
+        var added_count = 0
         for i in range(count):
-            if deck.size() <= 0:
+            if active_deck.size() <= 0:
                 break
-            game_state.deck_manager.add_card(deck.pop_at(randi() % deck.size()).id)
+            var card_to_add_by_id = active_deck.cards[randi() % active_deck.size()].id
+            game_state.deck_manager.add_card_by_id(card_to_add_by_id)
+            added_count += 1
+            DebugManager.print_card_effects(str("[LoversEffect] Added copy of card: ", card_to_add_by_id), 
+                  DebugManager.DebugLevel.VERBOSE)
+        
+        DebugManager.print_card_effects(str("[LoversEffect] Bonds formed - added ", added_count, " card copies"), 
+              DebugManager.DebugLevel.INFO)
     return 0
 
 # Helper to find duplicate cards in a deck
 func _get_duplicates(deck: Deck) -> Array[Card]:
     var seen = {}
-    var duplicates = []
-    for card in deck:
+    var duplicates: Array[Card] = []
+    for card in deck.cards:
         if card.id in seen:
             duplicates.append(card)
         else:
