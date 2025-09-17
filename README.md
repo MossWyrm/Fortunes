@@ -48,7 +48,7 @@ Fortunes is a tarot-inspired idle-strategy game blending deep deckbuilding, reso
 ### Installation
 **Play Instantly:**
 
-- Visit [itch.io/fortunes](https://itch.io/fortunes) to play the latest web version in your browser.
+- Visit [itch.io/fortunes](https://mosswyrm.itch.io/fortunes) to play the latest web version in your browser.
 - Android support is coming soon!
 
 **For local development:**
