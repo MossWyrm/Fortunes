@@ -2,5 +2,8 @@ extends BaseGrowthFormula
 class_name SlowExponentialGrowth
 
 func apply_formula(purchased, base_value, additional_value) -> int:
-	var value: int = 1 if additional_value > 1 else 0
-	return base_value ** (value + ((purchased-1) / additional_value))
+	# Fixed: Simplified slow exponential that handles 0-purchase case properly
+	# Uses additional_value as the growth rate divider for slower scaling
+	var growth_rate = additional_value if additional_value > 1.0 else 2.0
+	var exponent = 1.0 + (purchased / growth_rate)
+	return int(pow(base_value, exponent))

@@ -3,27 +3,50 @@ extends BuffManager
 var init_dict: Dictionary = {}
 
 func _ready() -> void:
-	for value in ID.MajorID.values():
-		major_displays[value] = create_new_icon(ResourceAutoload.get_numeral(500+value), true)
-		major_displays[value].set_suit_and_type(ID.Suits.MAJOR,ID.BuffType.GENERAL,value)
-	if init_dict.size() >= 0: update_display(init_dict)
-	
+	await _init_icons()
+	if init_dict.size() > 0:
+		update_display(init_dict)
+
+func _init_icons():
+	var suit = DataStructures.SuitType.MAJOR
+	for value in DataStructures.MAJOR_ID.values():
+		if not major_displays.has(value):
+			major_displays[value] = await create_icon(suit, value)
+	_mark_initialization_complete()
+
 func update_display(dictionary: Dictionary) -> void:
-	if major_displays.size() <=0:
+	if major_displays.size() <= 0:
 		init_dict = dictionary
 		return
 	"""
-	Dictionary Structure:
-	ID.MajorID = [ID.CardState, relevant value (bool, int etc)]
+	Expects a dictionary of the form:
+	{
+		<major_id>: {"card_state" : DataStructures.CardState, "value" : int},
+		...
+	}
+	- Displays a buff icon for each major arcana, using its unique ID.
+	- The state determines icon color and visibility.
+	- The value is shown as the icon's label/amount.
 	"""
+	if not _initialization_complete:
+		return
 	for key in dictionary.keys():
-		var output_color: Color = (
-			  Color.WHITE 	if (dictionary[key][0] != ID.CardState.POSITIVE 
-								&& dictionary[key][0] != ID.CardState.NEGATIVE) 
-							else get_panel_color(dictionary[key][0] == ID.CardState.POSITIVE)
-								  )
-		set_display(major_displays[key],
-					dictionary[key][0] != ID.CardState.INACTIVE,
-					0 if dictionary[key].size() < 2 else dictionary[key][1],
-					output_color
-					)
+		var state = dictionary[key]["card_state"]
+		var value = dictionary[key]["value"]
+		var is_positive = state == DataStructures.CardState.POSITIVE
+		var panel_color
+		match state:
+			DataStructures.CardState.POSITIVE:
+				panel_color = DataStructures.core_color.GOOD
+			DataStructures.CardState.NEGATIVE:
+				panel_color = DataStructures.core_color.BAD
+			_:
+				panel_color = Color.WHITE
+		set_display(
+			major_displays[key],
+			state != DataStructures.CardState.INACTIVE,
+			value,
+			panel_color, 
+			is_positive
+		)
+		DebugManager.print_ui_displays("Updated major display for ID: %d. State: %s, Value: %d" % [key, state, value], DebugManager.DebugLevel.VERBOSE)

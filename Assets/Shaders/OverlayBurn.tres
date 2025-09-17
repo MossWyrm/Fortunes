@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://djb4p0ttthrdy"]
+
+[ext_resource type="Shader" uid="uid://biwe6ewi5bxtu" path="res://Assets/Shaders/BurningCard.gdshader" id="1_xub7n"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtkb7"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kgmhe"]
+width = 143
+height = 243
+noise = SubResource("FastNoiseLite_gtkb7")
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_xub7n")
+shader_parameter/using_atlas = true
+shader_parameter/sprite_size = Vector2(400, 699)
+shader_parameter/atlas_size = Vector2(5600, 699)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_kgmhe")
+shader_parameter/burn_amount = 0.0
+shader_parameter/burn_color = Color(0.8, 0.4, 0.2, 1)
+shader_parameter/distortion_edge = 0.13
+shader_parameter/warp_factor = 0.0

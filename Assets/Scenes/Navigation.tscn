@@ -1,0 +1,234 @@
+[gd_scene load_steps=28 format=3 uid="uid://cgaqrtbxnflix"]
+
+[ext_resource type="Script" uid="uid://d0eb00keu8cax" path="res://Assets/Scripts/GUI/Navigation/NavigationBar.gd" id="1_va1al"]
+[ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="1_va2ki"]
+[ext_resource type="Script" uid="uid://btnx848pb21df" path="res://Assets/Scripts/GUI/MainDisplay/DrawCard.gd" id="2_ypgwn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kupbj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1hk8p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pt21i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05dm0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2v6g5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnwco"]
+atlas = ExtResource("1_va2ki")
+region = Rect2(128, 128, 64, 64)
+margin = Rect2(0, -1, 0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cnwco"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3lqa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w4f0y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e7y0p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbipf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ti8a1"]
+atlas = ExtResource("1_va2ki")
+region = Rect2(256, 128, 64, 64)
+margin = Rect2(0, -1, 0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fkcst"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rimof"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iiurs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ouggr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b1lwg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3lqa"]
+atlas = ExtResource("1_va2ki")
+region = Rect2(192, 128, 64, 64)
+margin = Rect2(0, -1, 0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ti8a1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nxbax"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hshu0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_41ttk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pnir"]
+bg_color = Color(0.588235, 0, 0.00784314, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqjcf"]
+bg_color = Color(0.0862745, 0.419608, 0.00784314, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Navigation" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
+mouse_filter = 1
+script = ExtResource("1_va1al")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="HBoxNav" type="HBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="creatorPanelButton" type="Button" parent="MarginContainer/HBoxNav"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kupbj")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_1hk8p")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pt21i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_05dm0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2v6g5")
+shortcut_in_tooltip = false
+text = "
+"
+autowrap_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxNav/creatorPanelButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_cnwco")
+stretch_mode = 5
+
+[node name="DrawCardButton" type="Button" parent="MarginContainer/HBoxNav"]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cnwco")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_f3lqa")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_w4f0y")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_e7y0p")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sbipf")
+autowrap_mode = 2
+script = ExtResource("2_ypgwn")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxNav/DrawCardButton"]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ti8a1")
+stretch_mode = 5
+
+[node name="DisableOverlay" type="ColorRect" parent="MarginContainer/HBoxNav/DrawCardButton/TextureRect"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.415686)
+
+[node name="upgradePanelButton" type="Button" parent="MarginContainer/HBoxNav"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fkcst")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rimof")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_iiurs")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ouggr")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_b1lwg")
+shortcut_in_tooltip = false
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxNav/upgradePanelButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_f3lqa")
+stretch_mode = 5
+
+[node name="AutoDrawButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 29.0
+offset_top = -117.0
+offset_right = 77.0
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 6
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ti8a1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_nxbax")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hshu0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_41ttk")
+text = "Auto"
+
+[node name="Inactive" type="Panel" parent="AutoDrawButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_3pnir")
+
+[node name="Active" type="Panel" parent="AutoDrawButton"]
+visible = false
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_fqjcf")
+
+[connection signal="pressed" from="MarginContainer/HBoxNav/creatorPanelButton" to="." method="open_creator_panel"]
+[connection signal="pressed" from="MarginContainer/HBoxNav/upgradePanelButton" to="." method="open_upgrade_panel"]

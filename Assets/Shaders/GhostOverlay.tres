@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://6a6h2rvvs8at"]
+
+[ext_resource type="Shader" uid="uid://s0mlrwn0t5xg" path="res://Assets/Shaders/WavyShader.gdshader" id="1_4681c"]
+[ext_resource type="Texture2D" uid="uid://bkdc5l7xv6x34" path="res://Assets/Sprites/LargeTarot/Pentacles.png" id="2_qni4f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rtng"]
+atlas = ExtResource("2_qni4f")
+region = Rect2(0, 0, 400, 699)
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_4681c")
+shader_parameter/wave_strength = 0.02
+shader_parameter/wave_speed = 2.0
+shader_parameter/wave_frequency = 8.0
+shader_parameter/ghost_opacity = 0.95
+shader_parameter/ghost_tint = Color(0.8, 0.9, 1, 1)
+shader_parameter/pulse_speed = 1.0
+shader_parameter/pulse_strength = 0.1
+shader_parameter/using_atlas = true
+shader_parameter/sprite_size = Vector2(400, 699)
+shader_parameter/atlas_size = Vector2(5600, 699)
+shader_parameter/new_using_atlas = true
+shader_parameter/new_sprite_size = Vector2(400, 699)
+shader_parameter/new_atlas_size = Vector2(5600, 699)
+shader_parameter/new_atlas_offset = Vector2(0, 0)
+shader_parameter/new_texture = SubResource("AtlasTexture_7rtng")
+shader_parameter/ripple_progress = 0.0
+shader_parameter/ripple_width = 0.05
+shader_parameter/transition_active = false
+shader_parameter/start_invisible = false
+shader_parameter/texture_scale = 0.847

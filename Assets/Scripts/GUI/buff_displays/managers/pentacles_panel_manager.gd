@@ -1,41 +1,46 @@
 extends BuffManager
 
+
 func _ready():
-	displays["basic"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
-	displays["basic"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
-	displays["uses"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.GENERAL))
-	displays["uses"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.GENERAL)
-	displays["queen"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.QUEEN))
-	displays["queen"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.QUEEN)
-	displays["blocked"] = create_new_icon(ResourceAutoload.get_buff_icon(ID.Suits.PENTACLES, ID.BuffType.KING))
-	displays["blocked"].set_suit_and_type(ID.Suits.PENTACLES, ID.BuffType.KING)
+	await _init_icons()
 
-func update_display(dictionary: Dictionary):
-	"""
-	--- Dictionary Values ---
-	"value" = current_pentacles
-	"uses" = charges
-	"queen_uses" = queen_charges
-	"queen_inverted" = queen_inverted
-	"blocked" = blocked
-	"""
+func _init_icons():
+	var suit = DataStructures.SuitType.PENTACLES
+	if not displays.has("basic"):
+		displays["basic"] = await create_icon(suit, DataStructures.BuffType.BASIC)
+	if not displays.has("uses"):
+		displays["uses"] = await create_icon(suit, DataStructures.BuffType.BASIC)
+	if not displays.has("queen"):
+		displays["queen"] = await create_icon(suit, DataStructures.BuffType.QUEEN)
+	if not displays.has("blocked"):
+		displays["blocked"] = await create_icon(suit, DataStructures.BuffType.KING)
+	_mark_initialization_complete()
 
-	set_display(displays["basic"],
-				dictionary["value"] > 0,
-				dictionary["value"]
-			)
-	set_display(displays["uses"],
-				dictionary["uses"] > 0,
-				dictionary["uses"],
-	)
-	set_display(displays["queen"],
-				dictionary["queen_uses"] > 0,
-				dictionary["queen_uses"],
-				get_panel_color(!dictionary["queen_inverted"])
-	)
-	set_display(displays["blocked"],
-				dictionary["blocked"],
-				0,
-				get_panel_color(false)
-	)
+func update_display(dictionary: Dictionary) -> void:
+	"""
+	Expects a dictionary of the form:
+	{
+		"value": <current_pentacles>,
+		"uses": <charges>,
+		"queen_uses": <queen_charges>,
+		"queen_inverted": <queen_inverted>,
+		"blocked": <blocked>
+	}
+	- Displays a buff icon for current pentacles ("basic").
+	- Displays a buff icon for pentacle uses ("uses").
+	- Displays a buff icon for queen uses ("queen"), with color indicating inversion.
+	- Displays a buff icon for blocked state ("blocked").
+	"""
+	if not _initialization_complete:
+		return
+	var value = dictionary.get("value", 0)
+	var uses = dictionary.get("uses", 0)
+	var queen_uses = dictionary.get("queen_uses", 0)
+	var queen_inverted = dictionary.get("queen_inverted", false)
+	var blocked = dictionary.get("blocked", false)
+
+	set_display(displays["basic"], value > 0, value)
+	set_display(displays["uses"], uses > 0, uses)
+	set_display(displays["queen"], queen_uses > 0, queen_uses, get_panel_color(!queen_inverted))
+	set_display(displays["blocked"], blocked, 0, get_panel_color(false))
 

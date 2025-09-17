@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://do7bynut7mtib"]
 
-[ext_resource type="Script" uid="uid://rla5yjtjmr3y" path="res://Assets/Scripts/Autoload/AudioManager.gd" id="1_8cujf"]
+[ext_resource type="Script" uid="uid://c48qqhw8x8lgw" path="res://Assets/Scripts/Managers/AudioManager.gd" id="1_0nxvq"]
 
 [node name="AudioManager" type="Node"]
-script = ExtResource("1_8cujf")
+script = ExtResource("1_0nxvq")
 
 [node name="CardFlip" type="FmodEventEmitter2D" parent="."]
 event_name = "event:/Card Flip Multi"

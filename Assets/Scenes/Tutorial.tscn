@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://c4vfw1w3gddk3"]
+[gd_scene load_steps=25 format=3 uid="uid://c4vfw1w3gddk3"]
 
 [ext_resource type="Theme" uid="uid://bwtug031xs2ny" path="res://Assets/Themes/GeneralTheme.tres" id="1_tfvjl"]
-[ext_resource type="Script" uid="uid://jrlba2cqdl5s" path="res://Assets/Scripts/tutorial_node.gd" id="2_nn6em"]
+[ext_resource type="Script" uid="uid://e42k0p57fkow" path="res://Assets/Scripts/GUI/Tutorial/tutorial_node.gd" id="2_nn6em"]
 [ext_resource type="Texture2D" uid="uid://dtl6tse8eqr6e" path="res://Assets/Sprites/Spritesheet.png" id="3_34f7n"]
 [ext_resource type="Texture2D" uid="uid://drd6702c8v6jm" path="res://Assets/Sprites/SuitBuffs.png" id="4_4vpkp"]
+[ext_resource type="Script" uid="uid://btbrduur8nkg5" path="res://Assets/Scripts/open_debug.gd" id="5_nn6em"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ti8a1"]
 
@@ -377,6 +378,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 30
+script = ExtResource("5_nn6em")
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/Panel/2_Suit_Descriptions/VBoxContainer/MajorDesc"]
 layout_mode = 2

@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b5g1mq50fegn3"]
+
+[ext_resource type="Shader" uid="uid://s0mlrwn0t5xg" path="res://Assets/Shaders/WavyShader.gdshader" id="1_7abrn"]
+
+[resource]
+shader = ExtResource("1_7abrn")
+shader_parameter/wave_strength = 0.02
+shader_parameter/wave_speed = 2.0
+shader_parameter/wave_frequency = 8.0
+shader_parameter/ghost_opacity = 0.95
+shader_parameter/ghost_tint = Color(0.8, 0.9, 1, 1)
+shader_parameter/pulse_speed = 1.0
+shader_parameter/pulse_strength = 0.1
+shader_parameter/using_atlas = false
+shader_parameter/sprite_size = Vector2(0, 0)
+shader_parameter/atlas_size = Vector2(0, 0)
+shader_parameter/new_using_atlas = false
+shader_parameter/new_sprite_size = Vector2(0, 0)
+shader_parameter/new_atlas_size = Vector2(0, 0)
+shader_parameter/new_atlas_offset = Vector2(0, 0)
+shader_parameter/ripple_progress = 0.0
+shader_parameter/ripple_width = 0.05
+shader_parameter/transition_active = false
+shader_parameter/start_invisible = false
+shader_parameter/texture_scale = 0.847
